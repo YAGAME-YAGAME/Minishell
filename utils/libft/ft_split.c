@@ -6,11 +6,11 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 20:49:38 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 10:59:15 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:43:46 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Minishell.h"
+#include "../../includes/libft.h"
 
 size_t	countwords(const char *s, char *c)
 {
@@ -27,11 +27,6 @@ size_t	countwords(const char *s, char *c)
 			if (s[i++] == '\'')
 			{
 				while (s[i] && s[i] != '\'')
-					i++;
-			}
-			else if (s[i++] == '\"')
-			{
-				while (s[i] && s[i] != '\"')
 					i++;
 			}
 			count++;
@@ -87,6 +82,8 @@ static char	**copywords(char **p, const char *s, char *c)
 		p[x++] = ft_substr(s, start, i - start);
 		if (!p[x - 1])
 			return (freeall(p, x));
+		if (s[i] == '\'' || s[i] == '\"')
+			i++;
 	}
 	p[x] = NULL;
 	return (p);

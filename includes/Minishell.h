@@ -6,12 +6,21 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:05 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 11:14:01 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:09:39 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+//colors
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define MAGENTA "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define RESET "\033[0m"
 
 //includes
 # include <stdio.h>

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 11:00:31 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 11:01:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:13:01 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ char	*ft_getcwd(void)
 	char	*tmp;
 
 	cwd = getcwd(NULL, 0);
-	prompt = ft_strjoin("[", cwd);
+	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
+		prompt = ft_strjoin("[~", cwd + ft_strlen(getenv("HOME")));
+	else
+		prompt = ft_strjoin("[", cwd);
 	free(cwd);
 	tmp = prompt;
-	prompt = ft_strjoin(prompt, "]$ ");
+	prompt = ft_strjoin(prompt, "]\n$>");
 	free(tmp);
 	return (prompt);
 }

@@ -6,11 +6,11 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 17:31:26 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 10:54:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:28:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Minishell.h"
+#include "../../includes/libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

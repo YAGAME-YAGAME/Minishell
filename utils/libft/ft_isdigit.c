@@ -6,11 +6,11 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 15:09:20 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 10:54:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:28:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Minishell.h"
+#include "../../includes/libft.h"
 
 int	ft_isdigit(int c)
 {

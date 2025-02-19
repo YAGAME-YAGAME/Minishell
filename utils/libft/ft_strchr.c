@@ -6,11 +6,11 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 09:19:48 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 10:54:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:28:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Minishell.h"
+#include "../../includes/libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
