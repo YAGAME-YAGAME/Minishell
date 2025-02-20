@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:05 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 14:09:39 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:21:51 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@
 
 //libft functions
 # include "libft.h"
+
+//structs
+typedef struct s_input
+{
+	char	*input;
+	char	**prompt;
+}	t_input;
 
 //parsing functions
 char	*ft_getcwd(void);
