@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:05 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/20 18:36:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/20 21:16:07 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_input
 	char	*input;
 	char	**prompt;
 	char	**env;
-	char	*path;
 }	t_input;
 
 //parsing functions

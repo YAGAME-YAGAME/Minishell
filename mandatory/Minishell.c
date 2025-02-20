@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/20 18:54:36 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/20 22:09:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_builtin(t_input *input_s)
 		if (!input_s->prompt[1])
 			chdir(getenv("HOME"));
 		else
-			chdir(input_s->prompt[1]);
+			chdir(input_s->prompt[1]); // TODO: handle the case where the directory does not exist;
 	}
 	else if (ft_strcmp(input_s->prompt[0], "exit") == 0)
 	{
@@ -65,30 +65,42 @@ void	ft_handle_input(t_input *input_s)
 	}
 }
 
+/*
+--input--
+
+--prompt--
+ls -la
+cat -e
+wc -l
+while(splitlen(prompt))
+	pipe -> fork -> split(prompt[i], "WhiteS") -> check path -> execve
+
+*/
+
 // void	ft_execute(t_input *input_s)
 // {
 // 	//TODO: after parsing the input, find the path of the command and execute it
 // }
 
-// void	leaks(void)
-// {
-// 	system("leaks -q Minishell");
-// }
+void	leaks(void)
+{
+	system("leaks -q Minishell");
+}
 
 int	main(void)
 {
-	// atexit(leaks);
+	atexit(leaks);
 	t_input	input_s;
-	char	*prompt;
+	char	*dir;
 
 	while (1)
 	{
-		prompt = ft_getcwd();
-		input_s.input = readline(prompt);
+		dir = ft_getcwd();
+		input_s.input = readline(dir);
 		input_s.prompt = NULL;
 		ft_handle_input(&input_s);
-		if (prompt)
-			free(prompt);
+		if (dir)
+			free(dir);
 		//ft_execute(&input_s); //TODO: implement the execution of the command
 		free(input_s.input);
 	}
