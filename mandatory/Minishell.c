@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/20 22:09:40 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:14:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,76 +33,237 @@ void	ft_builtin(t_input *input_s)
 	}
 	else if (ft_strcmp(input_s->prompt[0], "exit") == 0)
 	{
-		freeall(input_s->prompt, countwords(input_s->input, " \t\n\r\a\v\f"));
-		free(input_s->input);
+		freeall(input_s->prompt, countwords(input_s->input_str, " \t\n\r\a\v\f"));
+		free(input_s->input_str);
 		exit(0);
 	}
 }
 
-void	ft_parse_input(t_input **input_s)
+void	ft_parse_input(t_syntax *syntax)
 {
-	if ((*input_s)->input == NULL || !*(*input_s)->input)
+
+	if (syntax->input->input_str == NULL || !syntax->input->input_str)
 		return ;
-	(*input_s)->prompt = ft_split((*input_s)->input, " \t\n\r\a\v\f");
-	if (!(*input_s)->prompt)
+	syntax->input->prompt = ft_split(syntax->input->input_str, " \t\n\r\a\v\f");
+	if (!syntax->input->prompt)
 		return ;
-	ft_builtin(*input_s);
-	freeall((*input_s)->prompt, countwords((*input_s)->input, " \t\n\r\a\v\f"));
+	ft_builtin(syntax->input);
+	freeall(syntax->input->prompt, countwords(syntax->input->input_str, " \t\n\r\a\v\f"));
 }
 
-void	ft_handle_input(t_input *input_s)
+t_list	*ft_lexer(t_syntax *syntax)	//tokenize the input into list containing the type of each one
 {
-	if (input_s->input == NULL)
+	char	*input;
+	char	**split_by_ws;
+	int		i;
+
+	input = syntax->input->input_str;	//point on the input string to simplify reading
+	split_by_ws = ft_split(input, " \t\n\r\a\v\f"); // split the input by white spaces
+	if (!split_by_ws)
+		return (NULL);
+	i = 0;
+	syntax->lstlexer = NULL;	//initialize the list
+	while (split_by_ws[i])
+		ft_lstadd_back(&syntax->lstlexer, ft_lstnew(split_by_ws[i++]));	//fill the list with the output of the split
+	freeall(split_by_ws, countwords(input, " \t\n\r\a\v\f"));	//free the split cause we don't anymore need it, we have it on the list
+	return (syntax->lstlexer);	//return the list
+}
+
+bool	ft_cmp(t_list *current, t_token token) // check each token if it's equal to the current content
+{
+	if (token == PIPE && ft_strcmp((const char*)(current->content), "|") == 0)
+		return (true);
+	else if (token == REDI && (ft_strcmp((const char*)(current->content), "<") == 0 || ft_strcmp((const char*)(current->content), ">") == 0 || ft_strcmp((const char*)(current->content), "<<") == 0 || ft_strcmp((const char*)(current->content), ">>") == 0))
+		return (true);
+	else if (token == DOLLAR && ft_strcmp((const char*)(current->content), "$") == 0)
+		return (true);
+	else if (token == AND && ft_strcmp((const char*)(current->content), "&&") == 0)
+		return (true);
+	else if (token == OR && ft_strcmp((const char*)(current->content), "||") == 0)
+		return (true);
+	else if (token == SEMICOLON && ft_strcmp((const char*)(current->content), ";") == 0)
+		return (true);
+	else if (token == AMPERSAND && ft_strcmp((const char*)(current->content), "&") == 0)
+		return (true);
+	else if (token == LEFT_PARENTHESIS && ft_strcmp((const char*)(current->content), "(") == 0)
+		return (true);
+	else if (token == RIGHT_PARENTHESIS && ft_strcmp((const char*)(current->content), ")") == 0)
+		return (true);
+	else if (token == LESS_THAN && ft_strcmp((const char*)(current->content), "<") == 0)
+		return (true);
+	else if (token == GREATER_THAN && ft_strcmp((const char*)(current->content), ">") == 0)
+		return (true);
+	else if (token == DOUBLE_LESS_THAN && ft_strcmp((const char*)(current->content), "<<") == 0)
+		return (true);
+	else if (token == DOUBLE_GREATER_THAN && ft_strcmp((const char*)(current->content), ">>") == 0)
+		return (true);
+	else if (token == SINGLE_QUOTE && ft_strcmp((const char*)(current->content), "'") == 0)
+		return (true);
+	else if (token == DOUBLE_QUOTE && ft_strcmp((const char*)(current->content), "\"") == 0)
+		return (true);
+	else if (token == BACKSLASH && ft_strcmp((const char*)(current->content), "\\") == 0)
+		return (true);
+	return (false);
+}
+
+void	ft_set_tokens(t_list *current) // set the type of each token
+{
+	if (ft_cmp(current, PIPE))
+			current->type = PIPE;
+		else if (ft_cmp(current, REDI))
+			current->type = REDI;
+		else if (ft_cmp(current, DOLLAR))
+			current->type = DOLLAR;
+		else if (ft_cmp(current, AND))
+			current->type = AND;
+		else if (ft_cmp(current, OR))
+			current->type = OR;
+		else if (ft_cmp(current, SEMICOLON))
+			current->type = SEMICOLON;
+		else if (ft_cmp(current, AMPERSAND))
+			current->type = AMPERSAND;
+		else if (ft_cmp(current, LEFT_PARENTHESIS))
+			current->type = LEFT_PARENTHESIS;
+		else if (ft_cmp(current, RIGHT_PARENTHESIS))
+			current->type = RIGHT_PARENTHESIS;
+		else if (ft_cmp(current, LESS_THAN))
+			current->type = LESS_THAN;
+		else if (ft_cmp(current, GREATER_THAN))
+			current->type = GREATER_THAN;
+		else if (ft_cmp(current, DOUBLE_LESS_THAN))
+			current->type = DOUBLE_LESS_THAN;
+		else if (ft_cmp(current, DOUBLE_GREATER_THAN))
+			current->type = DOUBLE_GREATER_THAN;
+		else if (ft_cmp(current, SINGLE_QUOTE))
+			current->type = SINGLE_QUOTE;
+		else if (ft_cmp(current, DOUBLE_QUOTE))
+			current->type = DOUBLE_QUOTE;
+		else if (ft_cmp(current, BACKSLASH))
+			current->type = BACKSLASH;
+		else
+			current->type = WORD;
+}
+
+bool	ft_check_tokens(t_syntax *syntax)
+{
+	t_list	*current;
+
+	current = syntax->lstlexer; // now we have the list so far with all the input splited without tokens, so let set some types
+	while (current)
+	{
+		ft_set_tokens(current);
+		current = current->next;
+	}
+	printf("lexer\n");
+	t_list *hold = syntax->lstlexer;
+	while (syntax->lstlexer)
+	{
+		printf("%s ", (char *)syntax->lstlexer->content);
+		syntax->lstlexer = syntax->lstlexer->next;
+	}
+	printf("\n");
+	syntax->lstlexer = hold;
+	while (syntax->lstlexer)
+	{
+		if (syntax->lstlexer->type == WORD)
+			printf("<%s> ", "WORD");
+		else if (syntax->lstlexer->type == PIPE)
+			printf("<%s> ", "PIPE");
+		else if (syntax->lstlexer->type == REDI)
+			printf("<%s> ", "REDI");
+		else if (syntax->lstlexer->type == DOLLAR)
+			printf("<%s> ", "DOLLAR");
+		else if (syntax->lstlexer->type == AND)
+			printf("<%s> ", "AND");
+		else if (syntax->lstlexer->type == OR)
+			printf("<%s> ", "OR");
+		else if (syntax->lstlexer->type == SEMICOLON)
+			printf("<%s> ", "SEMICOLON");
+		else if (syntax->lstlexer->type == AMPERSAND)
+			printf("<%s> ", "AMPERSAND");
+		else if (syntax->lstlexer->type == LEFT_PARENTHESIS)
+			printf("<%s> ", "LEFT_PARENTHESIS");
+		else if (syntax->lstlexer->type == RIGHT_PARENTHESIS)
+			printf("<%s> ", "RIGHT_PARENTHESIS");
+		else if (syntax->lstlexer->type == LESS_THAN)
+			printf("<%s> ", "LESS_THAN");
+		else if (syntax->lstlexer->type == GREATER_THAN)
+			printf("<%s> ", "GREATER_THAN");
+		else if (syntax->lstlexer->type == DOUBLE_LESS_THAN)
+			printf("<%s> ", "DOUBLE_LESS_THAN");
+		else if (syntax->lstlexer->type == DOUBLE_GREATER_THAN)
+			printf("<%s> ", "DOUBLE_GREATER_THAN");
+		else if (syntax->lstlexer->type == SINGLE_QUOTE)
+			printf("<%s> ", "SINGLE_QUOTE");
+		else if (syntax->lstlexer->type == DOUBLE_QUOTE)
+			printf("<%s> ", "DOUBLE_QUOTE");
+		else if (syntax->lstlexer->type == BACKSLASH)
+			printf("<%s> ", "BACKSLASH");
+		syntax->lstlexer = syntax->lstlexer->next;
+	}
+	printf("\n");
+	// exit(0);
+	return (true);
+}
+
+bool	ft_handle_input(t_syntax *syntax)
+{
+	if (syntax->input->input_str == NULL) // check if EOF
 	{
 		printf(RED"\n[EOF]\n"RESET);
-		free(input_s->input);
+		free(syntax->input->input_str);
 		exit(0);
 	}
-	if (*(input_s->input))
+	if (*(syntax->input->input_str)) // if not add the cmd to the history then pass it to the lexer
 	{
-		add_history(input_s->input);
-		ft_parse_input(&input_s);
+		add_history(syntax->input->input_str);
+		// ft_parse_input(syntax);
+		syntax->lstlexer = ft_lexer(syntax);
+		if (!syntax->lstlexer)
+			return (false);
+		if (!ft_check_tokens(syntax))
+			return (false);
 	}
+	return (true);
 }
-
-/*
---input--
-
---prompt--
-ls -la
-cat -e
-wc -l
-while(splitlen(prompt))
-	pipe -> fork -> split(prompt[i], "WhiteS") -> check path -> execve
-
-*/
-
-// void	ft_execute(t_input *input_s)
-// {
-// 	//TODO: after parsing the input, find the path of the command and execute it
-// }
 
 void	leaks(void)
 {
 	system("leaks -q Minishell");
 }
 
+void	ft_print_list(t_list *lstlexer)
+{
+	t_list	*current;
+
+	current = lstlexer;
+	while (current)
+	{
+		printf("content: %s\t", (char *)current->content);
+		printf("type: %d\n", current->type);
+		current = current->next;
+	}
+}
+
 int	main(void)
 {
-	atexit(leaks);
-	t_input	input_s;
+	// atexit(leaks);
+	t_input		input_s;
+	t_syntax	syntax;
 	char	*dir;
 
+	syntax.input = &input_s;
 	while (1)
 	{
 		dir = ft_getcwd();
-		input_s.input = readline(dir);
+		input_s.input_str = readline(dir);
 		input_s.prompt = NULL;
-		ft_handle_input(&input_s);
+		if (!ft_handle_input(&syntax))
+			continue ;
+		// ft_print_list(syntax.lstlexer);
 		if (dir)
 			free(dir);
-		//ft_execute(&input_s); //TODO: implement the execution of the command
-		free(input_s.input);
+		free(input_s.input_str);
 	}
 	return (0);
 }

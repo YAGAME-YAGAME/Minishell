@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:35:29 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 12:27:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:31:39 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include "Minishell.h"
 
 //libc functions
 int		ft_isalpha(int c);
@@ -57,11 +58,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
 //Bonus part
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
+typedef struct s_list	t_list;
 
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
