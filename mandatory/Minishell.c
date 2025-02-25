@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/25 13:06:22 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:21:04 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,11 @@ t_list	*ft_lexer(t_syntax *syntax)	//tokenize the input into list containing the
 				ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the word to the list
 				i = 0;
 			}
-			while (*input && ft_strchr("|<>&;\\)\'(\"", *input))	//handle multi-character tokens
+			while (*input && ft_strchr("|&;\\)\'(\"", *input))	//handle multi-character tokens
 			{
 				buffer[i++] = *input++;
+				if (ft_strchr(";\\)\'(\"", *input) && i > 0)
+					break;
 			}
 			buffer[i] = '\0';
 			ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the token to the list
