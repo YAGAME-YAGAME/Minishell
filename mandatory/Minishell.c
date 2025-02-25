@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/25 12:33:55 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:06:22 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,21 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 void	ft_builtin(t_input *input_s)
 {
+	if (!input_s || !input_s->prompt || !input_s->prompt[0])
+		return;
 	if (ft_strcmp(input_s->prompt[0], "cd") == 0)
 	{
 		if (!input_s->prompt[1])
-			chdir(getenv("HOME"));
+		{
+			if (chdir(getenv("HOME")) != 0)
+				perror("cd");
+		}
 		else
-			chdir(input_s->prompt[1]); // TODO: handle the case where the directory does not exist;
+		{
+			if (chdir(input_s->prompt[1]) != 0)
+				perror("cd");
+		}
+		// TODO: handle the case where the directory does not exist;
 	}
 	else if (ft_strcmp(input_s->prompt[0], "exit") == 0)
 	{
@@ -74,7 +83,10 @@ t_list	*ft_lexer(t_syntax *syntax)	//tokenize the input into list containing the
 				ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the word to the list
 				i = 0;
 			}
-			buffer[i++] = *input++;	//add the token to the buffer
+			while (*input && ft_strchr("|<>&;\\)\'(\"", *input))	//handle multi-character tokens
+			{
+				buffer[i++] = *input++;
+			}
 			buffer[i] = '\0';
 			ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the token to the list
 			i = 0;
@@ -239,12 +251,12 @@ bool	ft_handle_input(t_syntax *syntax)
 	if (*(syntax->input->input_str)) // if not add the cmd to the history then pass it to the lexer
 	{
 		add_history(syntax->input->input_str);
-		// ft_parse_input(syntax);
 		syntax->lstlexer = ft_lexer(syntax);
 		if (!syntax->lstlexer)
 			return (false);
 		if (!ft_check_tokens(syntax))
 			return (false);
+		ft_builtin(syntax->input);
 	}
 	return (true);
 }
