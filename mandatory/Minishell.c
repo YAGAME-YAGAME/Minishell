@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/25 13:21:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:13:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,64 @@ void	ft_set_tokens(t_list *current) // set the type of each token
 			current->type = WORD;
 }
 
+void	print_type(t_token type)
+{
+	if (type == WORD)
+		printf("<WORD> ");
+	else if (type == PIPE)
+		printf("<PIPE> ");
+	else if (type == REDI)
+		printf("<REDI> ");
+	else if (type == DOLLAR)
+		printf("<DOLLAR> ");
+	else if (type == AND)
+		printf("<AND> ");
+	else if (type == OR)
+		printf("<OR> ");
+	else if (type == SEMICOLON)
+		printf("<SEMICOLON> ");
+	else if (type == AMPERSAND)
+		printf("<AMPERSAND> ");
+	else if (type == LEFT_PARENTHESIS)
+		printf("<LEFT_PARENTHESIS> ");
+	else if (type == RIGHT_PARENTHESIS)
+		printf("<RIGHT_PARENTHESIS> ");
+	else if (type == LESS_THAN)
+		printf("<LESS_THAN> ");
+	else if (type == GREATER_THAN)
+		printf("<GREATER_THAN> ");
+	else if (type == DOUBLE_LESS_THAN)
+		printf("<DOUBLE_LESS_THAN> ");
+	else if (type == DOUBLE_GREATER_THAN)
+		printf("<DOUBLE_GREATER_THAN> ");
+	else if (type == SINGLE_QUOTE)
+		printf("<SINGLE_QUOTE> ");
+	else if (type == DOUBLE_QUOTE)
+		printf("<DOUBLE_QUOTE> ");
+	else if (type == BACKSLASH)
+		printf("<BACKSLASH> ");
+}
+
+bool	ft_check_syntax(t_syntax *syntax)
+{
+	t_list	*current;
+
+	current = syntax->lstlexer;
+	while (current)
+	{
+		if (current->type == PIPE)
+		{
+			if (!current->next || !current->prev || current->next->type != WORD || current->prev->type != WORD)
+			{
+				printf(RED"syntax error near unexpected token '|'\n"RESET);
+				return (false);
+			}
+		}
+		current = current->next;
+	}
+	return (true);
+}
+
 bool	ft_check_tokens(t_syntax *syntax)
 {
 	t_list	*current;
@@ -190,55 +248,59 @@ bool	ft_check_tokens(t_syntax *syntax)
 		ft_set_tokens(current);
 		current = current->next;
 	}
-	printf("\n\nlexer output:\n");
-	t_list *hold = syntax->lstlexer;
-	while (syntax->lstlexer)
-	{
-		printf("%s ", (char *)syntax->lstlexer->content);
-		syntax->lstlexer = syntax->lstlexer->next;
-	}
-	printf("\n");
-	syntax->lstlexer = hold;
-	while (syntax->lstlexer)
-	{
-		if (syntax->lstlexer->type == WORD)
-			printf("<%s> ", "WORD");
-		else if (syntax->lstlexer->type == PIPE)
-			printf("<%s> ", "PIPE");
-		else if (syntax->lstlexer->type == REDI)
-			printf("<%s> ", "REDI");
-		else if (syntax->lstlexer->type == DOLLAR)
-			printf("<%s> ", "DOLLAR");
-		else if (syntax->lstlexer->type == AND)
-			printf("<%s> ", "AND");
-		else if (syntax->lstlexer->type == OR)
-			printf("<%s> ", "OR");
-		else if (syntax->lstlexer->type == SEMICOLON)
-			printf("<%s> ", "SEMICOLON");
-		else if (syntax->lstlexer->type == AMPERSAND)
-			printf("<%s> ", "AMPERSAND");
-		else if (syntax->lstlexer->type == LEFT_PARENTHESIS)
-			printf("<%s> ", "LEFT_PARENTHESIS");
-		else if (syntax->lstlexer->type == RIGHT_PARENTHESIS)
-			printf("<%s> ", "RIGHT_PARENTHESIS");
-		else if (syntax->lstlexer->type == LESS_THAN)
-			printf("<%s> ", "LESS_THAN");
-		else if (syntax->lstlexer->type == GREATER_THAN)
-			printf("<%s> ", "GREATER_THAN");
-		else if (syntax->lstlexer->type == DOUBLE_LESS_THAN)
-			printf("<%s> ", "DOUBLE_LESS_THAN");
-		else if (syntax->lstlexer->type == DOUBLE_GREATER_THAN)
-			printf("<%s> ", "DOUBLE_GREATER_THAN");
-		else if (syntax->lstlexer->type == SINGLE_QUOTE)
-			printf("<%s> ", "SINGLE_QUOTE");
-		else if (syntax->lstlexer->type == DOUBLE_QUOTE)
-			printf("<%s> ", "DOUBLE_QUOTE");
-		else if (syntax->lstlexer->type == BACKSLASH)
-			printf("<%s> ", "BACKSLASH");
-		syntax->lstlexer = syntax->lstlexer->next;
-	}
-	printf("\n");
-	// exit(0);
+	if (!syntax->lstlexer)
+		return (false);
+	if (!ft_check_syntax(syntax))
+		return (false);
+
+	// printf("\n\nlexer output:\n");
+	// t_list *hold = syntax->lstlexer;
+	// while (syntax->lstlexer)
+	// {
+	// 	printf("%s ", (char *)syntax->lstlexer->content);
+	// 	syntax->lstlexer = syntax->lstlexer->next;
+	// }
+	// printf("\n");
+	// syntax->lstlexer = hold;
+	// while (syntax->lstlexer)
+	// {
+	// 	if (syntax->lstlexer->type == WORD)
+	// 		printf("<%s> ", "WORD");
+	// 	else if (syntax->lstlexer->type == PIPE)
+	// 		printf("<%s> ", "PIPE");
+	// 	else if (syntax->lstlexer->type == REDI)
+	// 		printf("<%s> ", "REDI");
+	// 	else if (syntax->lstlexer->type == DOLLAR)
+	// 		printf("<%s> ", "DOLLAR");
+	// 	else if (syntax->lstlexer->type == AND)
+	// 		printf("<%s> ", "AND");
+	// 	else if (syntax->lstlexer->type == OR)
+	// 		printf("<%s> ", "OR");
+	// 	else if (syntax->lstlexer->type == SEMICOLON)
+	// 		printf("<%s> ", "SEMICOLON");
+	// 	else if (syntax->lstlexer->type == AMPERSAND)
+	// 		printf("<%s> ", "AMPERSAND");
+	// 	else if (syntax->lstlexer->type == LEFT_PARENTHESIS)
+	// 		printf("<%s> ", "LEFT_PARENTHESIS");
+	// 	else if (syntax->lstlexer->type == RIGHT_PARENTHESIS)
+	// 		printf("<%s> ", "RIGHT_PARENTHESIS");
+	// 	else if (syntax->lstlexer->type == LESS_THAN)
+	// 		printf("<%s> ", "LESS_THAN");
+	// 	else if (syntax->lstlexer->type == GREATER_THAN)
+	// 		printf("<%s> ", "GREATER_THAN");
+	// 	else if (syntax->lstlexer->type == DOUBLE_LESS_THAN)
+	// 		printf("<%s> ", "DOUBLE_LESS_THAN");
+	// 	else if (syntax->lstlexer->type == DOUBLE_GREATER_THAN)
+	// 		printf("<%s> ", "DOUBLE_GREATER_THAN");
+	// 	else if (syntax->lstlexer->type == SINGLE_QUOTE)
+	// 		printf("<%s> ", "SINGLE_QUOTE");
+	// 	else if (syntax->lstlexer->type == DOUBLE_QUOTE)
+	// 		printf("<%s> ", "DOUBLE_QUOTE");
+	// 	else if (syntax->lstlexer->type == BACKSLASH)
+	// 		printf("<%s> ", "BACKSLASH");
+	// 	syntax->lstlexer = syntax->lstlexer->next;
+	// }
+	// printf("\n");
 	return (true);
 }
 
@@ -268,19 +330,6 @@ void	leaks(void)
 	system("leaks -q Minishell");
 }
 
-void	ft_print_list(t_list *lstlexer)
-{
-	t_list	*current;
-
-	current = lstlexer;
-	while (current)
-	{
-		printf("content: %s\t", (char *)current->content);
-		printf("type: %d\n", current->type);
-		current = current->next;
-	}
-}
-
 int	main(void)
 {
 	// atexit(leaks);
@@ -296,7 +345,6 @@ int	main(void)
 		input_s.prompt = NULL;
 		if (!ft_handle_input(&syntax))
 			continue ;
-		// ft_print_list(syntax.lstlexer);
 		if (dir)
 			free(dir);
 		free(input_s.input_str);
