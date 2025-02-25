@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/23 18:14:32 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:33:55 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,40 @@ void	ft_parse_input(t_syntax *syntax)
 t_list	*ft_lexer(t_syntax *syntax)	//tokenize the input into list containing the type of each one
 {
 	char	*input;
-	char	**split_by_ws;
 	int		i;
+	char	buffer[4096];
 
 	input = syntax->input->input_str;	//point on the input string to simplify reading
-	split_by_ws = ft_split(input, " \t\n\r\a\v\f"); // split the input by white spaces
-	if (!split_by_ws)
-		return (NULL);
 	i = 0;
-	syntax->lstlexer = NULL;	//initialize the list
-	while (split_by_ws[i])
-		ft_lstadd_back(&syntax->lstlexer, ft_lstnew(split_by_ws[i++]));	//fill the list with the output of the split
-	freeall(split_by_ws, countwords(input, " \t\n\r\a\v\f"));	//free the split cause we don't anymore need it, we have it on the list
+	while (*input)	//loop through the input string
+	{
+		if (ft_strchr(" \t\n\r\a\v\f", *input))	//skip spaces
+		{
+			input++;
+			continue;
+		}
+		if (ft_strchr("|<>&;\\)\'(\"", *input))	//if we find a token
+		{
+			if (i > 0)	//if we have a word before the token
+			{
+				buffer[i] = '\0';
+				ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the word to the list
+				i = 0;
+			}
+			buffer[i++] = *input++;	//add the token to the buffer
+			buffer[i] = '\0';
+			ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));	//add the token to the list
+			i = 0;
+		}
+		else	//if we have a word
+		{
+			while (*input && !ft_strchr("|<>&;\\)\'(\"", *input) && !ft_strchr(" \t\n\r\a\v\f", *input))	//read the word
+				buffer[i++] = *input++;
+			buffer[i] = '\0';
+			ft_lstadd_back(&syntax->lstlexer, ft_lstnew(ft_strdup(buffer)));
+			i = 0;
+		}
+	}
 	return (syntax->lstlexer);	//return the list
 }
 
@@ -154,7 +176,7 @@ bool	ft_check_tokens(t_syntax *syntax)
 		ft_set_tokens(current);
 		current = current->next;
 	}
-	printf("lexer\n");
+	printf("\n\nlexer output:\n");
 	t_list *hold = syntax->lstlexer;
 	while (syntax->lstlexer)
 	{
