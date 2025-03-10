@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 19:47:40 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/19 12:28:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/03/04 22:40:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static char	*ft_strcpy(char *dest, const char *src)
 
 char	*ft_strdup(const char *src)
 {
+	if (!src)
+		return (NULL);
 	int		slen;
 	char	*dest;
 

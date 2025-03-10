@@ -4,6 +4,9 @@ CFLAGS = -Wall -Wextra -Werror
 MINIFLAGS = -lreadline
 SRCS=	./mandatory/$(TARGET).c \
 		./utils/parsing/ft_getcwd.c \
+		./utils/parsing/initializers.c \
+		./utils/parsing/sdtfun.c \
+		./utils/parsing/ft_lexer.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

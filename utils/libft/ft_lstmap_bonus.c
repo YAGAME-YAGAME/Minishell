@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 20:39:31 by abenajib          #+#    #+#             */
-/*   Updated: 2025/02/23 17:28:15 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:18:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	while (lst)
 	{
 		ptr = f(lst->content);
-		new_node = ft_lstnew(ptr);
+		new_node = ft_lstnew(ptr, 0);
 		if (!new_node)
 		{
 			del(ptr);
