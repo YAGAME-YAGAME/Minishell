@@ -3,14 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/07 14:47:50 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/16 14:19:00 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Minishell.h"
+
+t_parse	*ft_treenew(t_list *node)
+{
+	t_parse	*new;
+
+	if (!node)
+		return (NULL);
+	new = (t_parse *)malloc(sizeof(t_parse));
+	if (!new)
+		return (NULL);
+	new->node = node;
+	new->left = NULL;
+	new->right = NULL;
+	new->type = node->type;
+	return (new);
+}
+
+t_list	*ft_pipepos(t_list *current)
+{
+	while (current)
+	{
+		if (ft_strcmp("|", current->content) == 0)
+			return (current);
+		current = current->prev;
+	}
+	return (NULL);
+}
+
+t_parse *ft_tree(t_list *lexer)
+{
+	
+}
+
+t_parse	*ft_lst2tree(t_list *lexer)
+{
+	t_parse	*root;
+	t_list *current;
+
+	current = ft_pipepos(ft_lstlast(lexer));
+	root = NULL;
+	if (!current)
+		printf("NO PIPE");
+	else
+		root = ft_tree(lexer);
+	return (root);
+}
 
 void	ft_parse(t_minishell *minishell)
 {
@@ -18,6 +64,16 @@ void	ft_parse(t_minishell *minishell)
 	t_list	*lstlexer;
 	lstlexer = ft_lexer(minishell->input);
 	ft_print_t_list(lstlexer);
+
+
+
+	minishell->tree = ft_lst2tree(lstlexer);
+
+	ft_lstclear(&lstlexer, free);
+
+
+
+
 
 
 	// TODO: check for quotes

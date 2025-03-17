@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:05 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/10 15:51:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/14 15:26:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_syntax	t_syntax;
 
 struct s_list		// The lexer is linked list contains the string, the type of it so we can handel each one, and pointers to travers
 {
-	void			*content;
+	char			*content;
 	t_token			type;
 	bool			in_single_quote;
 	bool			in_double_quotes;
@@ -105,7 +105,7 @@ struct s_list		// The lexer is linked list contains the string, the type of it s
 typedef struct s_parse
 {
 	t_token			type;
-	char			*content;
+	t_list			*node;
 	struct s_parse	*left;
 	struct s_parse	*right;
 }					t_parse;

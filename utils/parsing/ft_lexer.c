@@ -58,9 +58,9 @@ void	ft_add_node(char *input, t_list **lexer, int start, int *i)
 		{
 			while(input[++(*i)] && (input[*i] != input[start] || (input[*i] == input[start] && input[*i - 1] == '\\')))
 			{
-				if (input[start]== '"') //"Hello $USER"
-					if (ft_variable_expantion(input, lexer, start, i)) // If true there is a variable expantion
-						return ;
+				// if (input[start]== '"') //"Hello $USER"
+				// 	if (ft_variable_expantion(input, lexer, start, i)) // If true there is a variable expantion
+				// 		return ;
 				end = *i;
 			}
 			end = (*i)++;
@@ -140,6 +140,7 @@ void	ft_set1(t_list	**tmp)
 	else if (ft_strcmp((char *)((*tmp)->content), ">>") == 0)
 		(*tmp)->type = DOUBLE_GREATER_THAN;
 }
+
 void	ft_set2(t_list	**tmp)
 {
 	if (ft_strcmp((char *)((*tmp)->content), "\'") == 0)
