@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 19:03:12 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/05 13:16:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/17 11:17:39 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Minishell.h"
 
-t_list	*ft_lstnew(void *content, t_token token)
+t_list	*ft_lstnew(char *content, t_token token)
 {
 	if (!content)
 		return (NULL);

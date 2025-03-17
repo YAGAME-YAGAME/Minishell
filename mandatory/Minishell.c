@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/16 14:19:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:07:08 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,28 @@ t_parse	*ft_treenew(t_list *node)
 	return (new);
 }
 
-t_list	*ft_pipepos(t_list *current)
+void	ft_pipepos(t_list **current) // Working as expected
 {
-	while (current)
+	if (ft_strcmp("|", (*current)->content) == 0)
+		(*current) = (*current)->prev;
+	while (*current != NULL)
 	{
-		if (ft_strcmp("|", current->content) == 0)
-			return (current);
-		current = current->prev;
+		if (ft_strcmp("|", (*current)->content) == 0)
+			return ;
+		(*current) = (*current)->prev;
 	}
-	return (NULL);
 }
 
-t_parse *ft_tree(t_list *lexer)
+t_parse *ft_tree(t_list *lexer, t_list **current)
 {
-	
+	t_parse *root;
+	(void)lexer;
+	root = ft_treenew(ft_lstnew("|", PIPE));	// I am sure that there is at least one pipe in the input
+	root->right = ft_treenew((*current)->next);	// TODO: the right part should contain all the nodes after the pipe not just the next one
+
+
+
+	return (root);
 }
 
 t_parse	*ft_lst2tree(t_list *lexer)
@@ -49,12 +57,13 @@ t_parse	*ft_lst2tree(t_list *lexer)
 	t_parse	*root;
 	t_list *current;
 
-	current = ft_pipepos(ft_lstlast(lexer));
+	current = ft_lstlast(lexer); // last node
+	ft_pipepos(&current);		// current -> last pipe,  if no pipe current -> NULL
 	root = NULL;
 	if (!current)
 		printf("NO PIPE");
 	else
-		root = ft_tree(lexer);
+		root = ft_tree(lexer, &current);
 	return (root);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:35:29 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/06 13:36:23 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/17 11:17:46 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_putnbr_fd(int n, int fd);
 typedef struct s_list	t_list;
 typedef enum s_token	t_token;
 
-t_list	*ft_lstnew(void *content, t_token token);
+t_list	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
