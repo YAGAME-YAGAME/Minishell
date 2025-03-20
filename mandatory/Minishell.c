@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/20 01:34:01 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/03/20 03:00:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,61 @@ void	ft_pipepos(t_list **current) // Working as expected
 	}
 }
 
-t_parse *ft_tree(t_list *lexer, t_list **current)
-{
-	t_parse *root;
-	t_parse *ptr;
-	t_list *tmp;
+// t_parse *ft_tree(t_list **current)
+// {
+	// t_parse *root;
+	// t_parse *ptr;
+	// t_list *tmp;
 
-	tmp = *current;
-	root = ft_treenew(tmp);
-	// printf("root [%s]\n", root->node->content);
-	root->right = ft_treenew(tmp->next);
-	// printf("root right [%s]\n", root->right->node->content);
-	ptr = root->left;
+	// tmp = *current;
+	// root = ft_treenew(tmp);
+	// // printf("root [%s]\n", root->node->content);
+	// root->right = ft_treenew(tmp->next);
+	// // printf("root right [%s]\n", root->right->node->content);
+	// ptr = root->left;
+	// ft_pipepos(current);
+	// tmp = NULL;
+	// while (*current)
+	// {
+	// 	tmp = *current;
+	// 	ptr = ft_treenew(*current);
+	// 	// printf("ptr [%s]\n", ptr->node->content);
+	// 	ptr->right = ft_treenew((*current)->next);
+	// 	// printf("ptr right [%s]\n", ptr->right->node->content);
+	// 	ptr = ptr->left;
+	// 	ft_pipepos(current);
+	// 	tmp = NULL;
+	// }
+	// ptr = ft_treenew(lexer);
+	// return (root);
+
+// }
+
+// Add helper to check if node is a pipe
+int is_pipe(t_list *node) {
+	return (node && ft_strcmp(node->content, "|") == 0);
+}
+
+t_parse *ft_tree(t_list **current)
+{
+	if (!*current || !is_pipe(*current))
+		return NULL; // Base case: stop if no pipe
+
+	t_parse *node = ft_treenew(*current);
+	t_list *prev_pipe = *current;
+
+	// Move to previous pipe
 	ft_pipepos(current);
-	tmp = NULL;
-	while (*current)
-	{
-		tmp = *current;
-		ptr = ft_treenew(*current);
-		// printf("ptr [%s]\n", ptr->node->content);
-		ptr->right = ft_treenew((*current)->next);
-		// printf("ptr right [%s]\n", ptr->right->node->content);
-		ptr = ptr->left;
-		ft_pipepos(current);
-		tmp = NULL;
+
+	if (*current && is_pipe(*current)) {
+		node->left = ft_tree(current);
+		node->right = ft_treenew(prev_pipe->next);
+	} else {
+		// Handle leftmost command
+		node->left = ft_treenew(*current);
+		node->right = ft_treenew(prev_pipe->next);
 	}
-	ptr = ft_treenew(lexer);
-	return (root);
+	return node;
 }
 
 void	ft_print_tree(t_parse *root)
@@ -98,7 +126,7 @@ t_parse	*ft_lst2tree(t_list *lexer)
 		printf("NO PIPE");
 	else
 	{
-		root = ft_tree(lexer, &current);
+		root = ft_tree(&current);
 		ft_print_tree(root);
 		ft_print_tree(root->right);
 	}
