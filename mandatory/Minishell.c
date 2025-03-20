@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/17 15:07:08 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:34:01 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,47 @@ void	ft_pipepos(t_list **current) // Working as expected
 t_parse *ft_tree(t_list *lexer, t_list **current)
 {
 	t_parse *root;
-	(void)lexer;
-	root = ft_treenew(ft_lstnew("|", PIPE));	// I am sure that there is at least one pipe in the input
-	root->right = ft_treenew((*current)->next);	// TODO: the right part should contain all the nodes after the pipe not just the next one
+	t_parse *ptr;
+	t_list *tmp;
 
-
-
+	tmp = *current;
+	root = ft_treenew(tmp);
+	// printf("root [%s]\n", root->node->content);
+	root->right = ft_treenew(tmp->next);
+	// printf("root right [%s]\n", root->right->node->content);
+	ptr = root->left;
+	ft_pipepos(current);
+	tmp = NULL;
+	while (*current)
+	{
+		tmp = *current;
+		ptr = ft_treenew(*current);
+		// printf("ptr [%s]\n", ptr->node->content);
+		ptr->right = ft_treenew((*current)->next);
+		// printf("ptr right [%s]\n", ptr->right->node->content);
+		ptr = ptr->left;
+		ft_pipepos(current);
+		tmp = NULL;
+	}
+	ptr = ft_treenew(lexer);
 	return (root);
+}
+
+void	ft_print_tree(t_parse *root)
+{
+	if (!root)
+		return;
+	printf("Node: %s\n", root->node->content);
+	if (root->left)
+	{
+		printf("Left -> ");
+		ft_print_tree(root->left);
+	}
+	if (root->right)
+	{
+		printf("Right -> ");
+		ft_print_tree(root->right);
+	}
 }
 
 t_parse	*ft_lst2tree(t_list *lexer)
@@ -63,9 +97,14 @@ t_parse	*ft_lst2tree(t_list *lexer)
 	if (!current)
 		printf("NO PIPE");
 	else
+	{
 		root = ft_tree(lexer, &current);
+		ft_print_tree(root);
+		ft_print_tree(root->right);
+	}
 	return (root);
 }
+
 
 void	ft_parse(t_minishell *minishell)
 {
@@ -77,9 +116,11 @@ void	ft_parse(t_minishell *minishell)
 
 
 	minishell->tree = ft_lst2tree(lstlexer);
+	// ft_print_tree(minishell->tree);
+	// ft_print_tree(minishell->tree->left);
+	// ft_print_tree(minishell->tree->right);
 
 	ft_lstclear(&lstlexer, free);
-
 
 
 
