@@ -96,6 +96,7 @@ t_parse	*ft_lst2tree(t_list *lexer)
 	return (root);
 }
 
+// this is a comment
 
 void	ft_parse(t_minishell *minishell)
 {
