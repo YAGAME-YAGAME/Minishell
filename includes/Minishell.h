@@ -142,4 +142,8 @@ char	*ft_getcwd(void);
 t_list	*ft_lexer(char *input);
 t_list	*ft_create_lexer(char *input);
 
+//printers
+
+void    ft_print_tree_visual(t_parse *root);
+
 #endif // MINISHELL_H

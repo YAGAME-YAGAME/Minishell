@@ -40,31 +40,42 @@ void	ft_pipepos(t_list **current) // Working as expected
 	}
 }
 
+
 // Add helper to check if node is a pipe
-int is_pipe(t_list *node) {
+int is_pipe(t_list *node)
+{
 	return (node && ft_strcmp(node->content, "|") == 0);
 }
 
-t_parse *ft_tree(t_list **current)
+t_parse *ft_tree(t_list *lexer, t_list **current)
 {
-	if (!*current || !is_pipe(*current))
-		return NULL; // Base case: stop if no pipe
+    if (!*current || !is_pipe(*current))
+        return NULL; // Base case: stop if no pipe
 
-	t_parse *node = ft_treenew(*current);
-	t_list *prev_pipe = *current;
+    t_parse *node = ft_treenew(*current);
+    t_list *prev_pipe = *current;
 
-	// Move to previous pipe
-	ft_pipepos(current);
+    // Move to previous pipe (or to the leftmost command if no pipe)
+    ft_pipepos(current);
 
-	if (*current && is_pipe(*current)) {
-		node->left = ft_tree(current);
-		node->right = ft_treenew(prev_pipe->next);
-	} else {
-		// Handle leftmost command
-		node->left = ft_treenew(*current);
-		node->right = ft_treenew(prev_pipe->next);
-	}
-	return node;
+    if (*current && is_pipe(*current))
+    {
+        node->left = ft_tree(lexer, current);
+        node->right = ft_treenew(prev_pipe->next);
+		prev_pipe->prev->next = NULL; // remove the pipe from the list
+		prev_pipe->next->prev = NULL; // remove the pipe from the list
+		prev_pipe = NULL;
+    }
+    else
+    {
+        // *current now points to the leftmost command.
+        node->left = ft_treenew(lexer);
+        node->right = ft_treenew(prev_pipe->next);
+		prev_pipe->prev->next = NULL; // remove the pipe from the list
+		prev_pipe->next->prev = NULL; // remove the pipe from the list
+		prev_pipe = NULL;
+    }
+    return node;
 }
 
 
@@ -76,7 +87,7 @@ void	ft_print_tree(t_parse *root)
 		return ;
 	}
 	printf("Parse Tree:\n");
-
+	ft_print_tree_visual(root);
 }
 
 t_parse	*ft_lst2tree(t_list *lexer)
@@ -91,7 +102,8 @@ t_parse	*ft_lst2tree(t_list *lexer)
 		printf("NO PIPE");
 	else
 	{
-		root = ft_tree(&current);
+		root = ft_tree(lexer, &current);
+		ft_print_tree(root);
 	}
 	return (root);
 }

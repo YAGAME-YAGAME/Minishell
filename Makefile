@@ -7,6 +7,7 @@ SRCS=	./mandatory/$(TARGET).c \
 		./utils/parsing/initializers.c \
 		./utils/parsing/sdtfun.c \
 		./utils/parsing/ft_lexer.c \
+		./utils/parsing/ft_printers.c \
 
 RM = rm -rf
 NAME = $(TARGET).a
