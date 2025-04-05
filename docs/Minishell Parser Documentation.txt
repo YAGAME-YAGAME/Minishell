@@ -1,0 +1,490 @@
+Minishell Parser
+Implementation Documentation
+Download Source (v1.0.3.tar.gz)
+Phase 1: Tokenization
+Convert input string into a sequence of classified tokens
+
+initialize_lexer
+t_lexer *initialize_lexer(char *input);
+Set up the lexer to process the command line input.
+
+Test: Create a lexer with the input "echo hello world"
+
+Example: Should return a lexer structure with the input string and position set to 0.
+
+FUNCTION initialize_lexer(input: string)
+    lexer = ALLOCATE new t_lexer
+    lexer.input = input
+    lexer.position = 0
+    lexer.length = LENGTH(input)
+    RETURN lexer
+END FUNCTION
+get_next_token
+t_token *get_next_token(t_lexer *lexer);
+Extract the next token from the input string, handling quotes and spaces.
+
+Test: Run on "ls -la | grep file"
+
+Example: Should return tokens: "ls", "-la", "|", "grep", "file"
+
+FUNCTION get_next_token(lexer: t_lexer)
+      WHILE lexer.position < lexer.length AND is_whitespace(lexer.input[lexer.position])
+          lexer.position++
+      END WHILE
+
+      IF lexer.position >= lexer.length THEN
+          RETURN NULL  // End of input
+      END IF
+
+      current_char = lexer.input[lexer.position]
+
+      // Handle quotes
+      IF current_char IS '\'' OR current_char IS '"' THEN
+          RETURN handle_quotes(lexer, current_char)
+      END IF
+
+      // Handle operators and redirections
+      IF current_char IS '|' OR current_char IS '<' OR current_char IS '>' OR
+          current_char IS '(' OR current_char IS ')' THEN
+          RETURN handle_operator(lexer)
+      END IF
+
+      // Handle regular words (commands, arguments)
+      RETURN handle_word(lexer)
+END FUNCTION
+handle_quotes
+char *handle_quotes(t_lexer *lexer, char quote_char);
+Process quoted strings (both single and double quotes) according to shell rules.
+
+Test: Run on input with "echo 'hello world' "some $VAR""
+
+Example: Should extract 'hello world' and "some $VAR" as separate tokens with quotes removed.
+
+FUNCTION handle_quotes(lexer: t_lexer, quote_char: char)
+    lexer.position++  // Skip opening quote
+    start_pos = lexer.position
+
+    // Find closing quote
+    WHILE lexer.position < lexer.length AND lexer.input[lexer.position] != quote_char
+        lexer.position++
+    END WHILE
+
+    IF lexer.position >= lexer.length THEN
+        RETURN create_error_token("Unclosed quote")
+    END IF
+
+    // Extract the content between quotes
+    content_length = lexer.position - start_pos
+    content = SUBSTRING(lexer.input, start_pos, content_length)
+
+    lexer.position++  // Skip closing quote
+
+    token = ALLOCATE new t_token
+    token.value = content
+    token.type = WORD_TOKEN
+    token.quote_type = quote_char
+
+    RETURN token
+END FUNCTION
+classify_token
+t_token_type classify_token(char *token_str);
+Identify the type of token (command, operator, redirection, etc.)
+
+Test: Run on various inputs like "|", ">", "echo", etc.
+
+Example: "|" should return OP_TOKEN, "echo" should return CMD_TOKEN
+
+FUNCTION classify_token(token_str: string)
+    IF token_str IS "|" THEN
+        RETURN OP_TOKEN
+    ELSE IF token_str IS "<" THEN
+        RETURN OP_TOKEN with type REDIR_IN
+    ELSE IF token_str IS ">" THEN
+        RETURN OP_TOKEN with type REDIR_OUT
+    ELSE IF token_str IS ">>" THEN
+        RETURN OP_TOKEN with type APPEND
+    ELSE IF token_str IS "<<" THEN
+        RETURN OP_TOKEN with type HEREDOC
+    ELSE IF token_str IS "(" THEN
+        RETURN L_PAREN_TOKEN
+    ELSE IF token_str IS ")" THEN
+        RETURN R_PAREN_TOKEN
+    ELSE IF is_first_token_in_command() THEN
+        RETURN CMD_TOKEN
+    ELSE
+        RETURN WORD_TOKEN  // Arguments or other words
+    END IF
+END FUNCTION
+Phase 1 Pipeline:
+Input string
+initialize_lexer
+[get_next_token → classify_token → add_to_token_list]
+(repeat until end)
+list of classified tokens
+Phase 2: Parsing with Shunting Yard
+Convert tokens into postfix notation using the shunting yard algorithm
+
+initialize_shunting_yard
+t_parser *initialize_shunting_yard(void);
+Set up the stacks needed for the shunting yard algorithm.
+
+Test: Create new parser
+
+Example: Should return a parser with empty operator stack and output queue.
+
+FUNCTION initialize_shunting_yard()
+    parser = ALLOCATE new t_parser
+    parser.op_stack = CREATE_EMPTY_STACK()
+    parser.output_queue = CREATE_EMPTY_QUEUE()
+    RETURN parser
+END FUNCTION
+process_token
+void process_token(t_parser *parser, t_token *token);
+Process a token according to shunting yard rules.
+
+Test: Process tokens from "ls -la | grep file"
+
+Example: Commands go to output, operators handled based on precedence.
+
+FUNCTION process_token(parser: t_parser, token: t_token)
+    IF token.type IS CMD_TOKEN OR token.type IS WORD_TOKEN THEN
+        ENQUEUE(parser.output_queue, token)
+    ELSE IF token.type IS OP_TOKEN THEN
+        handle_operator(parser, token)
+    ELSE IF token.type IS L_PAREN_TOKEN THEN
+        PUSH(parser.op_stack, token)
+    ELSE IF token.type IS R_PAREN_TOKEN THEN
+        // Pop operators until matching left parenthesis
+        WHILE NOT IS_EMPTY(parser.op_stack) AND TOP(parser.op_stack).type IS NOT L_PAREN_TOKEN
+            op = POP(parser.op_stack)
+            ENQUEUE(parser.output_queue, op)
+        END WHILE
+
+        // Discard the left parenthesis
+        IF NOT IS_EMPTY(parser.op_stack) THEN
+            DISCARD POP(parser.op_stack)
+        ELSE
+            REPORT_ERROR("Mismatched parentheses")
+        END IF
+    END IF
+END FUNCTION
+handle_operator
+void handle_operator(t_parser *parser, t_token *op_token);
+Process operators based on precedence rules.
+
+Test: Test with pipe (|) operator
+
+Example: Should compare precedence with operators on the stack and move operators to output as needed.
+
+FUNCTION handle_operator(parser: t_parser, op_token: t_token)
+    // While top of operator stack has higher or equal precedence
+    WHILE NOT IS_EMPTY(parser.op_stack) AND
+          precedence(TOP(parser.op_stack)) >= precedence(op_token) AND
+          TOP(parser.op_stack).type IS NOT L_PAREN_TOKEN
+
+        top_op = POP(parser.op_stack)
+        ENQUEUE(parser.output_queue, top_op)
+    END WHILE
+
+    PUSH(parser.op_stack, op_token)
+END FUNCTION
+finalize_parsing
+void finalize_parsing(t_parser *parser);
+Complete the shunting yard algorithm by moving remaining operators to output.
+
+Test: Call after all tokens are processed
+
+Example: All operators should be moved from operator stack to output queue.
+
+FUNCTION finalize_parsing(parser: t_parser)
+    // Move all remaining operators to the output queue
+    WHILE NOT IS_EMPTY(parser.op_stack)
+        op = POP(parser.op_stack)
+
+        IF op.type IS L_PAREN_TOKEN THEN
+            REPORT_ERROR("Mismatched parentheses")
+            RETURN FALSE
+        END IF
+
+        ENQUEUE(parser.output_queue, op)
+    END WHILE
+
+    RETURN TRUE
+END FUNCTION
+Phase 2 Pipeline:
+List of tokens
+initialize_shunting_yard
+[process_token for each token]
+finalize_parsing
+output queue with tokens in postfix notation
+Phase 3: Building Command Tree
+Create the final command execution tree from the postfix notation
+
+build_command_tree
+t_list *build_command_tree(t_parser *parser);
+Create the final command execution tree from the output queue.
+
+Test: Build tree from "ls -la | grep file"
+
+Example: Should create a tree with "ls -la" and "grep file" connected by a pipe.
+
+FUNCTION build_command_tree(parser: t_parser)
+    node_stack = CREATE_EMPTY_STACK()
+
+    WHILE NOT IS_EMPTY(parser.output_queue)
+        token = DEQUEUE(parser.output_queue)
+
+        IF token.type IS CMD_TOKEN OR token.type IS WORD_TOKEN THEN
+            node = create_tree_node(token)
+            PUSH(node_stack, node)
+        ELSE IF token.type IS OP_TOKEN THEN
+            // Operators require two operands
+            IF SIZE(node_stack) < 2 THEN
+                REPORT_ERROR("Invalid expression")
+                RETURN NULL
+            END IF
+
+            right = POP(node_stack)
+            left = POP(node_stack)
+
+            op_node = create_operator_node(token, left, right)
+            PUSH(node_stack, op_node)
+        END IF
+    END WHILE
+
+    // The final result should be a single node
+    IF SIZE(node_stack) != 1 THEN
+        REPORT_ERROR("Invalid expression")
+        RETURN NULL
+    END IF
+
+    RETURN POP(node_stack)
+END FUNCTION
+create_command_node
+t_cmd_node *create_command_node(char *cmd, char *args);
+Create a command node with its arguments.
+
+Test: Create node for "echo hello world"
+
+Example: Should return a command node with cmd="echo" and args="hello world".
+
+FUNCTION create_command_node(cmd: string, args: string)
+    node = ALLOCATE new t_cmd_node
+    node.cmd = STRDUP(cmd)
+    node.args = STRDUP(args)
+    node.redir = NULL
+    node.next = NULL
+    RETURN node
+END FUNCTION
+add_redirection
+void add_redirection(t_cmd_node *cmd, t_redir_token *redir);
+Add a redirection to a command node.
+
+Test: Add redirection "< input.txt" to "cat" command
+
+Example: Should add a REDIR_IN redirection with filename "input.txt" to the cat command.
+
+FUNCTION add_redirection(cmd: t_cmd_node, redir: t_redir_token)
+    IF cmd.redir IS NULL THEN
+        cmd.redir = redir
+    ELSE
+        // Add to the end of the redirection list
+        current = cmd.redir
+        WHILE current.next IS NOT NULL
+            current = current.next
+        END WHILE
+        current.next = redir
+    END IF
+END FUNCTION
+connect_commands
+t_list *connect_commands(t_list *left, t_list *right, t_op_node *op);
+Connect commands with operators (pipes, &&, ||).
+
+Test: Connect "ls -la" and "grep file" with a pipe
+
+Example: Should return a list node with operator="|" and left/right pointing to the commands.
+
+FUNCTION connect_commands(left: t_list, right: t_list, op: t_op_node)
+    node = ALLOCATE new t_list
+    node.token = op
+    node.token_type = OP_TOKEN
+    node.left = left
+    node.right = right
+    RETURN node
+END FUNCTION
+Phase 3 Pipeline:
+Postfix token queue
+[pop tokens and build tree using stack]
+final command execution tree
+Phase 4: Variable Expansion
+Handle environment variable substitution
+
+expand_variables
+char *expand_variables(char *str, t_env *env);
+Replace environment variables ($VAR) with their values.
+
+Test: Expand "Hello $USER"
+
+Example: If USER=john, should return "Hello john".
+
+FUNCTION expand_variables(str: string, env: t_env)
+    result = ""
+    i = 0
+
+    WHILE i < LENGTH(str)
+        IF str[i] IS '$' AND i + 1 < LENGTH(str) THEN
+            // Skip the $
+            i++
+
+            // Find the end of the variable name
+            start = i
+            WHILE i < LENGTH(str) AND (IS_ALPHANUMERIC(str[i]) OR str[i] IS '_')
+                i++
+            END WHILE
+
+            var_name = SUBSTRING(str, start, i - start)
+            var_value = get_env_value(env, var_name)
+
+            IF var_value IS NOT NULL THEN
+                result += var_value
+            END IF
+        ELSE
+            result += str[i]
+            i++
+        END IF
+    END WHILE
+
+    RETURN result
+END FUNCTION
+expand_exit_status
+char *expand_exit_status(char *str, int last_exit_status);
+Replace $? with the most recent exit status.
+
+Test: Expand "Exit status: $?"
+
+Example: If last exit status was 127, should return "Exit status: 127".
+
+FUNCTION expand_exit_status(str: string, last_exit_status: int)
+    result = ""
+    i = 0
+
+    WHILE i < LENGTH(str)
+        IF str[i] IS '$' AND i + 1 < LENGTH(str) AND str[i+1] IS '?' THEN
+            // Replace $? with last exit status
+            result += CONVERT_TO_STRING(last_exit_status)
+            i += 2  // Skip $?
+        ELSE
+            result += str[i]
+            i++
+        END IF
+    END WHILE
+
+    RETURN result
+END FUNCTION
+Phase 4 Pipeline:
+Command tree
+[traverse tree and expand variables]
+expanded command tree
+Phase 5: Execution Preparation
+Prepare the command tree for execution
+
+handle_redirections
+int handle_redirections(t_cmd_node *cmd);
+Open files for redirections and set up file descriptors.
+
+Test: Handle redirection in "cat < input.txt > output.txt"
+
+Example: Should open input.txt for reading and output.txt for writing.
+
+FUNCTION handle_redirections(cmd: t_cmd_node)
+    current_redir = cmd.redir
+
+    WHILE current_redir IS NOT NULL
+        CASE current_redir.type OF
+            REDIR_IN:
+                fd = OPEN(current_redir.file_name, O_RDONLY)
+                IF fd < 0 THEN
+                    PERROR("open")
+                    RETURN FALSE
+                END IF
+                DUP2(fd, STDIN_FILENO)
+                CLOSE(fd)
+
+            REDIR_OUT:
+                fd = OPEN(current_redir.file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644)
+                IF fd < 0 THEN
+                    PERROR("open")
+                    RETURN FALSE
+                END IF
+                DUP2(fd, STDOUT_FILENO)
+                CLOSE(fd)
+
+            APPEND:
+                fd = OPEN(current_redir.file_name, O_WRONLY | O_CREAT | O_APPEND, 0644)
+                IF fd < 0 THEN
+                    PERROR("open")
+                    RETURN FALSE
+                END IF
+                DUP2(fd, STDOUT_FILENO)
+                CLOSE(fd)
+
+            HEREDOC:
+                // Heredoc handling is more complex and requires reading input
+                // This is a simplified version
+                fd = create_heredoc(current_redir.file_name)
+                IF fd < 0 THEN
+                    RETURN FALSE
+                END IF
+                DUP2(fd, STDIN_FILENO)
+                CLOSE(fd)
+        END CASE
+
+        current_redir = current_redir.next
+    END WHILE
+
+    RETURN TRUE
+END FUNCTION
+setup_pipes
+int setup_pipes(t_list *cmd_tree);
+Create pipes between commands.
+
+Test: Setup pipe for "ls | grep file"
+
+Example: Should create a pipe and connect the output of ls to the input of grep.
+
+FUNCTION setup_pipes(cmd_tree: t_list)
+    IF cmd_tree IS NULL OR cmd_tree.token_type IS NOT OP_TOKEN THEN
+        RETURN TRUE  // No pipes to set up
+    END IF
+
+    op = cmd_tree.token
+
+    IF op.op IS "|" THEN
+        pipe_fds[2]
+        IF PIPE(pipe_fds) < 0 THEN
+            PERROR("pipe")
+            RETURN FALSE
+        END IF
+
+        // Store pipe file descriptors in the operator node for later use
+        op.pipe_read = pipe_fds[0]
+        op.pipe_write = pipe_fds[1]
+
+        // Recursively set up pipes for left and right subtrees
+        setup_pipes(cmd_tree.left)
+        setup_pipes(cmd_tree.right)
+    ELSE
+        // For other operators like && and ||, just recursively set up pipes
+        setup_pipes(cmd_tree.left)
+        setup_pipes(cmd_tree.right)
+    END IF
+
+    RETURN TRUE
+END FUNCTION
+Phase 5 Pipeline:
+Expanded command tree
+[handle redirections and setup pipes]
+execution-ready command tree
+Minishell Parser Documentation - created with ♥ by le saad [sel-mlil]
+
+Color scheme inspired by Visual Studio Code Dark+

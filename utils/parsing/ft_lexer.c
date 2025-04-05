@@ -47,43 +47,37 @@ int	ft_find_next_quote(char *input, int start)
 	return (i);
 }
 
-void	ft_add_node(char *input, t_list **lexer, int start, int *i)
-{
-	int	end;
+// Updated ft_add_node to handle edge cases like unclosed quotes and escaped characters
+void ft_add_node(char *input, t_list **lexer, int start, int *i) {
+	int end;
 
 	end = *i;
-	if (ft_strchr("|<>&;\\)\'(\"", input[*i])) // If the current is a token
-	{
-		if (input[*i] == '\"' || input[*i] == '\'') // If it's a quote
-		{
-			while(input[++(*i)] && (input[*i] != input[start] || (input[*i] == input[start] && input[*i - 1] == '\\')))
-			{
-				// if (input[start]== '"') //"Hello $USER"
-				// 	if (ft_variable_expantion(input, lexer, start, i)) // If true there is a variable expantion
-				// 		return ;
+	if (ft_strchr("|<>&;\\)\'(\"", input[*i])) { // If the current is a token
+		if (input[*i] == '"' || input[*i] == '\'') { // If it's a quote
+			while (input[++(*i)] && (input[*i] != input[start] || (input[*i] == input[start] && input[*i - 1] == '\\'))) {
 				end = *i;
+			}
+			if (input[*i] != input[start]) { // Handle unclosed quotes
+				printf("Error: Unclosed quote detected\n");
+				ft_lstclear(lexer, free);
+				return;
 			}
 			end = (*i)++;
 			ft_lstadd_back(lexer, ft_lstnew(ft_substr(input, start, end - start + 1), SPECIAL));
-			return ;
+			return;
 		}
-		while(input[*i] && ft_strchr("|<>&\\)\'(\"", input[*i])) // If it's a multiple token we take it like a single one
+		while (input[*i] && ft_strchr("|<>&\\)\'(\"", input[*i])) // If it's a multiple token we take it like a single one
 			end = (*i)++;
-		if(input[*i] && ft_strchr(";", input[*i])) // If it's a semicolon we take it alone
+		if (input[*i] && ft_strchr(";", input[*i])) // If it's a semicolon we take it alone
 			end = (*i)++;
 		ft_lstadd_back(lexer, ft_lstnew(ft_substr(input, start, end - start + 1), SPECIAL));
-	}
-	else
-	{
-		while (input[*i] && !ft_strchr(" \t\n\r\a\v\f|<>&;)\'(\"", input[*i]))
-		{
-			if (input[*i] == '\\')
-			{
+	} else {
+		while (input[*i] && !ft_strchr(" \t\n\r\a\v\f|<>&;)\'(\"", input[*i])) {
+			if (input[*i] == '\\') {
 				(*i)++;
 				if (input[*i])
 					(*i)++; // Skip escaped character
-			}
-			else
+			} else
 				(*i)++;
 		}
 		end = *i - 1;
@@ -171,11 +165,46 @@ bool	ft_set_tokens(t_list **lexer)
 	return (true);
 }
 
-t_list	*ft_lexer(char *input)
+void	ft_check_pipe(t_list **lstlexer)
 {
-	t_list	*lstlexer;
+	t_list *ptr;
+
+	ptr = *lstlexer;
+	while (ptr)
+	{
+		if (ft_strcmp(ptr->content, "|") == 0)
+		{
+			if (ptr->next == NULL || ptr->prev == NULL)
+			{
+				ft_lstclear(lstlexer, free);
+				printf("PIPE SYNTAX ERROR!\n");
+				exit(PIPE);
+			}
+		}
+		ptr = ptr->next;
+	}
+
+}
+
+void	ft_check_syntax(t_list	**lstlexer)
+{
+	ft_check_pipe(lstlexer);
+}
+
+// Updated ft_lexer to include better error handling and ensure proper syntax validation
+t_list *ft_lexer(char *input) {
+	t_list *lstlexer;
 
 	lstlexer = ft_create_lexer(input);
-	ft_set_tokens(&lstlexer);
-	return (lstlexer);
+	if (!lstlexer) {
+		printf("Error: Lexer creation failed\n");
+		return NULL;
+	}
+	if (!ft_set_tokens(&lstlexer)) {
+		printf("Error: Token classification failed\n");
+		ft_lstclear(&lstlexer, free);
+		return NULL;
+	}
+	ft_check_syntax(&lstlexer);
+	return lstlexer;
 }

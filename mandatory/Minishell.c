@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:01 by abenajib          #+#    #+#             */
-/*   Updated: 2025/03/20 05:21:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/05 00:01:49 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_pipepos(t_list **current) // Working as expected
 	}
 }
 
-
 // Add helper to check if node is a pipe
 int is_pipe(t_list *node)
 {
@@ -49,33 +48,33 @@ int is_pipe(t_list *node)
 
 t_parse *ft_tree(t_list *lexer, t_list **current)
 {
-    if (!*current || !is_pipe(*current))
-        return NULL; // Base case: stop if no pipe
+	if (!*current || !is_pipe(*current))
+		return NULL; // Base case: stop if no pipe
 
-    t_parse *node = ft_treenew(*current);
-    t_list *prev_pipe = *current;
+	t_parse *node = ft_treenew(*current);
+	t_list *prev_pipe = *current;
 
-    // Move to previous pipe (or to the leftmost command if no pipe)
-    ft_pipepos(current);
+	// Move to previous pipe (or to the leftmost command if no pipe)
+	ft_pipepos(current);
 
-    if (*current && is_pipe(*current))
-    {
-        node->left = ft_tree(lexer, current);
-        node->right = ft_treenew(prev_pipe->next);
+	if (*current && is_pipe(*current))
+	{
+		node->left = ft_tree(lexer, current);
+		node->right = ft_treenew(prev_pipe->next);
 		prev_pipe->prev->next = NULL; // remove the pipe from the list
 		prev_pipe->next->prev = NULL; // remove the pipe from the list
 		prev_pipe = NULL;
-    }
-    else
-    {
-        // *current now points to the leftmost command.
-        node->left = ft_treenew(lexer);
-        node->right = ft_treenew(prev_pipe->next);
+	}
+	else
+	{
+		// *current now points to the leftmost command.
+		node->left = ft_treenew(lexer);
+		node->right = ft_treenew(prev_pipe->next);
 		prev_pipe->prev->next = NULL; // remove the pipe from the list
 		prev_pipe->next->prev = NULL; // remove the pipe from the list
 		prev_pipe = NULL;
-    }
-    return node;
+	}
+	return node;
 }
 
 
@@ -119,7 +118,7 @@ void	ft_parse(t_minishell *minishell)
 
 
 
-	minishell->tree = ft_lst2tree(lstlexer);
+	// minishell->tree = ft_lst2tree(lstlexer);
 	// ft_print_tree(minishell->tree);
 
 	ft_lstclear(&lstlexer, free);
