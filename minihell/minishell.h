@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/07 20:07:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:02:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ t_token	*ft_handle_word(t_lexer *lexer);
 t_token	*ft_handle_operator(t_lexer *lexer);
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char);
 void	ft_builtins(char *input, t_list *minienv);
-t_token	*ft_tokadd_back(t_token *token_list, t_token *token);
+t_token	*ft_newtok(t_token *token);
+void	ft_tokadd_back(t_token **token_list, t_token *token);
 void	free_token(t_token *token);
 int		ft_isspecial(char c);
 int		ft_isspace(char c);

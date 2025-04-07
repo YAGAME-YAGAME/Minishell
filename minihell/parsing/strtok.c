@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:08:28 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/07 20:18:31 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:06:42 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,66 @@ char	*printtype(t_token_type type)
 	return ("UNKNOWN");
 }
 
+void	ft_tokadd_back(t_token **token_list, t_token *token)
+{
+	t_token	*tmp;
+
+	if (!token_list || !token)
+		return ;
+	if (*token_list == NULL)
+	{
+		*token_list = token;
+		return ;
+	}
+	tmp = *token_list;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = token;
+	token->next = NULL;
+}
+
+t_token	*ft_newtok(t_token *token)
+{
+	t_token	*new_token;
+
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
+		return (NULL);
+	new_token->type = token->type;
+	new_token->value = ft_strdup(token->value);
+	new_token->quote_type = token->quote_type;
+	new_token->next = NULL;
+	return (new_token);
+}
+
+void	print_tokenlist(t_token *token_list)
+{
+	t_token	*tmp;
+
+	tmp = token_list;
+	while (tmp)
+	{
+		if (tmp->value)
+			printf("[%s]: {%s}\n", tmp->value, printtype(tmp->type));
+		else
+			printf("[NULL]\n");
+		tmp = tmp->next;
+	}
+}
+
+void	ft_free_tokenlist(t_token *token_list)
+{
+	t_token	*tmp;
+
+	while (token_list)
+	{
+		tmp = token_list;
+		token_list = token_list->next;
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 t_token	*ft_strtok(char *input)
 {
 	t_lexer	*lexer;
@@ -73,15 +133,12 @@ t_token	*ft_strtok(char *input)
 	token = get_next_token(lexer);
 	while (token)
 	{
-		// ft_tokadd_back(&token_list, token);
 		if (token->value)
-		{
-			printf("[%s]-", token->value);
-			printf("[%s]\n", printtype(token->type));
-		}
+			ft_tokadd_back(&token_list, ft_newtok(token));
 		free_token(token);
 		token = get_next_token(lexer);
 	}
-	printf("[NULL]\n");
+	print_tokenlist(token_list);
+	ft_free_tokenlist(token_list);
 	return (token_list);
 }
