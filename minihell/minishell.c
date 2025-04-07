@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/05 15:57:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:47:24 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	minishell(char *input, t_list *minienv)
 {
+	t_token	*token_list;
+
 	if (input == NULL)
 	{
 		printf(RED"\n[EOF]\n"RESET);
@@ -21,6 +23,7 @@ void	minishell(char *input, t_list *minienv)
 	}
 	add_history(input);
 	ft_builtins(input, minienv);
+	token_list = ft_strtok(input);
 }
 
 int	main(int ac, char **av, char **env)

@@ -5,6 +5,12 @@ MINIFLAGS = -lreadline
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
 	./parsing/env.c \
+	./builtins/builtin.c \
+	./parsing/strtok.c \
+	./parsing/ft_handles.c \
+	./parsing/utils.c
+
+
 
 RM = rm -rf
 NAME = $(TARGET).a
