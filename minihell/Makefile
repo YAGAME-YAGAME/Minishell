@@ -8,8 +8,10 @@ SRCS=	$(TARGET).c \
 	./builtins/builtin.c \
 	./parsing/strtok.c \
 	./parsing/ft_handles.c \
-	./parsing/utils.c
-
+	./parsing/utils.c \
+	./parsing/free.c \
+	./parsing/tokens.c \
+	./parsing/printers.c \
 
 
 RM = rm -rf

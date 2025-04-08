@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/07 21:02:58 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/08 11:07:29 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,23 +95,29 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-//functions
 t_list	*ft_envinit(char **env);
-void	ft_print_env(t_list *minienv);
 char	*ft_getcwd(void);
-t_token	*ft_strtok(char *input);
-t_lexer	*ft_lexer_init(char *input);
+void	ft_builtins(char *input, t_list *minienv);
 
-t_token	*get_next_token(t_lexer *lexer);
 t_token	*ft_handle_word(t_lexer *lexer);
 t_token	*ft_handle_operator(t_lexer *lexer);
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char);
-void	ft_builtins(char *input, t_list *minienv);
+
+t_token	*ft_strtok(char *input);
+t_lexer	*ft_lexer_init(char *input);
+t_token	*get_next_token(t_lexer *lexer);
 t_token	*ft_newtok(t_token *token);
 void	ft_tokadd_back(t_token **token_list, t_token *token);
-void	free_token(t_token *token);
+
 int		ft_isspecial(char c);
 int		ft_isspace(char c);
 bool	ft_is_duplicated(t_lexer *lexer, char op[3]);
+
+void	ft_print_env(t_list *minienv);
+void	print_tokenlist(t_token *token_list);
+char	*printtype(t_token_type type);
+
+void	ft_free_tokenlist(t_token *token_list);
+void	free_token(t_token *token);
 
 #endif
