@@ -6,11 +6,35 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 10:58:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:14:18 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_check_syntax(t_token *token_list)
+{
+	t_token	*current;
+
+	current = token_list;
+	while (current)
+	{
+		if (current->type == PIPE)
+		{
+			if (current->next == NULL || current->next->type == PIPE)
+			{
+				printf(RED"syntax error near unexpected token `|'\n"RESET);
+				return ;
+			}
+			if (current->prev == NULL || current->prev->type == PIPE)
+			{
+				printf(RED"syntax error near unexpected token `|'\n"RESET);
+				return ;
+			}
+		}
+		current = current->next;
+	}
+}
 
 void	minishell(char *input, t_list *minienv)
 {
@@ -24,6 +48,7 @@ void	minishell(char *input, t_list *minienv)
 	add_history(input);
 	ft_builtins(input, minienv);
 	token_list = ft_strtok(input);
+	ft_check_syntax(token_list);
 	print_tokenlist(token_list);
 	ft_free_tokenlist(token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 11:07:29 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:06:49 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ typedef enum e_token_type
 	DOUBLE_QUOTE,
 }	t_token_type;
 
-typedef enum e_node_type
-{
-	NODE_CMD,
-	NODE_PIPE,
-	NODE_AND,
-	NODE_OR,
-	SUBSHELL,
-}	t_node_type;
+// typedef enum e_node_type
+// {
+// 	NODE_CMD,
+// 	NODE_PIPE,
+// 	NODE_AND,
+// 	NODE_OR,
+// 	SUBSHELL,
+// }	t_node_type;
 //--structs
 
 typedef struct s_token
@@ -79,6 +79,7 @@ typedef struct s_token
 	char			*value;
 	char			quote_type;
 	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 typedef struct s_lexer
@@ -88,12 +89,28 @@ typedef struct s_lexer
 	int				len;
 }	t_lexer;
 
-typedef struct s_ast
+typedef struct s_redi_list
 {
-	t_node_type		*node_type;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}	t_ast;
+	t_token_type	type;
+	char			*file;
+	struct s_redi_list	*next;
+}	t_redi_list;
+
+typedef struct s_cmdarg
+{
+	char			*strags;	// join all {WORD}
+	bool			is_builtin;
+	t_redi_list		*input;
+	t_redi_list		*output;
+	struct s_cmdarg	*next;
+}	t_cmdarg;
+
+// typedef struct s_ast
+// {
+// 	t_node_type		*node_type;
+// 	struct s_ast	*left;
+// 	struct s_ast	*right;
+// }	t_ast;
 
 t_list	*ft_envinit(char **env);
 char	*ft_getcwd(void);

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:02:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 11:04:09 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:09:54 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_tokadd_back(t_token **token_list, t_token *token)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = token;
+	token->prev = tmp;
 	token->next = NULL;
 }
 
@@ -41,6 +42,7 @@ t_token	*ft_newtok(t_token *token)
 	new_token->value = ft_strdup(token->value);
 	new_token->quote_type = token->quote_type;
 	new_token->next = NULL;
+	new_token->prev = NULL;
 	return (new_token);
 }
 
