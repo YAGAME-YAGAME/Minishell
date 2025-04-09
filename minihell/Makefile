@@ -12,6 +12,7 @@ SRCS=	$(TARGET).c \
 	./parsing/free.c \
 	./parsing/tokens.c \
 	./parsing/printers.c \
+	./parsing/parser.c \
 
 
 RM = rm -rf

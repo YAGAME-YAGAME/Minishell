@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 14:06:49 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:09:37 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	char			quote_type;
+	struct s_token	*current;
 	struct s_token	*next;
 	struct s_token	*prev;
 }	t_token;
@@ -91,8 +92,8 @@ typedef struct s_lexer
 
 typedef struct s_redi_list
 {
-	t_token_type	type;
-	char			*file;
+	t_token_type		type;
+	char				*file;
 	struct s_redi_list	*next;
 }	t_redi_list;
 
@@ -112,29 +113,34 @@ typedef struct s_cmdarg
 // 	struct s_ast	*right;
 // }	t_ast;
 
-t_list	*ft_envinit(char **env);
-char	*ft_getcwd(void);
-void	ft_builtins(char *input, t_list *minienv);
+t_list		*ft_envinit(char **env);
+char		*ft_getcwd(void);
+void		ft_builtins(char *input, t_list *minienv);
 
-t_token	*ft_handle_word(t_lexer *lexer);
-t_token	*ft_handle_operator(t_lexer *lexer);
-t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char);
+t_token		*ft_handle_word(t_lexer *lexer);
+t_token		*ft_handle_operator(t_lexer *lexer);
+t_token		*ft_handle_quotes(t_lexer *lexer, char quote_char);
 
-t_token	*ft_strtok(char *input);
-t_lexer	*ft_lexer_init(char *input);
-t_token	*get_next_token(t_lexer *lexer);
-t_token	*ft_newtok(t_token *token);
-void	ft_tokadd_back(t_token **token_list, t_token *token);
+t_token		*ft_strtok(char *input);
+t_lexer		*ft_lexer_init(char *input);
+t_token		*get_next_token(t_lexer *lexer);
+t_token		*ft_newtok(t_token *token);
+void		ft_tokadd_back(t_token **token_list, t_token *token);
 
-int		ft_isspecial(char c);
-int		ft_isspace(char c);
-bool	ft_is_duplicated(t_lexer *lexer, char op[3]);
+int			ft_isspecial(char c);
+int			ft_isspace(char c);
+bool		ft_is_duplicated(t_lexer *lexer, char op[3]);
 
-void	ft_print_env(t_list *minienv);
-void	print_tokenlist(t_token *token_list);
-char	*printtype(t_token_type type);
+void		ft_print_env(t_list *minienv);
+void		print_tokenlist(t_token *token_list);
+char		*printtype(t_token_type type);
 
-void	ft_free_tokenlist(t_token *token_list);
-void	free_token(t_token *token);
+void		ft_free_tokenlist(t_token *token_list);
+void		free_token(t_token *token);
+
+bool		ft_isredi(t_token *token);
+void		ft_parse_word(t_cmdarg **node, t_token *token_list);
+t_cmdarg	*get_next_node(t_token *token_list);
+t_cmdarg	*ft_newnode(t_cmdarg *node);
 
 #endif
