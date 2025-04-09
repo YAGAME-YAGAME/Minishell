@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 17:58:56 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:44:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list)
 	tmp = (*node)->strags;
 	(*node)->strags = ft_strjoin((*node)->strags, " ");
 	free(tmp);
-
 }
 
-t_cmdarg	*get_next_node(t_token *token_list)
+t_cmdarg	*ft_init_node()
 {
 	t_cmdarg	*node;
 
@@ -43,17 +42,20 @@ t_cmdarg	*get_next_node(t_token *token_list)
 	node->next = NULL;
 	node->output = NULL;
 	node->strags = NULL;
+	return (node);
+}
 
-	token_list->current = token_list;
-	while (token_list->current)//loop on the token
+t_cmdarg	*get_next_node(t_token *token_list)
+{
+	// t_cmdarg	*node;
+
+	// node = ft_init_node();
+	while (token_list->current && token_list->current->type != PIPE)//inner loop on all tokens till find the pipe
 	{
-		while (token_list->current->type != PIPE)//inner loop on all tokens till find the pipe
-		{
-			if (token_list->current->type == WORD)
-				ft_parse_word(&node, token_list);
-			token_list->current = token_list->current->next;
-		}
+		// if (token_list->current->type == WORD)
+		// 	ft_parse_word(&node, token_list);
+		printf("%s\n", printtype(token_list->current->type));
 		token_list->current = token_list->current->next;
 	}
-	return (node);
+	return (NULL);
 }
