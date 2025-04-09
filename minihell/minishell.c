@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 17:41:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/09 20:15:55 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,18 +97,9 @@ void	minishell(char *input, t_list *minienv)
 	add_history(input);
 	ft_builtins(input, minienv);
 	token_list = ft_strtok(input);
-	// while (token_list)
-	// {
-	// 	printf("%s - %s\n", token_list->value, printtype(token_list->type));
-	// 	token_list = token_list->next;
-	// }
-	// exit(0);
-	// ft_check_syntax(token_list);
+	ft_check_syntax(token_list);
 	// print_tokenlist(token_list);
-
-	if (token_list)
-		cmdarg_list = ft_parser(token_list, minienv);
-	free(cmdarg_list);
+	cmdarg_list = ft_parser(token_list, minienv);
 	ft_free_tokenlist(token_list);
 }
 

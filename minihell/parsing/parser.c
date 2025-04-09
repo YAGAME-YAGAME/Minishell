@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 17:44:24 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/09 20:20:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ t_cmdarg	*ft_init_node()
 
 t_cmdarg	*get_next_node(t_token *token_list)
 {
-	// t_cmdarg	*node;
+	t_cmdarg	*node;
 
-	// node = ft_init_node();
+	node = ft_init_node();
 	while (token_list->current && token_list->current->type != PIPE)//inner loop on all tokens till find the pipe
 	{
-		// if (token_list->current->type == WORD)
-		// 	ft_parse_word(&node, token_list);
-		printf("%s\n", printtype(token_list->current->type));
+		if (token_list->current->type == WORD)
+			ft_parse_word(&node, token_list);
 		token_list->current = token_list->current->next;
 	}
+	printf("cmdargs: [%s]\n", node->strags);
+	exit(0);
 	return (NULL);
 }
