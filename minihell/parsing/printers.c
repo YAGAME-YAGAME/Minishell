@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 11:06:57 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:28:06 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ void	print_tokenlist(t_token *token_list)
 	t_token	*tmp;
 
 	tmp = token_list;
+	printf("Token list:\n");
 	while (tmp)
 	{
 		if (tmp->value)
-			printf("[%s]: {%s}\n", tmp->value, printtype(tmp->type));
+			printf("[%s]-", tmp->value);
 		else
 			printf("[NULL]\n");
 		tmp = tmp->next;
 	}
+	printf("\n");
 }
 
 void	ft_print_env(t_list *minienv)

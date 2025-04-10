@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 22:24:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:26:13 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,12 @@ void	ft_rediradd(t_redi_list **redi, t_redi_list *new)
 	tmp->next = new;
 }
 
-bool	is_input(t_token_type type)
-{
-	return (type == INPUT || type == HEREDOC);
-}
-
 void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 {
-	if (is_input(token_list->type))
+	if (token_list->current->type == INPUT || token_list->current->type == HEREDOC)
 		ft_rediradd(&(*node)->input, ft_redinew(token_list->current));
-	// else
-	// 	ft_rediradd(&(*node)->output, ft_redinew(token_list->current));
+	else
+		ft_rediradd(&(*node)->output, ft_redinew(token_list->current));
 	token_list->current = token_list->current->next;//skip redi then the file after
 }
 
@@ -87,11 +82,25 @@ t_cmdarg	*ft_init_node()
 	return (node);
 }
 
+void printredi(t_redi_list *redi)
+{
+	t_redi_list *tmp = redi;
+	while (tmp)
+	{
+		printf("type: {%s}, file: [%s]\n", printtype(tmp->type), tmp->file);
+		tmp = tmp->next;
+	}
+}
+
 t_cmdarg	*get_next_node(t_token *token_list)
 {
 	t_cmdarg	*node;
 
 	node = ft_init_node();
+	if (!token_list->current)
+		return (NULL);
+	if (token_list->current->type == PIPE)
+		token_list->current = token_list->current->next;
 	while (token_list->current && token_list->current->type != PIPE)//inner loop on all tokens till find the pipe
 	{
 		if (token_list->current->type == WORD)
@@ -100,13 +109,5 @@ t_cmdarg	*get_next_node(t_token *token_list)
 			ft_parse_redi(&node, token_list);
 		token_list->current = token_list->current->next;
 	}
-	printf("cmdargs: [%s]\n", node->strags);
-	t_redi_list *c = node->input;
-	while (c)
-	{
-		printf("[%s]-{%s}\n", c->file, printtype(c->type));
-		c = c->next;
-	}
-	exit(0);
-	return (NULL);
+	return (node);
 }

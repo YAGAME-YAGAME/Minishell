@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 21:18:07 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:31:57 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 
 	new = malloc(sizeof(t_cmdarg));
 	if (!new)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		return (NULL);
 	new->strags = node->strags;
 	new->is_builtin = node->is_builtin;
 	new->input = node->input;
@@ -63,6 +60,21 @@ void	free_node(t_cmdarg *node)
 	}
 }
 
+void	ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new)
+{
+	t_cmdarg	*tmp;
+
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = *lst;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
 t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
@@ -74,14 +86,30 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	node = get_next_node(token_list);
 	while (node)
 	{
-		// if (node)
-		// 	ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
-		// if (node && node->strags)
-			// printf("%s\n", node->strags);
-		free_node(node);
+		if (node)
+			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
 		node = get_next_node(token_list);
 	}
 	return (cmdarg_list);
+}
+
+void	printcmd_list(t_cmdarg *cmdarg_list)
+{
+	t_cmdarg	*tmp;
+
+	tmp = cmdarg_list;
+	printf("\nCMD Parser:\n");
+	while (tmp)
+	{
+		printf("-------------------------------------\n");
+		printf("Command: [%s]\n", tmp->strags);
+		if (tmp->input)
+			printredi(tmp->input);
+		if (tmp->output)
+			printredi(tmp->output);
+		tmp = tmp->next;
+		printf("-------------------------------------\n");
+	}
 }
 
 void	minishell(char *input, t_list *minienv)
@@ -98,8 +126,9 @@ void	minishell(char *input, t_list *minienv)
 	ft_builtins(input, minienv);
 	token_list = ft_strtok(input);
 	ft_check_syntax(token_list);
-	// print_tokenlist(token_list);
+	print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list, minienv);
+	printcmd_list(cmdarg_list);
 	ft_free_tokenlist(token_list);
 }
 

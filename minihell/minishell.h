@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/09 17:09:37 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:20:28 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ bool		ft_is_duplicated(t_lexer *lexer, char op[3]);
 void		ft_print_env(t_list *minienv);
 void		print_tokenlist(t_token *token_list);
 char		*printtype(t_token_type type);
+void		printredi(t_redi_list *redi);
+void		printcmd_list(t_cmdarg *cmdarg_list);
 
 void		ft_free_tokenlist(t_token *token_list);
 void		free_token(t_token *token);
