@@ -59,10 +59,14 @@ $(LIBFT):
 	@sleep 1
 
 clean:
+	@echo "$(MAGENTA)Cleaning minishell objects ...$(DEF_COLOR)"
 	@$(RM) $(OBJS)
 	@make -C ./libft clean
+	@echo "$(MAGENTA)Cleaning libft objects ...$(DEF_COLOR)"
 
 fclean: clean
+	@echo "$(RED)Cleaning $(LIBFT) ...$(DEF_COLOR)"
+	@echo "$(RED)Cleaning $(NAME) and $(TARGET) ...$(DEF_COLOR)"
 	@$(RM) $(NAME) $(TARGET)
 	@make -C ./libft fclean
 
