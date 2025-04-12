@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/10 18:31:57 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:01:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 
 	cmdarg_list = NULL;
 	token_list->current = token_list;
-	node = get_next_node(token_list);
+	node = get_next_node(token_list, minienv);
 	while (node)
 	{
 		if (node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
-		node = get_next_node(token_list);
+		node = get_next_node(token_list, minienv);
 	}
 	return (cmdarg_list);
 }
@@ -144,9 +144,9 @@ int	main(int ac, char **av, char **env)
 	else
 	{
 		printf(GREEN"Welcome to the Minishell!\n"RESET);
-		minienv = ft_envinit(env);
 		while (1)
 		{
+			minienv = ft_envinit(env);
 			cwd = ft_getcwd();
 			input = readline(cwd);
 			minishell(input, minienv);

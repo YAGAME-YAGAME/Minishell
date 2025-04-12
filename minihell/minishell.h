@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/10 17:20:28 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/12 19:00:04 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,9 @@ void		ft_free_tokenlist(t_token *token_list);
 void		free_token(t_token *token);
 
 bool		ft_isredi(t_token *token);
-void		ft_parse_word(t_cmdarg **node, t_token *token_list);
-t_cmdarg	*get_next_node(t_token *token_list);
+void		ft_parse_word(t_cmdarg **node, t_token *token_list, t_list *minienv);
+t_cmdarg	*get_next_node(t_token *token_list, t_list *minienv);
 t_cmdarg	*ft_newnode(t_cmdarg *node);
+void		ft_expand_vars(char **value, t_list *minienv);
 
 #endif

@@ -1,0 +1,12 @@
+Makefile
+builtins
+libft
+minishell
+minishell.a
+minishell.c
+minishell.h
+minishell.o
+o1
+o2
+o3
+parsing
