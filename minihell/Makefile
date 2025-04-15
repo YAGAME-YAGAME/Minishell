@@ -13,7 +13,7 @@ SRCS=	$(TARGET).c \
 	./parsing/tokens.c \
 	./parsing/printers.c \
 	./parsing/parser.c \
-
+	./parsing/varexp.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

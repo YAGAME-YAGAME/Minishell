@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/10 17:28:06 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 13:58:39 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	ft_print_env(t_list *minienv)
 			printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
+	printf(RESET"\n"RESET);
 }

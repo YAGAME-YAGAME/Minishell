@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/12 19:00:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 13:51:25 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_token		*ft_handle_word(t_lexer *lexer);
 t_token		*ft_handle_operator(t_lexer *lexer);
 t_token		*ft_handle_quotes(t_lexer *lexer, char quote_char);
 
-t_token		*ft_strtok(char *input);
+t_token		*ft_strtok(char *input, t_list *minienv);
 t_lexer		*ft_lexer_init(char *input);
 t_token		*get_next_token(t_lexer *lexer);
 t_token		*ft_newtok(t_token *token);
@@ -144,6 +144,11 @@ bool		ft_isredi(t_token *token);
 void		ft_parse_word(t_cmdarg **node, t_token *token_list, t_list *minienv);
 t_cmdarg	*get_next_node(t_token *token_list, t_list *minienv);
 t_cmdarg	*ft_newnode(t_cmdarg *node);
-void		ft_expand_vars(char **value, t_list *minienv);
+void		ft_expand_variables(char **value, t_list *minienv);
+ssize_t		ft_dollar_pos(char *str);
+int			ft_get_var_length(char *str);
+char		*ft_getenv(char *var, t_list *minienv);
+char		*ft_strjoin_free(char *s1, char *s2);
+char		*ft_getvar(char *var, t_list *minienv);
 
 #endif

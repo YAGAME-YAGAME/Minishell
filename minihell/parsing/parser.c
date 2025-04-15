@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/12 18:58:47 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:04:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list, t_list *minienv)
 {
 	char	*tmp;
 
-	ft_expand_vars(&token_list->current->value, minienv);
 	tmp = (*node)->strags;//point on the old cmdargs
 	(*node)->strags = ft_strjoin((*node)->strags, token_list->current->value);//join the new word
 	free(tmp);//free the old
@@ -112,86 +111,10 @@ void	ft_parse_squote(t_cmdarg **node, t_token *token_list)
 	free(tmp);
 }
 
-ssize_t	ft_find_dollar(char *str)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-ssize_t	ft_find_space(char *str, ssize_t dollar_pos)
-{
-	ssize_t	i;
-
-	i = dollar_pos;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-char	*ft_getenv(char *var, t_list *minienv)
-{
-	t_list	*tmp;
-
-	tmp = minienv;
-	while (tmp)
-	{
-		if (ft_strncmp(var, tmp->key, ft_strlen(var)) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char	*ft_getvar(char *str, ssize_t dollar_pos, t_list *minienv)
-{
-	char	*var;
-	char	*value;
-
-	var = ft_substr(str, dollar_pos + 1, ft_find_space(str, dollar_pos + 1));
-	value = ft_getenv(var, minienv);
-	free(var);
-	if (!value)
-	{
-		value = ft_strdup("");
-		return (value);
-	}
-	return (value);
-}
-
-void	ft_expand_vars(char **value, t_list *minienv)
-{
-	char	*tmp;
-	char	*tmp1;
-	char	*expanded_value;
-	ssize_t	dollar_pos;
-
-	dollar_pos = ft_find_dollar(*value);
-	tmp = *value;
-	expanded_value = ft_substr(*value, 0, dollar_pos);// expanded_value = [0..$-1]
-	tmp1 = expanded_value;
-	expanded_value = ft_strjoin(expanded_value, ft_getvar(*value, dollar_pos, minienv));
-	free(tmp1);
-	*value = expanded_value;
-	free(tmp);
-}
-
 void	ft_parse_dquote(t_cmdarg **node, t_token *token_list, t_list *minienv)
 {
 	char	*tmp;
 
-	ft_expand_vars(&token_list->current->value, minienv);
 	tmp = (*node)->strags;
 	(*node)->strags = ft_strjoin((*node)->strags, "\"");
 	free(tmp);

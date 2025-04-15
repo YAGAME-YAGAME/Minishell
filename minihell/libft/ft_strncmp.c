@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 20:29:11 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/05 15:48:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 12:13:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,16 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			break ;
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
