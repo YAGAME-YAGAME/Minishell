@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/15 20:27:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 21:11:53 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	cmd_path = check_exec(cmd[0], env);
 	if(!cmd_path)
 	{
-		  perror("command not found\n");
-		  exit(EXIT_FAILURE);
+		perror("command not found\n");
+		exit(EXIT_FAILURE);
 	}
 	char **envp = NULL;
 	envp = get_env(env);

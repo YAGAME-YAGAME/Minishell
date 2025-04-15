@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/14 20:10:02 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/15 21:12:42 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ char	*check_exec(char *p, t_list *env)
 	char	**path_cmd;
 
 	full_path = NULL;
+	if (*p == '/' || *p == '.')
+	{
+		if (access(p, X_OK) == 0)
+			return (ft_strdup(p));
+		else
+			return (NULL);
+	}
 	path = find_path(env);
 	if (!path)
 		return (NULL);
