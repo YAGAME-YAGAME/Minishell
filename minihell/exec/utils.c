@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:58:34 by codespace         #+#    #+#             */
-/*   Updated: 2025/04/14 19:04:34 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/15 20:39:07 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,10 @@ char **get_env(t_list *env)
 	envp[i] = NULL;
 	return (envp);
 }
+
+/*
+how to unset tmp:
+tmp->next->prev = tmp->prev;
+tmp->prev->next = tmp->next;
+free(tmp);
+*/
