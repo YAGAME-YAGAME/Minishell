@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:18:40 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 15:37:57 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:24:53 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	ft_isredi(t_token *token)
 		|| token->type == HEREDOC || token->type == APPEND);
 }
 
-t_redi_list	*ft_redinew(t_token *token)
+t_redi_list	*ft_redinew(t_token *token, bool expand)
 {
 	t_redi_list	*new;
 
@@ -27,6 +27,7 @@ t_redi_list	*ft_redinew(t_token *token)
 		return (NULL);
 	new->type = token->type;
 	new->file = token->next->value;
+	new->expand = expand;
 	new->next = NULL;
 	return (new);
 }

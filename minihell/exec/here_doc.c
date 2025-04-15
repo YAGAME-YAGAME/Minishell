@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/15 20:16:08 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:28:22 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	init_redi_file(t_cmdarg *shell)
 	}
 }
 
-void	open_here_doc(t_redi_list *heredoc)
+void	open_here_doc(t_redi_list *heredoc, t_list *env)
 {
 	char *line;
 	char *content;
@@ -54,6 +54,8 @@ void	open_here_doc(t_redi_list *heredoc)
 	{
 		write(1 ,"here_doc >> ", 12);
 		line = get_next_line(0);
+		if (heredoc->expand)
+			ft_expand_variables(&line, env);
 		if(ft_strncmp(line , delimiter, ft_strlen(delimiter)) == 0)
 			break;
 		if(heredoc->is_last)
@@ -65,7 +67,7 @@ void	open_here_doc(t_redi_list *heredoc)
 	free(line);
 }
 
-void	check_here_doc(t_cmdarg *shell)
+void	check_here_doc(t_cmdarg *shell, t_list *env)
 {
 	t_cmdarg *tmp;
 	t_redi_list *in;
@@ -79,7 +81,7 @@ void	check_here_doc(t_cmdarg *shell)
 		while (in)
 		{
 			if(in->type == HEREDOC)
-				open_here_doc(in);
+				open_here_doc(in, env);
 			in = in->next;
 		}
 		tmp = tmp->next;
