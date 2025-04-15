@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:39:35 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:40:16 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ void	minishell(char *input, t_list *minienv)
 	ft_free_cmdlist(cmdarg_list);
 }
 
-// void	leak_check(void)
-// {
-// 	system("leaks -q minishell");
-// }
+void	leak_check(void)
+{
+	system("leaks -q minishell");
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -107,7 +107,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*cwd;
 
-	// atexit(leak_check);
+	atexit(leak_check);
 	(void)av;
 	if (ac != 1)
 		return (perror(YELLOW"Error: No arguments expected"RESET), 1);

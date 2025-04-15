@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:16:03 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:42:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	ft_free_redi_list(t_redi_list *redi)
 	{
 		tmp = redi;
 		redi = redi->next;
-		free(tmp->file);
 		free(tmp);
 	}
 }
