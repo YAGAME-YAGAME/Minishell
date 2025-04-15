@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/07 20:12:29 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:53:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,26 @@ for matching `\"'"RESET), NULL);
 	return (token);
 }
 
+void	ft_set_token_type(t_token *token, int op_len, char *op)
+{
+	if (op_len == 2)
+	{
+		if (op[0] == '>')
+			token->type = APPEND;
+		else
+			token->type = HEREDOC;
+	}
+	else if (op[0] == '|')
+		token->type = PIPE;
+	else
+	{
+		if (op[0] == '>')
+			token->type = OUTPUT;
+		else
+			token->type = INPUT;
+	}
+}
+
 t_token	*ft_handle_operator(t_lexer *lexer)
 {
 	char	op[3];
@@ -56,14 +76,12 @@ t_token	*ft_handle_operator(t_lexer *lexer)
 		op_len = 2;
 	}
 	token = (t_token *)malloc(sizeof(t_token));
-	if (!token || !(token->value = ft_strdup(op)))//FIXME:Assignment in control structure
+	if (!token)
 		return (NULL);
-	if (op_len == 2)
-		token->type = (op[0] == '>') ? APPEND : HEREDOC;//FIXME:Ternaries are forbidden
-	else if (op[0] == '|')
-		token->type = PIPE;
-	else
-		token->type = (op[0] == '>') ? OUTPUT : INPUT;
+	token->value = ft_strdup(op);
+	if (!token->value)
+		return (free(token), NULL);
+	ft_set_token_type(token, op_len, op);
 	token->quote_type = '\0';
 	lexer->pos += op_len;
 	return (token);

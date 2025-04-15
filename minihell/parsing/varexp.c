@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 13:36:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:41:10 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ void	ft_expand_variables(char **value, t_list *minienv)
 	dollar_pos = ft_dollar_pos(*value);
 	while (dollar_pos != -1)
 	{
-		var = ft_substr(*value, dollar_pos + 1, ft_get_var_length(*value + dollar_pos + 1));//done
-		expanded = ft_getvar(var, minienv);//done
+		var = ft_substr(*value, dollar_pos + 1,
+				ft_get_var_length(*value + dollar_pos + 1));
+		expanded = ft_getvar(var, minienv);
 		free(var);
 		temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
-		temp2 = ft_substr(*value, dollar_pos + ft_get_var_length(*value + dollar_pos + 1) + 1, ft_strlen(*value));
+		temp2 = ft_substr(*value,
+				dollar_pos + ft_get_var_length(*value + dollar_pos + 1) + 1,
+				ft_strlen(*value));
 		*value = ft_strjoin_free(temp, temp2);
 		free(temp2);
 		dollar_pos = ft_dollar_pos(*value);

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:02:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 14:09:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:38:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
-t_token	*get_next_token(t_lexer *lexer)
+t_token	*ft_get_next_token(t_lexer *lexer)
 {
 	char	current_char;
 

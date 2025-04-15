@@ -14,6 +14,8 @@ SRCS=	$(TARGET).c \
 	./parsing/printers.c \
 	./parsing/parser.c \
 	./parsing/varexp.c \
+	./parsing/nodes.c \
+	./parsing/redirection.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

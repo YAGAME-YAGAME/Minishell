@@ -6,13 +6,13 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 13:58:39 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:20:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*printtype(t_token_type type)
+char	*ft_printtype(t_token_type type)
 {
 	if (type == WORD)
 		return ("WORD");
@@ -33,7 +33,7 @@ char	*printtype(t_token_type type)
 	return ("UNKNOWN");
 }
 
-void	print_tokenlist(t_token *token_list)
+void	ft_print_tokenlist(t_token *token_list)
 {
 	t_token	*tmp;
 
