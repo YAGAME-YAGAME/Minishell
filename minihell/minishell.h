@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:13:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:42:07 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct s_redi_list
 {
 	t_token_type		type;
 	char				*file;
+	char				*content;
+	bool				is_last;
 	struct s_redi_list	*next;
 }	t_redi_list;
 
@@ -154,5 +156,20 @@ void		ft_parse_squote(t_cmdarg **node, t_token *token_list);
 void		ft_parse_dquote(t_cmdarg **node, t_token *token_list);
 void		ft_free_cmdlist(t_cmdarg *cmdarg_list);
 void		ft_free_node(t_cmdarg *node);
+
+
+void		check_here_doc(t_cmdarg *shell);
+void		execution(t_cmdarg *shell, t_list *env);
+int			count(char *s, char p);
+void		free_all(char **bf, int j);
+void		ft_error(char *message);
+char		**parsing_split(char *s, char p);
+char		*find_path( t_list *path);
+char		*check_exec(char *p, t_list *env);
+void		ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd);
+char		**get_env(t_list *env);
+char		*get_next_line(int fd);
+char		*my_strjoin(char *s1, char *s2);
+char		*my_strdup(const char *s1);
 
 #endif

@@ -16,6 +16,14 @@ SRCS=	$(TARGET).c \
 	./parsing/varexp.c \
 	./parsing/nodes.c \
 	./parsing/redirection.c \
+	./exec/parsing_split.c \
+	./exec/utils.c \
+	./exec/run_cmd.c \
+	./exec/execution.c \
+	./exec/ft_error.c \
+	./exec/here_doc.c \
+	./exec/gnl/gnl.c \
+	./exec/gnl/gnl_utils.c \
 
 RM = rm -rf
 NAME = $(TARGET).a
