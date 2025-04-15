@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 19:42:07 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:26:24 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_redi_list
 	char				*file;
 	char				*content;
 	bool				is_last;
+	bool				expand;
 	struct s_redi_list	*next;
 }	t_redi_list;
 
@@ -150,7 +151,7 @@ char		*ft_getvar(char *var, t_list *minienv);
 void		ft_free_redi_list(t_redi_list *redi);
 void		ft_rediradd(t_redi_list **redi, t_redi_list *new);
 
-t_redi_list	*ft_redinew(t_token *token);
+t_redi_list	*ft_redinew(t_token *token, bool expand);
 void		ft_parse_redi(t_cmdarg **node, t_token *token_list);
 void		ft_parse_squote(t_cmdarg **node, t_token *token_list);
 void		ft_parse_dquote(t_cmdarg **node, t_token *token_list);
@@ -158,7 +159,7 @@ void		ft_free_cmdlist(t_cmdarg *cmdarg_list);
 void		ft_free_node(t_cmdarg *node);
 
 
-void		check_here_doc(t_cmdarg *shell);
+void		check_here_doc(t_cmdarg *shell, t_list *env);
 void		execution(t_cmdarg *shell, t_list *env);
 int			count(char *s, char p);
 void		free_all(char **bf, int j);
