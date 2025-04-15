@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:40:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:20:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_cmdarg	*ft_parser(t_token *token_list)
 	t_cmdarg	*cmdarg_list;
 	t_cmdarg	*node;
 
+	if (!token_list)
+		return (NULL);
 	cmdarg_list = NULL;
 	token_list->current = token_list;
 	node = ft_get_next_node(token_list);
@@ -48,8 +50,10 @@ t_cmdarg	*ft_parser(t_token *token_list)
 	{
 		if (node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
+		free(node);
 		node = ft_get_next_node(token_list);
 	}
+	free(node);
 	return (cmdarg_list);
 }
 
@@ -89,17 +93,17 @@ void	minishell(char *input, t_list *minienv)
 	ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
 	ft_check_syntax(token_list);
-	ft_print_tokenlist(token_list);
+	// ft_print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
 
-void	leak_check(void)
-{
-	system("leaks -q minishell");
-}
+// void	leak_check(void)
+// {
+// 	system("leaks -q minishell");
+// }
 
 int	main(int ac, char **av, char **env)
 {
@@ -107,7 +111,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*cwd;
 
-	atexit(leak_check);
+	// atexit(leak_check);
 	(void)av;
 	if (ac != 1)
 		return (perror(YELLOW"Error: No arguments expected"RESET), 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 15:18:07 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:24:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_cmdarg	*ft_get_next_node(t_token *token_list)
 
 	node = ft_init_node();
 	if (!token_list->current)
-		return (NULL);
+		return (free(node), NULL);
 	if (token_list->current->type == PIPE)
 		token_list->current = token_list->current->next;
 	while (token_list->current && token_list->current->type != PIPE)

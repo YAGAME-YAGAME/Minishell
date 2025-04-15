@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strtok.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:08:28 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 15:27:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:14:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_token	*ft_strtok(char *input, t_list *minienv)
 		ft_free_token(token);
 		token = ft_get_next_token(lexer);
 	}
+	free(lexer);
 	return (token_list);
 }
