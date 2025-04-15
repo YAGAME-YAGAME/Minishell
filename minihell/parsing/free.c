@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:45:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:45:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_free_cmdlist(t_cmdarg *cmdarg_list)
 		tmp = cmdarg_list;
 		cmdarg_list = cmdarg_list->next;
 		ft_free_node(tmp);
-		free(tmp);
 	}
 }
 
