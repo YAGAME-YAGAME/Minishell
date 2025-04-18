@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:21:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/08 11:06:55 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:27:05 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_list	*ft_envinit(char **env)
 	int		i;
 
 	minienv = NULL;
+	if (!env)
+		return (minienv);
 	i = 0;
 	while (env[i])
 	{

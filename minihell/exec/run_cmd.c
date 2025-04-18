@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/15 21:11:53 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:22:45 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-void	handle_execution(t_cmdarg *current_cmd, t_list *env)
+int	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char **cmd;
 	char *cmd_path;
@@ -22,45 +22,48 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	cmd_path = check_exec(cmd[0], env);
 	if(!cmd_path)
 	{
-		perror("command not found\n");
-		exit(EXIT_FAILURE);
+		write(2, "command not found\n", 18);
+		return (0);
 	}
 	char **envp = NULL;
 	envp = get_env(env);
 	if(execve(cmd_path, cmd, envp) == -1)
 	{
-		perror("execve failure\n");
+		write(2, "execve failure\n", 15);
 		free(cmd_path);
 		free(envp);
-		exit(EXIT_FAILURE);
+		return (0);
 	}
+	return (1);
 }
 
-void	handle_heredoc(t_redi_list *input)
+int	handle_heredoc(t_redi_list *input)
 {
 	int	heredoc_fd[2];
 
 	if(pipe(heredoc_fd) == -1)
 	{
 		perror("pipe failure\n");
-		exit(EXIT_FAILURE);
+		return (0);
 	}
 	write(heredoc_fd[1], input->content, ft_strlen(input->content));
 	close(heredoc_fd[1]);
 	dup2(heredoc_fd[0], STDIN_FILENO);
 	close(heredoc_fd[0]);
 	free(input->content);
+	return (1);
 }
 
-void handel_append(t_redi_list *output)
+int handel_append(t_redi_list *output)
 {
 	int out_fd;
 
 	out_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(out_fd == -1)
 	{
-		perror("output file not found\n");
-		exit(EXIT_FAILURE);
+		write(2, "output file not found\n", 22);
+		return (0);
+		
 	}
 	if(output->is_last)
 	{
@@ -69,9 +72,10 @@ void handel_append(t_redi_list *output)
 	}
 	else
 		close(out_fd);
+	return (1);
 }
 
-void	handle_output(t_redi_list *output)
+int	handle_output(t_redi_list *output)
  {
 	int out_fd;
 
@@ -82,9 +86,11 @@ void	handle_output(t_redi_list *output)
 			out_fd = open(output->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if(out_fd == -1)
 			{
-				perror("output file not found\n");
-				exit(EXIT_FAILURE);
+				write(2, output->file, ft_strlen(output->file));
+				write(2, " : failure to open\n", 19);
+				return (0);
 			}
+			
 			if(output->is_last)
 			{
 				dup2(out_fd, STDOUT_FILENO);
@@ -94,13 +100,14 @@ void	handle_output(t_redi_list *output)
 				close(out_fd);
 		}
 		if(output->type == APPEND)
-			handel_append(output);
+			if(!handel_append(output))
+				return (0);
 		output = output->next;
 	}
+	return (1);
  }
-
-
-void handle_input(t_redi_list *input)
+ 
+int handle_input(t_redi_list *input)
 {
 	int in_fd;
 
@@ -111,27 +118,34 @@ void handle_input(t_redi_list *input)
 			in_fd = open(input->file, O_RDONLY);
 			if(in_fd == -1)
 			{
-				perror("input file not found\n");
-				exit(EXIT_FAILURE);
+				write(2, input->file, strlen(input->file));
+				write(2, ": No such file or directory\n", 28);
+				return (0);
 			}
 			if(input->is_last)
 			{
-				printf("is last redirection : %s\n", input->file);
+				// printf("is last redirection : %s\n", input->file);
 				dup2(in_fd, STDIN_FILENO);
+				printf("input : %d\n", in_fd);
 				close(in_fd);
 			}
 			else
 				close(in_fd);
 		}
 		if(input->type == HEREDOC && input->content)
-			handle_heredoc(input);
+			if(!handle_heredoc(input))
+				return (0);
 		input = input->next;
 	}
+	return (1);
 }
 // =====================/ end handle input redirection /========================//
 
-void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
+int	 ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
+	int fd_in;
+	int fd_out;
+	
 	if(tmp_in != 0)
 	{
 		dup2(tmp_in, STDIN_FILENO);
@@ -142,7 +156,13 @@ void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 		dup2(p_fd[1], STDOUT_FILENO);
 		close(p_fd[1]);
 	}
-	handle_input(current_cmd->input);
-	handle_output(current_cmd->output);
-	handle_execution(current_cmd, env);
+	fd_in = handle_input(current_cmd->input);
+	if(!fd_in)
+		return (0);
+	fd_out = handle_output(current_cmd->output);
+	if(!fd_out)
+		return (0);
+	if(!handle_execution(current_cmd, env))
+		return (0);
+	return (1);
 }

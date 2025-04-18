@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cwd.c                                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/18 00:59:44 by yagame           ###   ########.fr       */
+/*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
+/*   Updated: 2025/04/18 01:10:34 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_getcwd(void)
+int    ft_unset(char **cmd, t_list *env)
 {
-	char	*cwd;
-	char	*prompt;
-	char	*tmp;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
-		prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
-	else
-		prompt = ft_strjoin("\n[", cwd);
-	free(cwd);
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, GREEN"]\n$>"RESET);
-	free(tmp);
-	return (prompt);
+    t_list *tmp;
+    
+    tmp = NULL;
+    if(cmd[1] == NULL || !env)
+        return (1);
+    tmp = env;
+    while (tmp)
+    {
+        if (ft_strcmp(tmp->key, cmd[1]) == 0)
+        {
+            if (tmp->next)
+                tmp->prev->next = tmp->next;
+            ft_free_list(&tmp);
+            return (1);
+        }
+        tmp = tmp->next;
+    }
+    return (1);
 }

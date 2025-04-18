@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 19:03:12 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/16 22:00:45 by yagame           ###   ########.fr       */
+/*   Created: 2025/04/18 01:09:04 by yagame            #+#    #+#             */
+/*   Updated: 2025/04/18 01:09:10 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-t_list	*ft_lstnew(char *key, char *value)
+int    ft_pwd(char **cmd, char  **env)
 {
-	t_list	*new_node;
+    (void)env;
+    (void)cmd;
+    char cwd[1024];
 
-	new_node = (t_list *)malloc(sizeof(t_list));
-	if (!new_node)
-		return (NULL);
-	new_node ->key = key;
-	new_node -> value = value;
-	new_node -> next = NULL;
-	new_node -> prev = NULL;
-	return (new_node);
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+        printf("%s\n", cwd);
+    else
+        perror("pwd");
+    return (1);
 }

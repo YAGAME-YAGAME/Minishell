@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:35:29 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 12:14:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:25:34 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_list
 {
 	char			*key;
 	char			*value;
+	struct s_list	*prev;
 	struct s_list	*next;
 }	t_list;
 

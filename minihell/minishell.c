@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 21:11:05 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:39:14 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,18 @@ void	minishell(char *input, t_list *minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	ft_builtins(input, minienv);
+	// ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
 	ft_check_syntax(token_list);
 	// ft_print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
-
+	// ft_printcmd_list(cmdarg_list);
 	check_here_doc(cmdarg_list, minienv);
-	execution(cmdarg_list, minienv);
-
+	if(size_list(cmdarg_list) == 1)
+		if (run_built_in(cmdarg_list, minienv, input) == 1)
+			return ;
+	if(!execution(cmdarg_list, minienv))
+		return ;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
@@ -121,17 +123,17 @@ int	main(int ac, char **av, char **env)
 		return (perror(YELLOW"Error: No arguments expected"RESET), 1);
 	else
 	{
-		printf(GREEN"Welcome to the Minishell!\n"RESET);
+		printf(GREEN"Welcome to the Minishell!\n\n"RESET);
+		minienv = ft_envinit(env);
 		while (1)
 		{
-			minienv = ft_envinit(env);
 			cwd = ft_getcwd();
 			input = readline(cwd);
 			minishell(input, minienv);
-			free(cwd);
 			free(input);
-			ft_lstclear(&minienv, free);
+			free(cwd);
 		}
+		ft_lstclear(&minienv, free);
 		return (0);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/15 21:12:42 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:10:35 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	ft_error(char *message)
 	exit(EXIT_FAILURE);
 }
 
+void 	ft_free_list(t_list **list)
+{
+	if (!list || !*list)
+		return ;
+	free((*list)->key);
+	free((*list)->value);
+	free(*list);
+}
 
 char	*find_path(t_list *path)
 {

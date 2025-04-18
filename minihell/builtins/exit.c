@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 19:03:12 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/16 22:00:45 by yagame           ###   ########.fr       */
+/*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
+/*   Updated: 2025/04/18 01:11:39 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-t_list	*ft_lstnew(char *key, char *value)
+void    ft_exit(t_list *env, char *input)
 {
-	t_list	*new_node;
-
-	new_node = (t_list *)malloc(sizeof(t_list));
-	if (!new_node)
-		return (NULL);
-	new_node ->key = key;
-	new_node -> value = value;
-	new_node -> next = NULL;
-	new_node -> prev = NULL;
-	return (new_node);
+    ft_lstclear(&env, free);
+    free(input);
+    exit(0);
 }

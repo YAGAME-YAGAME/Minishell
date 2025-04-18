@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 15:20:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:25:50 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ void	ft_print_env(t_list *minienv)
 	while (current)
 	{
 		if (current->key && current->value)
-			printf("%s=%s\n", current->key, current->value);
+		{
+			printf("%s", current->key);
+			printf("=");
+			printf("%s\n", current->value);
+		}
+			// printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 	printf(RESET"\n"RESET);

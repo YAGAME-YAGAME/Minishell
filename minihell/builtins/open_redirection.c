@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cwd.c                                              :+:      :+:    :+:   */
+/*   open_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/18 00:59:44 by yagame           ###   ########.fr       */
+/*   Created: 2025/04/18 10:30:41 by yagame            #+#    #+#             */
+/*   Updated: 2025/04/18 10:33:27 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_getcwd(void)
+int     handel_output(t_redi_list *output)
 {
-	char	*cwd;
-	char	*prompt;
-	char	*tmp;
-
-	cwd = getcwd(NULL, 0);
-	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
-		prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
-	else
-		prompt = ft_strjoin("\n[", cwd);
-	free(cwd);
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, GREEN"]\n$>"RESET);
-	free(tmp);
-	return (prompt);
+    int fd;
+    
+    fd = -1;
+    while(output)
+    {
+        fd = open(output->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+        if (fd == -1)
+        {
+            perror("Error opening file");
+            return (-1);
+        }
+        if(output->is_last)
+            return (fd);
+        close(fd);
+        output = output->next;
+    }
+    return (-1);
 }
