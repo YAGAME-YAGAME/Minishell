@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/19 18:59:42 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:43:11 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void		ft_free_cmdlist(t_cmdarg *cmdarg_list);
 void		ft_free_node(t_cmdarg *node);
 
 
+//--exec
 void		check_here_doc(t_cmdarg *shell, t_list *env);
 int			execution(t_cmdarg *shell, t_list *env);
 int			count(char *s, char p);
@@ -196,6 +197,7 @@ int    		ft_export(char **cmd, t_list **env);
 int    		ft_clear();
 int 		is_builtin(char *cmd);
 void    	free_dp(char **cmd);
+int 		remove_env_node(t_list **env_list, t_list *node);
 
 
 #endif

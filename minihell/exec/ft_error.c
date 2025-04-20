@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/16 19:10:35 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/20 20:35:57 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void 	ft_free_list(t_list **list)
 {
 	if (!list || !*list)
 		return ;
-	free((*list)->key);
-	free((*list)->value);
+	if((*list)->key)
+		free((*list)->key);
+	if((*list)->value)
+		free((*list)->value);
 	free(*list);
 }
 
