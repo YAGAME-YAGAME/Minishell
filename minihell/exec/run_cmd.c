@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/18 17:22:45 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/19 17:27:23 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ int handle_input(t_redi_list *input)
 			{
 				// printf("is last redirection : %s\n", input->file);
 				dup2(in_fd, STDIN_FILENO);
-				printf("input : %d\n", in_fd);
 				close(in_fd);
 			}
 			else

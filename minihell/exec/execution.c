@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/18 16:12:30 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/19 00:08:14 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,25 @@ int	execution(t_cmdarg *shell, t_list *env)
 		}
 		if(pid == 0)
 		{
-			// Child process
 			if(current_cmd->next)
-				close(pip_fd[0]); // Close unused read end in child
+				close(pip_fd[0]); 
 			if(!(ft_child(current_cmd, env, tmp_in, pip_fd)))
 				return (0);
 		}
 		else
 		{
-			// Parent process
 			if(tmp_in != 0)
-				close(tmp_in); // Close previous input in parent
+				close(tmp_in);
 			if(current_cmd->next)
 			{
-				close(pip_fd[1]); // Close unused write end in parent
-				tmp_in = pip_fd[0]; // Save read end for the next command
+				close(pip_fd[1]);
+				tmp_in = pip_fd[0];
 			}
 		}
 		current_cmd = current_cmd->next;
 	}
 	while(wait(&status) > 0)
-		; // Wait for all child processes to finish
+		; 
 	return (1);
 }
 

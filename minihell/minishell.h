@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/18 23:11:00 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/19 18:59:42 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct s_redi_list
 	char				*file;
 	char				*content;
 	bool				is_last;
+	int 				tmp_fd;
+	int 				original_fd;
 	bool				expand;
 	struct s_redi_list	*next;
 }	t_redi_list;
@@ -180,15 +182,20 @@ void    	ft_update_path(t_list *env, char *new_path);
 int   		run_built_in(t_cmdarg *shell, t_list *env, char *input);
 int 		handle_input(t_redi_list *input);
 int 		handle_output(t_redi_list *output);
+int 		check_builtin(t_cmdarg *cmdarg_list, t_list *minienv, char *input);
+char 		**handel_quote(char **cmd);
+
 
 int    		ft_echo(char **cmd, t_cmdarg*env);
-int    		ft_pwd(char **cmd, char  **env);
+int    		ft_pwd(char **cmd, t_list *env);
 int    		ft_unset(char **cmd, t_list *env);
 void    	ft_exit(t_list *env, char *input);
 int    		ft_cd(char **cmd, t_list *env);
 int    		ft_env(t_list *env);
 int    		ft_export(char **cmd, t_list **env);
-int    		ft_clear(char **cmd, char  **env);
+int    		ft_clear();
+int 		is_builtin(char *cmd);
+void    	free_dp(char **cmd);
 
 
 #endif

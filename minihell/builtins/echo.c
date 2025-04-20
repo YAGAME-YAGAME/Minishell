@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:08:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/18 23:12:10 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/19 19:58:24 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char    *ft_join_arg(char **cmd, int i)
 
 void ft_print_echo(char *tmp, int n_flag)
 {
-    if (n_flag == 0)
+    if (!n_flag)
     {
         ft_putendl_fd(tmp, 1);
         ft_putstr_fd("\n", 1);
@@ -73,9 +73,10 @@ int    ft_echo(char **cmd, t_cmdarg *shell)
 
     while (cmd[i] && ft_strncmp(cmd[i], "-n", 2) == 0)
     {
-        if(only_n(cmd[i]))
-            n_flag = 1;
-        i++;
+        if(!only_n(cmd[i]))
+            break;
+        n_flag = 1;
+        i++;   
     }
     tmp = ft_join_arg(cmd, i);
     ft_print_echo(tmp, n_flag);

@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 01:09:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/19 18:05:30 by yagame           ###   ########.fr       */
+/*   Created: 2025/04/19 18:19:52 by yagame            #+#    #+#             */
+/*   Updated: 2025/04/19 18:20:10 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int    ft_pwd(char **cmd, t_list *env)
+char **handel_quote(char **cmd)
 {
-    (void)env;
-    (void)cmd;
-    char cwd[1024];
+    char **trim;
+    int i;
 
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        printf("%s\n", cwd);
-    else
-        perror("pwd");
-    return (1);
+    i = 0;
+    while(cmd[i])
+        i++;
+    trim = malloc(sizeof(char *) * (i + 1));
+    if (!trim)
+        return (NULL);
+    i = 0;
+    while (cmd[i])
+    {
+        trim[i] = ft_strtrim(cmd[i], "\"");
+        if (!trim[i])
+            return (NULL);
+        i++;
+    }
+    trim[i] = NULL;
+    free_dp(cmd);
+    return (trim);
 }
