@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/20 20:43:11 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:43:48 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_cmdarg
 }	t_cmdarg;
 
 t_list		*ft_envinit(char **env);
-char		*ft_getcwd(void);
+char		*ft_getcwd(t_list *env);
 void		ft_builtins(char *input, t_list *minienv);
 t_token		*ft_handle_word(t_lexer *lexer);
 t_token		*ft_handle_operator(t_lexer *lexer);
@@ -179,7 +179,7 @@ void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
 
 //--builtins 
-void    	ft_update_path(t_list *env, char *new_path);
+void    	ft_update_path(t_list *env, char *new_path, char *old_path);
 int   		run_built_in(t_cmdarg *shell, t_list *env, char *input);
 int 		handle_input(t_redi_list *input);
 int 		handle_output(t_redi_list *output);

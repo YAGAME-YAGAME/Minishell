@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:55:24 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/20 22:49:02 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/21 20:18:41 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int    run_built_in(t_cmdarg *shell, t_list *env, char *input)
 {
     char **cmd;
     
-    printf("%s\n", shell->strags);
-    exit(0);
     cmd = handel_quote(parsing_split(shell->strags, ' '));
     if(cmd == NULL)
         return (1);

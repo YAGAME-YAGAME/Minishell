@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/20 02:38:59 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/21 18:37:47 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	main(int ac, char **av, char **env)
 		minienv = ft_envinit(env);
 		while (1)
 		{
-			cwd = ft_getcwd();
+			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
 			minishell(input, minienv);
 			free(input);
@@ -135,4 +135,5 @@ int	main(int ac, char **av, char **env)
 		ft_lstclear(&minienv, free);
 		return (0);
 	}
+	ft_free_list(&minienv);
 }
