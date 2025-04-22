@@ -6,11 +6,21 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/21 18:37:47 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:44 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+
+void handle_sigint(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+}
 
 void	ft_check_syntax(t_token *token_list)
 {
@@ -95,7 +105,7 @@ void	minishell(char *input, t_list *minienv)
 	ft_check_syntax(token_list);
 	// ft_print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list);
-	// ft_printcmd_list(cmdarg_list);
+	ft_printcmd_list(cmdarg_list);
 	check_here_doc(cmdarg_list, minienv);
 	if(check_builtin(cmdarg_list, minienv, input) == 1)
 		return ;
@@ -116,6 +126,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*cwd;
 
+	signal(SIGINT, handle_sigint); // Handle Ctrl+C
 	// atexit(leak_check);
 	(void)av;
 	if (ac != 1)

@@ -1,7 +1,7 @@
 TARGET = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-MINIFLAGS = -lreadline
+CFLAGS = -Wall -Wextra -Werror -I/usr/local/opt/readline/include
+MINIFLAGS =  -lreadline -L/usr/local/opt/readline/lib 
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
 	./parsing/env.c \

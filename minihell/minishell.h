@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/21 20:43:48 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/22 07:17:56 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,15 @@
 # define MAGENTA "\033[0;35m"
 # define CYAN "\033[0;36m"
 # define RESET "\033[0m"
+
+
+// Global variable for signal handling
+extern int g_signal_received;
+
+// Signal handling and readline functions
+void    handle_sigint(int sig);
+void    setup_signals(void);
+void    init_readline(void);
 
 //--libft functions
 # include "libft/libft.h"
