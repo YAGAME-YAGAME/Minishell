@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 21:11:05 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:46:44 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+
+void handle_sigint(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+}
 
 void	ft_check_syntax(t_token *token_list)
 {
@@ -90,16 +100,17 @@ void	minishell(char *input, t_list *minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	ft_builtins(input, minienv);
+	// ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
 	ft_check_syntax(token_list);
 	// ft_print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list);
 	ft_printcmd_list(cmdarg_list);
-
 	check_here_doc(cmdarg_list, minienv);
-	execution(cmdarg_list, minienv);
-
+	if(check_builtin(cmdarg_list, minienv, input) == 1)
+		return ;
+	if(!execution(cmdarg_list, minienv))
+		return ;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
@@ -115,23 +126,25 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*cwd;
 
+	signal(SIGINT, handle_sigint); // Handle Ctrl+C
 	// atexit(leak_check);
 	(void)av;
 	if (ac != 1)
 		return (perror(YELLOW"Error: No arguments expected"RESET), 1);
 	else
 	{
-		printf(GREEN"Welcome to the Minishell!\n"RESET);
+		printf(GREEN"Welcome to the Minishell!\n\n"RESET);
+		minienv = ft_envinit(env);
 		while (1)
 		{
-			minienv = ft_envinit(env);
-			cwd = ft_getcwd();
+			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
 			minishell(input, minienv);
-			free(cwd);
 			free(input);
-			ft_lstclear(&minienv, free);
+			free(cwd);
 		}
+		ft_lstclear(&minienv, free);
 		return (0);
 	}
+	ft_free_list(&minienv);
 }

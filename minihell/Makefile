@@ -1,7 +1,7 @@
 TARGET = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-MINIFLAGS = -lreadline
+CFLAGS = -Wall -Wextra -Werror -I/usr/local/opt/readline/include
+MINIFLAGS =  -lreadline -L/usr/local/opt/readline/lib 
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
 	./parsing/env.c \
@@ -24,6 +24,16 @@ SRCS=	$(TARGET).c \
 	./exec/here_doc.c \
 	./exec/gnl/gnl.c \
 	./exec/gnl/gnl_utils.c \
+	./builtins/builtin.c \
+	./builtins/cd.c \
+	./builtins/echo.c \
+	./builtins/env.c \
+	./builtins/exit.c \
+	./builtins/export.c \
+	./builtins/pwd.c \
+	./builtins/unset.c \
+	./builtins/handle_builtin_redi.c \
+	./builtins/utils.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

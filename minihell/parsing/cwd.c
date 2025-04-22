@@ -3,24 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 14:00:29 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/22 08:10:37 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_getcwd(void)
+char 	*ft_get_pwd(t_list *env)
+{
+	t_list	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, "PWD") == 0)
+			return (ft_strdup(tmp->value));
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char	*ft_getcwd(t_list *env)
 {
 	char	*cwd;
 	char	*prompt;
 	char	*tmp;
 
-	cwd = getcwd(NULL, 0);
+	cwd = ft_get_pwd(env);
+	
 	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
-		prompt = ft_strjoin(CYAN"\n[~", cwd + ft_strlen(getenv("HOME")));
+		prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
 	else
 		prompt = ft_strjoin("\n[", cwd);
 	free(cwd);

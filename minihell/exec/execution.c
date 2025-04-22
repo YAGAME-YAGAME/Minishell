@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/15 17:48:30 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/19 00:08:14 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,30 @@ int		size_list(t_cmdarg *node)
 	}
 	return (i);
 }
-int		handel_built_in(t_cmdarg *shell, t_list *env)
-{
-	(void)shell;
-	(void)env;
-	printf("wait to handel built_in command here\n");
-	// t_cmdarg *tmp;
-	// char 	 **cmd;
-	// char	 *cmd_path;
-	
-	
-	
-	// tmp = shell;
-	// cmd = parsing_split(tmp->strags, ' ');
-	// if(is_built(cmd[0]))
-	// {
-	// 	cmd_path = check_exec(cmd[0], env);
-	// 	if(!cmd_path)
-	// 		ft_error("this command has not path\n");
-	// 	exec_built_in(cmd_path, tmp);
-	// }
-	return (0);
-}
-void 	create_pipe(int *pip)
-{
-		int p;
+// int		handel_built_in(t_cmdarg *shell, t_list *env)
+// {
+// 	int check;
 
-		p = pipe(pip);
-		if(p == -1)
-			ft_error("pipe failure\n");
+// 	check = 0;
+// 	check = run_built_in(shell, env);
+// 	if (check)
+// 	  	return (1);
+// 	return (0);
+// }
+int 	create_pipe(int *pip)
+{
+	int p;
+
+	p = pipe(pip);
+	if(p == -1)
+	{
+		write(2, "pipe failure\n", 13);
+		return (0);
+	}
+	return (1);
 }
 
-void	execution(t_cmdarg *shell, t_list *env)
+int	execution(t_cmdarg *shell, t_list *env)
 {
 	t_cmdarg *current_cmd;
 	int 	pip_fd[2];
@@ -70,31 +62,35 @@ void	execution(t_cmdarg *shell, t_list *env)
 	while(current_cmd)
 	{
 		if(current_cmd->next)
-			create_pipe(pip_fd); // Create a pipe for the current command
+			if(!create_pipe(pip_fd)) // Create a pipe for the current command
+				return (0);
 		if((pid = fork()) == -1)
-			ft_error("fork failure\n");
+		{
+			perror("fork failure\n");
+			return (0);
+		}
 		if(pid == 0)
 		{
-			// Child process
 			if(current_cmd->next)
-				close(pip_fd[0]); // Close unused read end in child
-			ft_child(current_cmd, env, tmp_in, pip_fd);
+				close(pip_fd[0]); 
+			if(!(ft_child(current_cmd, env, tmp_in, pip_fd)))
+				return (0);
 		}
 		else
 		{
-			// Parent process
 			if(tmp_in != 0)
-				close(tmp_in); // Close previous input in parent
+				close(tmp_in);
 			if(current_cmd->next)
 			{
-				close(pip_fd[1]); // Close unused write end in parent
-				tmp_in = pip_fd[0]; // Save read end for the next command
+				close(pip_fd[1]);
+				tmp_in = pip_fd[0];
 			}
 		}
 		current_cmd = current_cmd->next;
 	}
 	while(wait(&status) > 0)
-		; // Wait for all child processes to finish
+		; 
+	return (1);
 }
 
 // printf("cmd -> %s\n", tmp->strags);

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:43:18 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/12 00:49:17 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/20 21:53:48 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int	count(char *s, char p)
 			s++;
 		if (!s)
 			break ;
-		if (*s && *s == '\'')
+		if (*s && (*s == '\'' || *s == '\"'))
 		{
 			s++;
-			while (*s && *s != '\'')
+			while (*s && (*s != '\'' || *s != '\"'))
 				s++;
 			s++;
 		}
-		while (*s && !(*s == p || *s == '\''))
+		while (*s && !(*s == p || *s == '\'' || *s == '\"'))
 			s++;
 		while (*s && *s == p)
 			s++;
@@ -44,19 +44,17 @@ int	count(char *s, char p)
 void	skip(char **s, int *len, char p, char **start)
 {
 	char	*end;
-	char	quote;
 
-	quote = '\'';
 	while (**s && **s == p)
 		(*s)++;
 	if (!*s)
 		return ;
 	*start = *s;
-	if (**s && **s == quote)
+	if (**s && (**s == '\''|| **s == '\"'))
 	{
 		(*s)++;
 		*start = *s;
-		while (**s && **s != quote)
+		while (**s && (**s != '\'' || **s != '\"'))
 			(*s)++;
 		end = *s;
 		(*s)++;
