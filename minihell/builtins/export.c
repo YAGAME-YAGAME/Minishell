@@ -6,29 +6,68 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/20 22:47:42 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/22 00:26:29 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+
+t_list *ft_copy_list(t_list *env)
+{
+    t_list *new_list = NULL;
+    t_list *current = env;
+
+    while (current)
+    {
+        ft_lstadd_back(&new_list, ft_lstnew(ft_strdup(current->key),
+            ft_strdup(current->value)));
+        current = current->next;
+    }
+    return new_list;
+}
+
 void    ft_print_sorted_env(t_list **env)
 {
-    t_list *tmp;
+    t_list *ptr1;
     t_list *head;
-
-    head = *env;
-    tmp = head;
-    while (tmp)
+    char *tmp_key;
+    char *tmp_value;
+    int size_list;
+ 
+    if (*env == NULL)
+        return;
+    ptr1 = ft_copy_list(*env);
+    head = ptr1;
+    size_list = ft_lstsize(ptr1);
+    while(size_list > 0)
     {
-        if (tmp->key)
+        while (ptr1->next != NULL) 
         {
-            printf("declare -x %s", tmp->key);
-            printf("=\"%s\"\n", tmp->value);
+            if (strcmp(ptr1->key, ptr1->next->key) > 0)
+            {
+                tmp_key = ptr1->key;
+                tmp_value = ptr1->value;
+                ptr1->key = ptr1->next->key;
+                ptr1->value = ptr1->next->value;
+                ptr1->next->key = tmp_key;
+                ptr1->next->value = tmp_value;
+                
+            }
+            ptr1 = ptr1->next;
         }
-        tmp = tmp->next;
+        ptr1 = head;
+        size_list--;
     }
-}
+    while(head)
+    {
+        if (head->value)
+            printf("declare -x %s=\"%s\"\n", head->key, head->value);
+        head = head->next;
+    }
+} 
+
 
 t_list    *check_dup_env(char *key, t_list *env)
 {
