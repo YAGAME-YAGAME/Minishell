@@ -6,17 +6,25 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 14:53:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:14:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	isoperator(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (true);
+	return (false);
+}
 
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 {
 	int		start;
 	char	*content;
 	t_token	*token;
+	// t_token	*tmp_token;
 
 	lexer->pos++;
 	start = lexer->pos;
@@ -25,7 +33,7 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 		lexer->pos++;
 	if (lexer->pos >= lexer->len)
 		return (printf(RED"unexpected EOF while looking \
-for matching `\"'"RESET), NULL);
+for matching quote"RESET), NULL);
 	content = ft_substr(lexer->input, start, lexer->pos - start);
 	lexer->pos++;
 	token = (t_token *)malloc(sizeof(t_token));
@@ -35,6 +43,16 @@ for matching `\"'"RESET), NULL);
 		token->type = SINGLE_QUOTE;
 	else
 		token->type = DOUBLE_QUOTE;
+	// if(ft_isspace(lexer->input[lexer->pos]) || !isoperator(lexer->input[lexer->pos]))
+	// {
+	// 	tmp_token = ft_handle_word(lexer);
+	// 	token->value = ft_strjoin(content, tmp_token->value);
+	// 	token->type = WORD;
+	// 	token->quote_type = '\0';
+	// 	// free(content);
+	// }
+	// else
+	// 	tmp_token = NULL;
 	token->value = content;
 	token->quote_type = quote_char;
 	return (token);

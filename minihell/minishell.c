@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 21:11:05 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:53:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ void	minishell(char *input, t_list *minienv)
 	ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
 	ft_check_syntax(token_list);
-	// ft_print_tokenlist(token_list);
+	ft_print_tokenlist(token_list);
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 
-	check_here_doc(cmdarg_list, minienv);
-	execution(cmdarg_list, minienv);
+	// check_here_doc(cmdarg_list, minienv);
+	// execution(cmdarg_list, minienv);
 
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
