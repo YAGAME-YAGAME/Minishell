@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/22 21:18:28 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:05:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,22 @@ void	minishell(char *input, t_list *minienv)
 	add_history(input);
 	// ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
+	// t_token	*token = token_list;
+	// while(token)
+	// {
+	// 	printf(RED"get_next_token:%d\n"RESET, token->addSpace);
+	// 	token = token->next;
+	// }
+
 	// ft_print_tokenlist(token_list);
-	ft_check_syntax(token_list);
+	// ft_check_syntax(token_list);
 	cmdarg_list = ft_parser(token_list);
-	// ft_printcmd_list(cmdarg_list);
-	check_here_doc(cmdarg_list, minienv);
-	if(check_builtin(cmdarg_list, minienv, input) == 1)
-		return ;
-	if(!execution(cmdarg_list, minienv))
-		return ;
+	ft_printcmd_list(cmdarg_list);
+	// check_here_doc(cmdarg_list, minienv);
+	// if(check_builtin(cmdarg_list, minienv, input) == 1)
+	// 	return ;
+	// if(!execution(cmdarg_list, minienv))
+	// 	return ;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }

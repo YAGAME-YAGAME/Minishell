@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/19 19:15:10 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/23 16:32:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			in->is_last = false;
 		in->content = NULL;
-	
+
 		in = in->next;
 	}
 	while(out)
@@ -58,7 +58,7 @@ void	open_here_doc(t_redi_list *heredoc, t_list *env)
 		write(1 ,"here_doc >> ", 12);
 		line = get_next_line(0);
 		if (heredoc->expand)
-			ft_expand_variables(&line, env);
+			ft_ExpandVarInChar(&line, env);
 		if(ft_strncmp(line , delimiter, ft_strlen(delimiter)) == 0)
 			break;
 		if(heredoc->is_last)

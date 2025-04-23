@@ -1,0 +1,2 @@
+echo "hello'w'o"r"ld"
+"e""c""h""o" "sfsf""wresf""fesfesf"

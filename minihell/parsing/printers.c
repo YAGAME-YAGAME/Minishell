@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/16 19:25:50 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/23 19:52:21 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,33 @@ void	ft_print_tokenlist(t_token *token_list)
 	t_token	*tmp;
 
 	tmp = token_list;
+	printf("---------------------------------\n");
 	printf("Token list:\n");
 	while (tmp)
 	{
 		if (tmp->value)
 			printf("[%s]-", tmp->value);
-		else
-			printf("[NULL]\n");
 		tmp = tmp->next;
 	}
 	printf("\n");
+	tmp = token_list;
+	while (tmp)
+	{
+		printf("[%s]-", ft_printtype(tmp->type));
+		tmp = tmp->next;
+	}
+	printf("\n");
+	tmp = token_list;
+	while (tmp)
+	{
+		if (tmp->addSpace == true)
+			printf("[addSpace]-");
+		else
+			printf("[no addSpace]-");
+		tmp = tmp->next;
+	}
+	printf("\n");
+	printf("---------------------------------\n");
 }
 
 void	ft_print_env(t_list *minienv)

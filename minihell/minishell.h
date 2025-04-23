@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/22 07:17:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/23 19:49:23 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	char			quote_type;
+	bool			addSpace;
 	struct s_token	*current;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -122,7 +123,7 @@ typedef struct s_cmdarg
 
 t_list		*ft_envinit(char **env);
 char		*ft_getcwd(t_list *env);
-void		ft_builtins(char *input, t_list *minienv);
+// void		ft_builtins(char *input, t_list *minienv);
 t_token		*ft_handle_word(t_lexer *lexer);
 t_token		*ft_handle_operator(t_lexer *lexer);
 
@@ -152,7 +153,8 @@ t_cmdarg	*ft_get_next_node(t_token *token_list);
 
 t_cmdarg	*ft_newnode(t_cmdarg *node);
 t_cmdarg	*ft_init_node(void);
-void		ft_expand_variables(char **value, t_list *minienv);
+void		ft_expand_variables(t_token **token, t_list *minienv);
+void		ft_ExpandVarInChar(char **value, t_list *minienv);
 ssize_t		ft_dollar_pos(char *str);
 int			ft_get_var_length(char *str);
 
@@ -187,7 +189,7 @@ char		*my_strdup(const char *s1);
 void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
 
-//--builtins 
+//--builtins
 void    	ft_update_path(t_list *env, char *new_path, char *old_path);
 int   		run_built_in(t_cmdarg *shell, t_list *env, char *input);
 int 		handle_input(t_redi_list *input);
