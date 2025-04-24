@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 21:05:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/24 11:31:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,33 @@ void handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void	ft_check_syntax(t_token *token_list)
+bool	ft_rediErrors(t_token *current)
+{
+	return (ft_isredi(current) && (current->next == NULL
+		|| current->next->type != WORD || ft_isredi(current->next)));
+}
+
+bool	ft_pipeErrors(t_token *current)
+{
+	return (current->type == PIPE && ((current->next == NULL
+		|| current->next->type == PIPE || ft_isredi(current->next)
+		|| current->prev == NULL || ft_isredi(current->prev))));
+}
+
+int	ft_check_syntax(t_token *token_list)
 {
 	t_token	*current;
 
 	current = token_list;
 	while (current)
 	{
-		if (current->type == PIPE)
-		{
-			if (current->next == NULL || current->next->type == PIPE || ft_isredi(current->next))
-			{
-				printf(RED"syntax error near unexpected token `|'\n"RESET);
-				return ;
-			}
-		}
+		if (ft_pipeErrors(current))
+			return (printf(RED"syntax error near unexpected token `|'\n"RESET), -1);
+		if (ft_rediErrors(current))
+			return (printf(RED"syntax error near unexpected token 'REDI'\n"RESET), -1);
 		current = current->next;
 	}
+	return (0);
 }
 
 t_cmdarg	*ft_parser(t_token *token_list)
@@ -95,24 +105,25 @@ void	minishell(char *input, t_list *minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	// ft_builtins(input, minienv);
 	token_list = ft_strtok(input, minienv);
-	// t_token	*token = token_list;
-	// while(token)
-	// {
-	// 	printf(RED"get_next_token:%d\n"RESET, token->addSpace);
-	// 	token = token->next;
-	// }
-
 	// ft_print_tokenlist(token_list);
-	// ft_check_syntax(token_list);
+	if (ft_check_syntax(token_list) == -1)
+	{
+		ft_free_tokenlist(token_list);
+		return ;
+	}
+
 	cmdarg_list = ft_parser(token_list);
 	ft_printcmd_list(cmdarg_list);
-	// check_here_doc(cmdarg_list, minienv);
-	// if(check_builtin(cmdarg_list, minienv, input) == 1)
-	// 	return ;
-	// if(!execution(cmdarg_list, minienv))
-	// 	return ;
+
+	check_here_doc(cmdarg_list, minienv);
+
+	if(check_builtin(cmdarg_list, minienv, input) == 1)
+		return ;
+
+	if(!execution(cmdarg_list, minienv))
+		return ;
+
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }

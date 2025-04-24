@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/23 16:32:40 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/24 10:44:06 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	init_redi_file(t_cmdarg *shell)
 	t_redi_list *in;
 	t_redi_list *out;
 
+	if (!shell)
+		return ;
 	in = shell->input;
 	out = shell->output;
 	while(in)
@@ -50,6 +52,8 @@ void	open_here_doc(t_redi_list *heredoc, t_list *env)
 	char *content;
 	char *delimiter;
 
+	if (!heredoc || heredoc->file == NULL || heredoc->file[0] == '\0')
+		return ;
 	content = malloc(1 * sizeof(char));
 	content[0] = '\0';
 	delimiter = ft_strjoin(heredoc->file, "\n");
@@ -75,8 +79,9 @@ void	check_here_doc(t_cmdarg *shell, t_list *env)
 	t_cmdarg *tmp;
 	t_redi_list *in;
 
+	if (!shell)
+		return ;
 	tmp = shell;
-
 	while(tmp)
 	{
 		init_redi_file(tmp);

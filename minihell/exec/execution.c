@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/19 00:08:14 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/24 10:46:17 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ int	execution(t_cmdarg *shell, t_list *env)
 	pid_t	pid;
 	int 	status;
 	int 	tmp_in;
-	
+
+	if (!shell)
+		return (0);
 	tmp_in = 0; // Initialize tmp_in to 0 (default stdin)
 	current_cmd = shell;
 	while(current_cmd)
@@ -72,7 +74,7 @@ int	execution(t_cmdarg *shell, t_list *env)
 		if(pid == 0)
 		{
 			if(current_cmd->next)
-				close(pip_fd[0]); 
+				close(pip_fd[0]);
 			if(!(ft_child(current_cmd, env, tmp_in, pip_fd)))
 				return (0);
 		}
@@ -89,7 +91,7 @@ int	execution(t_cmdarg *shell, t_list *env)
 		current_cmd = current_cmd->next;
 	}
 	while(wait(&status) > 0)
-		; 
+		;
 	return (1);
 }
 
