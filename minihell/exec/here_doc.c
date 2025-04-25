@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/24 10:44:06 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/25 21:06:23 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	init_redi_file(t_cmdarg *shell)
 	t_redi_list *in;
 	t_redi_list *out;
 
-	if (!shell)
-		return ;
 	in = shell->input;
 	out = shell->output;
 	while(in)
@@ -30,7 +28,7 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			in->is_last = false;
 		in->content = NULL;
-
+	
 		in = in->next;
 	}
 	while(out)
@@ -40,7 +38,6 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			out->is_last = false;
 		out->tmp_fd = -1;
-		out->original_fd = -1;
 		out->content = NULL;
 		out = out->next;
 	}
@@ -52,8 +49,6 @@ void	open_here_doc(t_redi_list *heredoc, t_list *env)
 	char *content;
 	char *delimiter;
 
-	if (!heredoc || heredoc->file == NULL || heredoc->file[0] == '\0')
-		return ;
 	content = malloc(1 * sizeof(char));
 	content[0] = '\0';
 	delimiter = ft_strjoin(heredoc->file, "\n");
@@ -79,13 +74,14 @@ void	check_here_doc(t_cmdarg *shell, t_list *env)
 	t_cmdarg *tmp;
 	t_redi_list *in;
 
-	if (!shell)
-		return ;
 	tmp = shell;
+
 	while(tmp)
 	{
 		init_redi_file(tmp);
 		in = tmp->input;
+		tmp->origin_stdin = -1;
+		tmp->origin_stdout = -1;
 		while (in)
 		{
 			if(in->type == HEREDOC)

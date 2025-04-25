@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/24 10:46:17 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/25 21:11:01 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,7 @@ int		size_list(t_cmdarg *node)
 	}
 	return (i);
 }
-// int		handel_built_in(t_cmdarg *shell, t_list *env)
-// {
-// 	int check;
 
-// 	check = 0;
-// 	check = run_built_in(shell, env);
-// 	if (check)
-// 	  	return (1);
-// 	return (0);
-// }
 int 	create_pipe(int *pip)
 {
 	int p;
@@ -56,9 +47,7 @@ int	execution(t_cmdarg *shell, t_list *env)
 	pid_t	pid;
 	int 	status;
 	int 	tmp_in;
-
-	if (!shell)
-		return (0);
+	
 	tmp_in = 0; // Initialize tmp_in to 0 (default stdin)
 	current_cmd = shell;
 	while(current_cmd)
@@ -74,9 +63,8 @@ int	execution(t_cmdarg *shell, t_list *env)
 		if(pid == 0)
 		{
 			if(current_cmd->next)
-				close(pip_fd[0]);
-			if(!(ft_child(current_cmd, env, tmp_in, pip_fd)))
-				return (0);
+				close(pip_fd[0]); 
+			ft_child(current_cmd, env, tmp_in, pip_fd);
 		}
 		else
 		{
@@ -91,7 +79,7 @@ int	execution(t_cmdarg *shell, t_list *env)
 		current_cmd = current_cmd->next;
 	}
 	while(wait(&status) > 0)
-		;
+		; 
 	return (1);
 }
 

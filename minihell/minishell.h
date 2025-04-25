@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 19:49:23 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/25 21:13:36 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 # define RESET "\033[0m"
 
 
-// Global variable for signal handling
-extern int g_signal_received;
+// Global variables
+extern int g_exit_status;
 
 // Signal handling and readline functions
 void    handle_sigint(int sig);
@@ -107,7 +107,6 @@ typedef struct s_redi_list
 	char				*content;
 	bool				is_last;
 	int 				tmp_fd;
-	int 				original_fd;
 	bool				expand;
 	struct s_redi_list	*next;
 }	t_redi_list;
@@ -116,6 +115,8 @@ typedef struct s_cmdarg
 {
 	char			*strags;
 	bool			is_builtin;
+	int 			origin_stdout;
+	int 			origin_stdin;
 	t_redi_list		*input;
 	t_redi_list		*output;
 	struct s_cmdarg	*next;
@@ -181,7 +182,7 @@ void		ft_error(char *message);
 char		**parsing_split(char *s, char p);
 char		*find_path( t_list *path);
 char		*check_exec(char *p, t_list *env);
-int			ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd);
+void		ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd);
 char		**get_env(t_list *env);
 char		*get_next_line(int fd);
 char		*my_strjoin(char *s1, char *s2);
@@ -192,8 +193,8 @@ int			size_list(t_cmdarg *node);
 //--builtins
 void    	ft_update_path(t_list *env, char *new_path, char *old_path);
 int   		run_built_in(t_cmdarg *shell, t_list *env, char *input);
-int 		handle_input(t_redi_list *input);
-int 		handle_output(t_redi_list *output);
+void 		handle_input(t_redi_list *input);
+void 		handle_output(t_redi_list *output);
 int 		check_builtin(t_cmdarg *cmdarg_list, t_list *minienv, char *input);
 char 		**handel_quote(char **cmd);
 
@@ -209,6 +210,7 @@ int    		ft_clear();
 int 		is_builtin(char *cmd);
 void    	free_dp(char **cmd);
 int 		remove_env_node(t_list **env_list, t_list *node);
+void 		ft_reset_std(t_cmdarg *shell);
 
 
 #endif

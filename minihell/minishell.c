@@ -3,23 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/24 11:31:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/25 21:43:34 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <signal.h>
+
+
+// Global variable for exit status
+int g_exit_status = 0;
 
 void handle_sigint(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+    (void)sig;
+    write(1, "\n", 1);
+    g_exit_status = 130;  // Standard exit code for SIGINT (Ctrl+C)
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
 }
 
 bool	ft_rediErrors(t_token *current)
@@ -114,7 +118,7 @@ void	minishell(char *input, t_list *minienv)
 	}
 
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 
 	check_here_doc(cmdarg_list, minienv);
 
