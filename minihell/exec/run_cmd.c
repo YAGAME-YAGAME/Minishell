@@ -6,12 +6,17 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/25 21:34:46 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/26 00:13:35 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void ft_cmd_error(char *error, int status)
+{
+	write(2, error, ft_strlen(error));
+	exit(status);
+}
 
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
@@ -19,24 +24,25 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	char *cmd_path;
 	char **envp = NULL;
 
-	if(current_cmd == NULL)
+	if(current_cmd == NULL || current_cmd->strags == NULL)
 		exit(0); // Set exit status to 0 for empty command
 
 	cmd = parsing_split(current_cmd->strags, ' ');
+	if (cmd == NULL)
+		ft_cmd_error("Command not found\n", 127);
 	cmd_path = check_exec(cmd[0], env);
 	if(!cmd_path)
 	{
 		write(2, cmd[0], ft_strlen(cmd[0]));
 		write(2, ": command not found\n", 20);
 		free(cmd_path);
-		exit(127); // Exit with standard "command not found" status code
+		exit(127);
 	}
 	envp = get_env(env);
 	if(execve(cmd_path, cmd, envp) == -1)
 	{
 		write(2, "execve failure\n", 15);
 		free(cmd_path);
-		free_all(cmd, count(current_cmd->strags, ' '));
 		free_dp(envp);
 		exit(126);
 	}

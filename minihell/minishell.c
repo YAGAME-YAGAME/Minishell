@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/25 21:43:34 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/25 23:48:40 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	minishell(char *input, t_list *minienv)
 	}
 
 	cmdarg_list = ft_parser(token_list);
-	// ft_printcmd_list(cmdarg_list);
+	ft_printcmd_list(cmdarg_list);
 
 	check_here_doc(cmdarg_list, minienv);
 

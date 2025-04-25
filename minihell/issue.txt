@@ -24,6 +24,7 @@ exit abc            # Should error (numeric argument required)
 
 
 // handle exit with argument like "exit 225"
-// must fix  append >> builtin part  
+// must fix  append >> builtin part  //fixed
 
 // > empty_file should create
+// "" || "  " should print command not found

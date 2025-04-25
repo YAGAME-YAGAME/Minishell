@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/25 22:12:07 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/25 23:43:59 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int open_append(t_redi_list *output)
 {
-	printf("open append\n");
 	output->tmp_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(output->tmp_fd == -1)
 	{
@@ -22,11 +21,13 @@ int open_append(t_redi_list *output)
 		write(2, "failure to open out file\n", 25);
 		return (0);
 	}
-	if(!output->is_last)
+	if(output->is_last)
 	{
 		dup2(output->tmp_fd, STDOUT_FILENO);
         close(output->tmp_fd);
 	}
+	else
+		close(output->tmp_fd);
 	return (1);
 }
 
