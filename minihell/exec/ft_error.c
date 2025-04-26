@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/20 20:35:57 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/26 21:20:30 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*check_exec(char *p, t_list *env)
 	char	*path;
 	char	**path_cmd;
 
+	if (!p)
+		return (NULL);
 	full_path = NULL;
 	if (*p == '/' || *p == '.')
 	{
@@ -71,6 +73,5 @@ char	*check_exec(char *p, t_list *env)
 		full_path = NULL;
 		path_cmd++;
 	}
-	free(p);
 	return (full_path);
 }

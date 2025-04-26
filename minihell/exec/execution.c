@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/26 00:19:20 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/26 20:09:01 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	execution(t_cmdarg *shell, t_list *env)
 	current_cmd = shell;
 	while(current_cmd)
 	{
-		// printf("[][][][][][][][][]][][][][][][][][][][][]\n");
 		if(current_cmd->next)
 			if(!create_pipe(pip_fd)) // Create a pipe for the current command
 				return (0);

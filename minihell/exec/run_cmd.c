@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/26 00:13:35 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/26 21:22:00 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void ft_cmd_error(char *error, int status)
 	exit(status);
 }
 
+void 	check_cmd(char **cmd)
+{	
+	if(cmd == NULL || cmd[0] == NULL || cmd[0][0] == '\0')
+	{
+		free_dp(cmd);
+		ft_cmd_error(": command not found\n", 127);
+	}
+}
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char **cmd;
@@ -25,17 +33,14 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	char **envp = NULL;
 
 	if(current_cmd == NULL || current_cmd->strags == NULL)
-		exit(0); // Set exit status to 0 for empty command
-
+		exit(127);
 	cmd = parsing_split(current_cmd->strags, ' ');
-	if (cmd == NULL)
-		ft_cmd_error("Command not found\n", 127);
+	check_cmd(cmd);
 	cmd_path = check_exec(cmd[0], env);
-	if(!cmd_path)
+	if(cmd_path == NULL)
 	{
-		write(2, cmd[0], ft_strlen(cmd[0]));
-		write(2, ": command not found\n", 20);
-		free(cmd_path);
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(" : command not found\n", 2);
 		exit(127);
 	}
 	envp = get_env(env);
@@ -43,6 +48,7 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	{
 		write(2, "execve failure\n", 15);
 		free(cmd_path);
+		free_dp(cmd);
 		free_dp(envp);
 		exit(126);
 	}
@@ -116,6 +122,7 @@ void	handle_output(t_redi_list *output)
 	}
 }
 
+
 void         handle_input(t_redi_list *input)
 {
 	int in_fd;
@@ -128,7 +135,7 @@ void         handle_input(t_redi_list *input)
 			if(in_fd == -1)
 			{
 				write(2, input->file, strlen(input->file));
-				write(2, ": No such file or directory\n", 28);
+				write(2, " : No such file or directory\n", 28);
 				exit(1);
 			}
 			if(input->is_last)

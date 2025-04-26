@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/25 23:48:40 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/26 23:38:22 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 	}
 }
 
-void	minishell(char *input, t_list *minienv)
+void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
 	t_cmdarg	*cmdarg_list;
@@ -109,7 +109,7 @@ void	minishell(char *input, t_list *minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	token_list = ft_strtok(input, minienv);
+	token_list = ft_strtok(input, *minienv);
 	// ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 	{
@@ -118,14 +118,13 @@ void	minishell(char *input, t_list *minienv)
 	}
 
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 
-	check_here_doc(cmdarg_list, minienv);
+	check_here_doc(cmdarg_list, *minienv);
 
 	if(check_builtin(cmdarg_list, minienv, input) == 1)
 		return ;
-
-	if(!execution(cmdarg_list, minienv))
+	if(!execution(cmdarg_list, *minienv))
 		return ;
 
 	ft_free_tokenlist(token_list);
@@ -156,7 +155,7 @@ int	main(int ac, char **av, char **env)
 		{
 			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
-			minishell(input, minienv);
+			minishell(input, &minienv);
 			free(input);
 			free(cwd);
 		}

@@ -28,3 +28,8 @@ exit abc            # Should error (numeric argument required)
 
 // > empty_file should create
 // "" || "  " should print command not found
+
+// cd /tmp  take me to /privet/tmp 
+
+$><< "EOF" cat
+syntax error near unexpected token 'REDI'

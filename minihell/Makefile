@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
 MINIFLAGS =  -lreadline -L$(READLINE)/lib
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
-	./parsing/env.c \
+	./parsing/env_init.c \
 	./builtins/builtin.c \
 	./parsing/strtok.c \
 	./parsing/ft_handles.c \

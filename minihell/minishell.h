@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/25 21:13:36 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/26 23:43:36 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ extern int g_exit_status;
 void    handle_sigint(int sig);
 void    setup_signals(void);
 void    init_readline(void);
+
 
 //--libft functions
 # include "libft/libft.h"
@@ -134,6 +135,7 @@ t_lexer		*ft_lexer_init(char *input);
 t_token		*ft_get_next_token(t_lexer *lexer);
 t_token		*ft_newtok(t_token *token);
 
+void    	minishell(char *input, t_list **minienv);
 void		ft_tokadd_back(t_token **token_list, t_token *token);
 void		ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new);
 int			ft_isspecial(char c);
@@ -189,25 +191,27 @@ char		*my_strjoin(char *s1, char *s2);
 char		*my_strdup(const char *s1);
 void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
+char 		*ft_get_pwd(t_list *env);
 
 //--builtins
 void    	ft_update_path(t_list *env, char *new_path, char *old_path);
-int   		run_built_in(t_cmdarg *shell, t_list *env, char *input);
+int   		run_built_in(t_cmdarg *shell, t_list **env, char *input);
 void 		handle_input(t_redi_list *input);
 void 		handle_output(t_redi_list *output);
-int 		check_builtin(t_cmdarg *cmdarg_list, t_list *minienv, char *input);
+int 		check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input);
 char 		**handel_quote(char **cmd);
 
 
 int    		ft_echo(char **cmd, t_cmdarg*env);
-int    		ft_pwd(char **cmd, t_list *env);
-int    		ft_unset(char **cmd, t_list *env);
-void    	ft_exit(t_list *env, char *input);
-int    		ft_cd(char **cmd, t_list *env);
-int    		ft_env(t_list *env);
+int    		ft_pwd(t_list **env);
+int    		ft_unset(char **cmd, t_list **env);
+int    		ft_exit(char **cmd, t_list **env, char *input);
+int    		ft_cd(char **cmd, t_list **env);
+int    		ft_env(t_list **env);
 int    		ft_export(char **cmd, t_list **env);
 int    		ft_clear();
 int 		is_builtin(char *cmd);
+int    		ft_set_env(t_list **env);
 void    	free_dp(char **cmd);
 int 		remove_env_node(t_list **env_list, t_list *node);
 void 		ft_reset_std(t_cmdarg *shell);
