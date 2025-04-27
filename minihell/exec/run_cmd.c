@@ -3,64 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/15 21:11:53 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/26 21:22:00 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void ft_cmd_error(char *error, int status)
+{
+	write(2, error, ft_strlen(error));
+	exit(status);
+}
 
+void 	check_cmd(char **cmd)
+{	
+	if(cmd == NULL || cmd[0] == NULL || cmd[0][0] == '\0')
+	{
+		free_dp(cmd);
+		ft_cmd_error(": command not found\n", 127);
+	}
+}
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char **cmd;
 	char *cmd_path;
-
-	cmd = parsing_split(current_cmd->strags, ' ');
-	cmd_path = check_exec(cmd[0], env);
-	if(!cmd_path)
-	{
-		perror("command not found\n");
-		exit(EXIT_FAILURE);
-	}
 	char **envp = NULL;
+
+	if(current_cmd == NULL || current_cmd->strags == NULL)
+		exit(127);
+	cmd = parsing_split(current_cmd->strags, ' ');
+	check_cmd(cmd);
+	cmd_path = check_exec(cmd[0], env);
+	if(cmd_path == NULL)
+	{
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(" : command not found\n", 2);
+		exit(127);
+	}
 	envp = get_env(env);
 	if(execve(cmd_path, cmd, envp) == -1)
 	{
-		perror("execve failure\n");
+		write(2, "execve failure\n", 15);
 		free(cmd_path);
-		free(envp);
-		exit(EXIT_FAILURE);
+		free_dp(cmd);
+		free_dp(envp);
+		exit(126);
 	}
 }
 
-void	handle_heredoc(t_redi_list *input)
+int	handle_heredoc(t_redi_list *input)
 {
 	int	heredoc_fd[2];
 
 	if(pipe(heredoc_fd) == -1)
 	{
 		perror("pipe failure\n");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	write(heredoc_fd[1], input->content, ft_strlen(input->content));
 	close(heredoc_fd[1]);
 	dup2(heredoc_fd[0], STDIN_FILENO);
 	close(heredoc_fd[0]);
 	free(input->content);
+	return (1);
 }
 
-void handel_append(t_redi_list *output)
+int handel_append(t_redi_list *output)
 {
 	int out_fd;
 
 	out_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(out_fd == -1)
 	{
-		perror("output file not found\n");
-		exit(EXIT_FAILURE);
+		write(2, "output file not found\n", 22);
+		exit(1);
+		
 	}
 	if(output->is_last)
 	{
@@ -69,6 +89,7 @@ void handel_append(t_redi_list *output)
 	}
 	else
 		close(out_fd);
+	return (1);
 }
 
 void	handle_output(t_redi_list *output)
@@ -82,9 +103,11 @@ void	handle_output(t_redi_list *output)
 			out_fd = open(output->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if(out_fd == -1)
 			{
-				perror("output file not found\n");
-				exit(EXIT_FAILURE);
+				write(2, output->file, ft_strlen(output->file));
+				write(2, " : failure to open\n", 19);
+				exit(1);
 			}
+			
 			if(output->is_last)
 			{
 				dup2(out_fd, STDOUT_FILENO);
@@ -97,10 +120,10 @@ void	handle_output(t_redi_list *output)
 			handel_append(output);
 		output = output->next;
 	}
- }
+}
 
 
-void handle_input(t_redi_list *input)
+void         handle_input(t_redi_list *input)
 {
 	int in_fd;
 
@@ -111,12 +134,12 @@ void handle_input(t_redi_list *input)
 			in_fd = open(input->file, O_RDONLY);
 			if(in_fd == -1)
 			{
-				perror("input file not found\n");
-				exit(EXIT_FAILURE);
+				write(2, input->file, strlen(input->file));
+				write(2, " : No such file or directory\n", 28);
+				exit(1);
 			}
 			if(input->is_last)
 			{
-				printf("is last redirection : %s\n", input->file);
 				dup2(in_fd, STDIN_FILENO);
 				close(in_fd);
 			}
@@ -130,7 +153,7 @@ void handle_input(t_redi_list *input)
 }
 // =====================/ end handle input redirection /========================//
 
-void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
+void	 ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	if(tmp_in != 0)
 	{

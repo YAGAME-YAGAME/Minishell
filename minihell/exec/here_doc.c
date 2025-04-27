@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/15 22:28:22 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/25 21:06:23 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			in->is_last = false;
 		in->content = NULL;
+	
 		in = in->next;
 	}
 	while(out)
@@ -36,6 +37,7 @@ void	init_redi_file(t_cmdarg *shell)
 			out->is_last = true;
 		else
 			out->is_last = false;
+		out->tmp_fd = -1;
 		out->content = NULL;
 		out = out->next;
 	}
@@ -55,7 +57,7 @@ void	open_here_doc(t_redi_list *heredoc, t_list *env)
 		write(1 ,"here_doc >> ", 12);
 		line = get_next_line(0);
 		if (heredoc->expand)
-			ft_expand_variables(&line, env);
+			ft_ExpandVarInChar(&line, env);
 		if(ft_strncmp(line , delimiter, ft_strlen(delimiter)) == 0)
 			break;
 		if(heredoc->is_last)
@@ -78,6 +80,8 @@ void	check_here_doc(t_cmdarg *shell, t_list *env)
 	{
 		init_redi_file(tmp);
 		in = tmp->input;
+		tmp->origin_stdin = -1;
+		tmp->origin_stdout = -1;
 		while (in)
 		{
 			if(in->type == HEREDOC)

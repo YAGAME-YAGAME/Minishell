@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 11:02:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/22 18:57:38 by abenajib         ###   ########.fr       */
+/*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
+/*   Updated: 2025/04/23 21:03:21 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_token	*ft_newtok(t_token *token)
 	new_token->quote_type = token->quote_type;
 	new_token->next = NULL;
 	new_token->prev = NULL;
+	new_token->addSpace = token->addSpace;
 	return (new_token);
 }
 

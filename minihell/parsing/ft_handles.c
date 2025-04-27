@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/22 19:14:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:03:21 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ for matching quote"RESET), NULL);
 	// 	tmp_token = NULL;
 	token->value = content;
 	token->quote_type = quote_char;
+	if (ft_isspace(lexer->input[lexer->pos]))
+		token->addSpace = true;
+	else
+		token->addSpace = false;
 	return (token);
 }
 
@@ -113,7 +117,8 @@ t_token	*ft_handle_word(t_lexer *lexer)
 
 	start = lexer->pos;
 	while (lexer->pos < lexer->len && !ft_isspace(lexer->input[lexer->pos])
-		&& !ft_isspecial(lexer->input[lexer->pos]))
+		&& !ft_isspecial(lexer->input[lexer->pos]) && lexer->input[lexer->pos] != '\''
+		&& lexer->input[lexer->pos] != '"')
 		lexer->pos++;
 	value = ft_substr(lexer->input, start, lexer->pos - start);
 	token = (t_token *)malloc(sizeof(t_token));
@@ -122,5 +127,9 @@ t_token	*ft_handle_word(t_lexer *lexer)
 	token->type = WORD;
 	token->value = value;
 	token->quote_type = '\0';
+	if (ft_isspace(lexer->input[lexer->pos]))
+		token->addSpace = true;
+	else
+		token->addSpace = false;
 	return (token);
 }

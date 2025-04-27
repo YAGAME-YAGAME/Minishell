@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:10:47 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 13:36:50 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:15:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	ft_isspace(char c)
 
 int	ft_isspecial(char c)
 {
-	return (c == '|' || c == '&' || c == '(' || c == ')'
-		|| c == '<' || c == '>' || c == ';');
+	return (c == '|' || c == '<' || c == '>');
 }
 
 bool	ft_is_duplicated(t_lexer *lexer, char op[3])

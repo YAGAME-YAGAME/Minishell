@@ -1,10 +1,11 @@
 TARGET = minishell
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-MINIFLAGS = -lreadline
+CC = clang
+READLINE = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
-	./parsing/env.c \
+	./parsing/env_init.c \
 	./builtins/builtin.c \
 	./parsing/strtok.c \
 	./parsing/ft_handles.c \
@@ -24,6 +25,16 @@ SRCS=	$(TARGET).c \
 	./exec/here_doc.c \
 	./exec/gnl/gnl.c \
 	./exec/gnl/gnl_utils.c \
+	./builtins/builtin.c \
+	./builtins/cd.c \
+	./builtins/echo.c \
+	./builtins/env.c \
+	./builtins/exit.c \
+	./builtins/export.c \
+	./builtins/pwd.c \
+	./builtins/unset.c \
+	./builtins/handle_builtin_redi.c \
+	./builtins/utils.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

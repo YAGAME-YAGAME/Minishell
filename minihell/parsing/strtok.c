@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strtok.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:08:28 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:14:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/04/24 10:38:54 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ t_token	*ft_strtok(char *input, t_list *minienv)
 	t_token	*token;
 	t_token	*token_list;
 
+	if (input == NULL)
+		return (NULL);
 	lexer = ft_lexer_init(input);
 	token_list = NULL;
 	token = ft_get_next_token(lexer);
 	while (token)
 	{
 		if (token->type != SINGLE_QUOTE)
-			ft_expand_variables(&token->value, minienv);
+			ft_expand_variables(&token, minienv);
 		if (token->value)
 			ft_tokadd_back(&token_list, ft_newtok(token));
 		ft_free_token(token);
