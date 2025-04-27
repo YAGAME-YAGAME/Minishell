@@ -7,7 +7,6 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
 /*   Updated: 2025/04/27 21:48:30 by yagame           ###   ########.fr       */
-/*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -118,9 +117,8 @@ void	minishell(char *input, t_list **minienv)
 		ft_free_tokenlist(token_list);
 		return ;
 	}
-
 	cmdarg_list = ft_parser(token_list);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 
 	check_here_doc(cmdarg_list, *minienv);
 
