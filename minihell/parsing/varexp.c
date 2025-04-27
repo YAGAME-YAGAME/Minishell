@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varexp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/27 21:44:32 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/27 22:00:51 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,27 @@ void	ft_ExpandVarInChar(char **value, t_list *minienv)
 	}
 }
 
+void	ft_expand_exit_status(t_token **token)
+{
+	ssize_t	dollar_pos;
+	char	*expanded;
+	char	*temp;
+	char	*temp2;
+
+	dollar_pos = ft_dollar_pos((*token)->value);
+	while (dollar_pos != -1)
+	{
+		expanded = ft_itoa(g_exit_status);
+		temp = ft_strjoin_free(ft_substr((*token)->value, 0, dollar_pos), expanded);
+		temp2 = ft_substr((*token)->value,
+				dollar_pos + 2,
+				ft_strlen((*token)->value));
+		(*token)->value = ft_strjoin_free(temp, temp2);
+		free(temp2);
+		dollar_pos = ft_dollar_pos((*token)->value);
+	}
+}
+
 void	ft_expand_variables(t_token **token, t_list *minienv)
 {
 	ssize_t	dollar_pos;
@@ -47,7 +68,7 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 
 	dollar_pos = ft_dollar_pos((*token)->value);
 	if ((*token)->value[dollar_pos + 1] == '?')
-		return ;
+		return (ft_expand_exit_status(token));
 	while (dollar_pos != -1)
 	{
 		var = ft_substr((*token)->value, dollar_pos + 1,
