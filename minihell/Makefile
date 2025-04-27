@@ -1,11 +1,11 @@
 TARGET = minishell
-CC = cc
+CC = clang
 READLINE = $(shell brew --prefix readline)
 CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
-MINIFLAGS =  -lreadline -L$(READLINE)/lib
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
-	./parsing/env.c \
+	./parsing/env_init.c \
 	./builtins/builtin.c \
 	./parsing/strtok.c \
 	./parsing/ft_handles.c \

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/20 20:45:43 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/26 23:22:39 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,51 @@ int	    remove_env_node(t_list **env_list, t_list *node)
 	return (1);
 }
 
-/**
- * Unset environment variables specified in cmd arguments
- * @param cmd Array of command and arguments
- * @param env The environment variables linked list
- * @return 1 on success
- */
-int	ft_unset(char **cmd, t_list *env)
+int    ft_set_env(t_list **env)
+{
+    char *cwd;
+    char cwd_buffer[1024];
+    
+    if (!*env)
+    {
+        // Get current working directory
+        if (getcwd(cwd_buffer, sizeof(cwd_buffer)) != NULL)
+            cwd = ft_strdup(cwd_buffer);
+        else
+            cwd = ft_strdup("/Users/yagame");
+            
+        // Add default environment variables
+        ft_lstadd_back(env, ft_lstnew(ft_strdup("PWD"), cwd));
+        ft_lstadd_back(env, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1")));
+        ft_lstadd_back(env, ft_lstnew(ft_strdup("_"), ft_strdup("/usr/bin/env")));
+        return (1);
+    }
+    return (0);
+}
+
+
+int	ft_unset(char **cmd, t_list **env)
 {
 	t_list	*tmp;
-	t_list  *env_head;
+	t_list  **env_ptr;
+	t_list  *to_remove;
 	int     i;
 
-	if (!cmd || !env)
+	if (!cmd)
 		return (1);
 	
-	env_head = env;
-	i = 1; // Skip the 'unset' command name
-	
+	env_ptr = env;
+	i = 1; 
 	while (cmd[i])
 	{
-		tmp = env_head;
+		tmp = *env_ptr;
 		while (tmp)
 		{
 			if (ft_strcmp(tmp->key, cmd[i]) == 0)
 			{
-				t_list *to_remove = tmp;
-				tmp = tmp->next; // Move tmp before removing the node
-				remove_env_node(&env_head, to_remove);
+				to_remove = tmp;
+				tmp = tmp->next; 
+				remove_env_node(env_ptr, to_remove);
 				break;
 			}
 			else

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/21 22:44:22 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/27 01:45:36 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,25 @@ void    ft_update_path(t_list *env, char *new_path, char *old_path)
 }
 
 
-int    ft_cd(char **cmd, t_list *env)
+
+int    ft_cd(char **cmd, t_list **env)
 {
     char *path;
     char *old_path;
     
     path = NULL;
-    old_path = ft_getenv("PWD", env);
+    old_path = ft_getenv("PWD", *env);
     if(size_dp(cmd) > 2)
             return (free(cmd), write(2, "cd : too many arguments\n", 24), 1);
     if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
     {
-        path = ft_getenv("HOME", env);
+        path = ft_getenv("HOME", *env);
         if (path == NULL)
             return (free_dp(cmd), write(2, "cd: HOME not set\n", 17), 1);
     }
     else if (ft_strcmp(cmd[1], "-") == 0)
     {
-        path = ft_getenv("OLDPWD", env);
+        path = ft_getenv("OLDPWD", *env);
         if (path == NULL)
             return (free_dp(cmd), write(2, "cd: OLDPWD not set\n", 19), 1);
     }
@@ -93,6 +94,6 @@ int    ft_cd(char **cmd, t_list *env)
        path = cmd[1];
     if (chdir(path) != 0)
        return (perror(path), 1);
-    ft_update_path(env, path, old_path);
+    ft_update_path(*env, path, old_path);
     return (1);
 }
