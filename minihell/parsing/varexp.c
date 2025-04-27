@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 16:34:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:44:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 	char	*temp2;
 
 	dollar_pos = ft_dollar_pos((*token)->value);
+	if ((*token)->value[dollar_pos + 1] == '?')
+		return ;
 	while (dollar_pos != -1)
 	{
 		var = ft_substr((*token)->value, dollar_pos + 1,

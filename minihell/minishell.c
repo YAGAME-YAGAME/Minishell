@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/27 21:01:17 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/27 21:31:47 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int g_exit_status = 0;
 
 void handle_sigint(int sig)
 {
-    (void)sig;
-    write(1, "\n", 1);
-    g_exit_status = 130;  // Standard exit code for SIGINT (Ctrl+C)
-    rl_replace_line("", 0);
-    rl_on_new_line();
-    rl_redisplay();
+	(void)sig;
+	write(1, "\n", 1);
+	g_exit_status = 130;  // Standard exit code for SIGINT (Ctrl+C)
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 bool	ft_rediErrors(t_token *current)
@@ -146,11 +146,11 @@ int	main(int ac, char **av, char **env)
 
 	signal(SIGINT, handle_sigint); // Handle Ctrl+C
 	signal(SIGQUIT, SIG_IGN); // Ignore Ctrl+\
-	
+
 	// atexit(leak_check);
 	(void)av;
 	if (ac != 1)
-		return (perror(YELLOW"Error: No arguments expected"RESET), 1);
+		return (printf(YELLOW"\nError: No arguments expected\n"RESET), 1);
 	else
 	{
 		printf(GREEN"Welcome to the Minishell!\n\n"RESET);
