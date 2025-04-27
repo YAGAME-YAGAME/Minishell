@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/24 10:13:55 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/27 21:11:39 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)
 	{
-		if (token_list->current->next->type == SINGLE_QUOTE)
-			ft_rediradd(&(*node)->input, ft_redinew(token_list->current, false));
-		else
+		if (token_list->current->next->type == WORD)
 			ft_rediradd(&(*node)->input, ft_redinew(token_list->current, true));
+		else
+			ft_rediradd(&(*node)->input, ft_redinew(token_list->current, false));
 	}
 	else
 		ft_rediradd(&(*node)->output, ft_redinew(token_list->current, true));

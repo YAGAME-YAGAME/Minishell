@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/26 23:41:38 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/27 01:45:36 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,45 +38,35 @@ t_list  *ft_find_node(t_list *env, char *key)
     }
     return (NULL);
 }
-void    ft_update_path(t_list *env, char * new_path, char *old_path)
+void    ft_update_path(t_list *env, char *new_path, char *old_path)
 {
     t_list *old_pwd;  
-    t_list *current_pwd;
+    t_list  *current_pwd;
+    // char *hold;
     char *tmp;
-    char *real_path;
     
     tmp = NULL;
+    // hold = NULL;
     
-    if (new_path && *new_path)
-        real_path = ft_strdup(new_path);
-    else
-        real_path = getcwd(NULL, 0);
-        
+    new_path = getcwd(NULL, 0);
     old_pwd = ft_find_node(env, "OLDPWD");
     current_pwd = ft_find_node(env, "PWD");
     if(old_pwd)
-    {
-        free(old_pwd->value);
         old_pwd->value = ft_strdup(old_path);
-    }
-    else
-    {
-        old_pwd = ft_lstnew(ft_strdup("OLDPWD"), ft_strdup(old_path));
-        ft_lstadd_back(&env, old_pwd);
-    }
    
     if(current_pwd)
     {
         tmp = current_pwd->value;
-        current_pwd->value = real_path;
+        current_pwd->value = new_path;
         free(tmp);
     }
-    else
-    {
-        current_pwd = ft_lstnew(ft_strdup("PWD"), real_path);
-        ft_lstadd_back(&env, current_pwd);
-    }
+    // else
+    // {
+    //     pwd = ft_lstnew("PWD", hold);
+    //     ft_lstadd_back(&env, pwd);
+    // }
 }
+
 
 
 int    ft_cd(char **cmd, t_list **env)

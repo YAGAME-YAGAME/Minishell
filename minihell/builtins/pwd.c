@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:09:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/26 23:44:52 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/27 01:42:12 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int    ft_pwd(t_list **env)
 {
     char cwd[1024];
+    (void)env;
 
-    if (ft_get_pwd(*env) != NULL)
+    if (getcwd(NULL, 0) != NULL)
         printf("%s\n", cwd);
     else
         perror("pwd");

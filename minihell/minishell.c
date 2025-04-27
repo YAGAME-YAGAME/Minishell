@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/26 23:38:22 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/27 21:01:17 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ void handle_sigint(int sig)
 bool	ft_rediErrors(t_token *current)
 {
 	return (ft_isredi(current) && (current->next == NULL
-		|| current->next->type != WORD || ft_isredi(current->next)));
+		|| (current->next->type != WORD && current->next->type != DOUBLE_QUOTE
+			&& current->next->type != SINGLE_QUOTE)
+			|| ft_isredi(current->next)));
 }
 
 bool	ft_pipeErrors(t_token *current)
@@ -143,6 +145,8 @@ int	main(int ac, char **av, char **env)
 	char	*cwd;
 
 	signal(SIGINT, handle_sigint); // Handle Ctrl+C
+	signal(SIGQUIT, SIG_IGN); // Ignore Ctrl+\
+	
 	// atexit(leak_check);
 	(void)av;
 	if (ac != 1)
