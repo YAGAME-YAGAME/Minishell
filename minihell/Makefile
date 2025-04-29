@@ -91,6 +91,7 @@ fclean: clean
 	@echo "$(RED)Cleaning $(NAME) and $(TARGET) ...$(DEF_COLOR)"
 	@$(RM) $(NAME) $(TARGET)
 	@make -C ./libft fclean
+	@rm -rf minishell.dSYM/
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 09:43:18 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 12:25:11 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ bool	ft_rediErrors(t_token *current)
 bool	ft_pipeErrors(t_token *current)
 {
 	return (current->type == PIPE && ((current->next == NULL
-		|| current->next->type == PIPE || ft_isredi(current->next)
-		|| current->prev == NULL || ft_isredi(current->prev))));
+		|| current->next->type == PIPE || current->prev == NULL
+		|| ft_isredi(current->prev))));
 }
 
 int	ft_check_syntax(t_token *token_list)
