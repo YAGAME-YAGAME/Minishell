@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/26 09:57:13 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 09:40:31 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ char	*ft_getcwd(t_list *env)
 	cwd = ft_get_pwd(env);
 	
 	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
-		prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
+		// prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
+		prompt = ft_strjoin("[~", cwd + ft_strlen(getenv("HOME")));
 	else
 		prompt = ft_strjoin("\n[", cwd);
 	free(cwd);
 	tmp = prompt;
-	prompt = ft_strjoin(prompt, GREEN"]\n$>"RESET);
+	// prompt = ft_strjoin(prompt, GREEN"]\n$>"RESET);
+	prompt = ft_strjoin(prompt, "]\n$>");
 	free(tmp);
 	return (prompt);
 }

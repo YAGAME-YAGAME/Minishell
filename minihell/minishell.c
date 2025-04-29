@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 09:17:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 09:43:18 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,8 @@ void	minishell(char *input, t_list **minienv)
 	t_cmdarg	*cmdarg_list;
 
 	if (input == NULL)
-		ft_cmd_error(NULL, RED"[EOF]\n"RESET, 0);
+	ft_cmd_error(NULL, RED"[EOF]\n"RESET, 0);
 	if (input[0] == '\0')
-	{
-		free(input);
-		g_exit_status = 0;
-		return ;
-	}
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input, *minienv);
@@ -119,7 +114,8 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	if(!execution(cmdarg_list, *minienv))
 		return ;
-
+	free(input);
+	input = NULL;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
@@ -135,21 +131,21 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 	char	*cwd;
 	// atexit(leak_check);
-	
+
 	handle_signals();
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW"\nError: No arguments expected\n"RESET), 1);
 	else
 	{
-		printf(GREEN"Welcome to the Minishell!\n\n"RESET);
+		// printf(GREEN"Welcome to the Minishell!\n\n"RESET);
 		minienv = ft_envinit(env);
 		while (1)
 		{
 			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
 			minishell(input, &minienv);
-			free(input);
+			// free(input);
 			free(cwd);
 		}
 		ft_lstclear(&minienv, free);
