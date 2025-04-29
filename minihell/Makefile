@@ -35,6 +35,7 @@ SRCS=	$(TARGET).c \
 	./builtins/unset.c \
 	./builtins/handle_builtin_redi.c \
 	./builtins/utils.c \
+	signals.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

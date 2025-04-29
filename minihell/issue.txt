@@ -33,3 +33,9 @@ exit abc            # Should error (numeric argument required)
 
 $><< "EOF" cat
 syntax error near unexpected token 'REDI'
+
+chof hadi 3lach :
+$>ls > out | << ot << lim cat -e | head -n 2 | wc -l
+syntax error near unexpected token `|'
+[~/Desktop/Minishell/minihell]
+$>

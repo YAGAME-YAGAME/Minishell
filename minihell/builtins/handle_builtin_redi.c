@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/27 21:39:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 03:35:17 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	open_output(t_redi_list *output)
 			if(output->tmp_fd == -1)
 			{
 				write(2, output->file, ft_strlen(output->file));
-				write(2, " : failure to open out file\n", 19);
+				write(2, " : no such file or directory\n", 19);
 				return (-1);
 			}
 			if(output->is_last)
@@ -72,9 +72,9 @@ int	open_input(t_redi_list *input)
 			in_fd = open(input->file, O_RDONLY);
 			if(in_fd == -1)
 			{
-				write(2, input->file, strlen(input->file));
-				write(2, ": No such file or directory\n", 28);
-				return (-1);
+				perror(input->file);
+				write(2, " : failure to open in file\n", 27);
+				return (g_exit_status = 1,  -1);
 			}
 			close(in_fd);
 		}
@@ -90,11 +90,14 @@ int open_buitlin_redi(t_cmdarg *cmdarg_list)
 	t_redi_list	*input;
 	t_redi_list	*output;
 	cmdarg_list->origin_stdin = dup(STDIN_FILENO);
+	if (cmdarg_list->origin_stdin == -1)
+		return (perror("dup"), g_exit_status = 1, 1);
 	cmdarg_list->origin_stdout = dup(STDOUT_FILENO);
+	if (cmdarg_list->origin_stdout == -1)
+		return (perror("dup"), g_exit_status = 1, 1);
 
 	input = cmdarg_list->input;
 	output = cmdarg_list->output;
-
 	if (open_input(input) == -1)
 		return (1);
 	if (open_output(output) == -1)
@@ -139,7 +142,7 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input)
 	{
 		if (cmdarg_list->input || cmdarg_list->output)
 			if (open_buitlin_redi(cmdarg_list) == 1)
-				return (g_exit_status = 1, 1);
+				return (1);
 		if (run_built_in(cmdarg_list, minienv, input) == 1)
 		{
 			if (cmdarg_list->output)

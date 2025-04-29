@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/27 21:35:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 01:31:20 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ int    ft_exit(char **cmd, t_list **env, char *input)
 	else
 		g_exit_status = 0;
 	ft_lstclear(env, free);
-	free(input);
+    if (input)
+    {
+        free(input);
+        input = NULL;
+    }
 	exit(g_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:08:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/27 21:35:10 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 01:11:45 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ int    ft_echo(char **cmd, t_cmdarg *shell)
 	tmp = ft_join_arg(cmd, i);
 	ft_print_echo(tmp, n_flag);
 	free(tmp);
-	return (1);
+	return (0);
 }
