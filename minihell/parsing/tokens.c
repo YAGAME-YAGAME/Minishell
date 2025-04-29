@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 21:03:21 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:21:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_token	*ft_newtok(t_token *token)
 t_token	*ft_get_next_token(t_lexer *lexer)
 {
 	char	current_char;
-	t_token	*token;
 
 	while (lexer->pos < lexer->len
 		&& ft_isspace(lexer->input[lexer->pos]))
@@ -59,10 +58,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 		return (NULL);
 	current_char = lexer->input[lexer->pos];
 	if (current_char == '\'' || current_char == '"')
-	{
-		token = ft_handle_quotes(lexer, current_char);
-		return (token);
-	}
+		return (ft_handle_quotes(lexer, current_char));
 	else if (ft_isspecial(current_char))
 		return (ft_handle_operator(lexer));
 	else

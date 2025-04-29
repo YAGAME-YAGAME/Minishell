@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:08:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/29 01:11:45 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 14:46:45 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,16 @@ char    *ft_join_arg(char **cmd, int i)
 	return (hold);
 }
 
-void ft_print_echo(char *tmp, int n_flag)
+void	ft_print_echo(char *tmp, int n_flag)
 {
 	if (!n_flag)
-	{
 		ft_putendl_fd(tmp, 1);
-		ft_putstr_fd("\n", 1);
-	}
 	else
-	   ft_putstr_fd(tmp, 1);
+		ft_putstr_fd(tmp, 1);
 }
 
 
-int    ft_echo(char **cmd, t_cmdarg *shell)
+int	ft_echo(char **cmd, t_cmdarg *shell)
 {
 	int i;
 	int n_flag;

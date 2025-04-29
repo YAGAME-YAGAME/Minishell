@@ -1,0 +1,16 @@
+Makefile
+amjnanTests.txt
+builtins
+exec
+issue.txt
+libft
+minishell
+minishell.a
+minishell.c
+minishell.dSYM
+minishell.h
+minishell.o
+out
+parsing
+signals.c
+signals.o

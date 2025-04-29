@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 21:03:21 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:20:54 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 	int		start;
 	char	*content;
 	t_token	*token;
-	// t_token	*tmp_token;
 
 	lexer->pos++;
 	start = lexer->pos;
@@ -43,16 +42,6 @@ for matching quote"RESET), NULL);
 		token->type = SINGLE_QUOTE;
 	else
 		token->type = DOUBLE_QUOTE;
-	// if(ft_isspace(lexer->input[lexer->pos]) || !isoperator(lexer->input[lexer->pos]))
-	// {
-	// 	tmp_token = ft_handle_word(lexer);
-	// 	token->value = ft_strjoin(content, tmp_token->value);
-	// 	token->type = WORD;
-	// 	token->quote_type = '\0';
-	// 	// free(content);
-	// }
-	// else
-	// 	tmp_token = NULL;
 	token->value = content;
 	token->quote_type = quote_char;
 	if (ft_isspace(lexer->input[lexer->pos]))

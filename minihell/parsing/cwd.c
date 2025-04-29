@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 13:00:12 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:35:18 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ char	*ft_getcwd(t_list *env)
 
 	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
 		// prompt = ft_strjoin(CYAN"[~", cwd + ft_strlen(getenv("HOME")));
-		prompt = ft_strjoin("\n[~", cwd + ft_strlen(getenv("HOME")));
+		prompt = ft_strjoin("[~", cwd + ft_strlen(getenv("HOME")));
 	else
-		prompt = ft_strjoin("\n[", cwd);
+		prompt = ft_strjoin("[", cwd);
 	free(cwd);
 	tmp = prompt;
 	// prompt = ft_strjoin(prompt, GREEN"]\n$>"RESET);
