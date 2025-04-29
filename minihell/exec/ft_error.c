@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/26 21:20:30 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/28 23:28:19 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,19 @@ char	*find_path(t_list *path)
 	return (NULL);
 }
 
+void 	ft_get_path(char **full_path, char **path_cmd, char *p)
+{
+	while (*path_cmd)
+	{
+		*full_path = ft_strjoin(*path_cmd, "/");
+		*full_path = ft_strjoin(*full_path, p);
+		if (access(*full_path, X_OK) == 0)
+			break;
+		free(*full_path);
+		*full_path = NULL;
+		path_cmd++;
+	}
+}
 char	*check_exec(char *p, t_list *env)
 {
 	char	*full_path;
@@ -63,15 +76,7 @@ char	*check_exec(char *p, t_list *env)
 	if (!path)
 		return (NULL);
 	path_cmd = parsing_split(path, ':');
-	while (*path_cmd)
-	{
-		full_path = ft_strjoin(*path_cmd, "/");
-		full_path = ft_strjoin(full_path, p);
-		if (access(full_path, X_OK) == 0)
-			break ;
-		free(full_path);
-		full_path = NULL;
-		path_cmd++;
-	}
+	ft_get_path(&full_path, path_cmd, p);
+	free_dp(path_cmd);
 	return (full_path);
 }

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/26 23:43:36 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 08:11:54 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void		ft_free_node(t_cmdarg *node);
 
 
 //--exec
-void		check_here_doc(t_cmdarg *shell, t_list *env);
+int		check_here_doc(t_cmdarg *shell, t_list *env);
 int			execution(t_cmdarg *shell, t_list *env);
 int			count(char *s, char p);
 void		free_all(char **bf, int j);
@@ -200,6 +200,7 @@ void 		handle_input(t_redi_list *input);
 void 		handle_output(t_redi_list *output);
 int 		check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input);
 char 		**handel_quote(char **cmd);
+void 		ft_cmd_error(char *cmd_name, char *error, int status);
 
 
 int    		ft_echo(char **cmd, t_cmdarg*env);
@@ -215,6 +216,9 @@ int    		ft_set_env(t_list **env);
 void    	free_dp(char **cmd);
 int 		remove_env_node(t_list **env_list, t_list *node);
 void 		ft_reset_std(t_cmdarg *shell);
+
+// --signals
+void 		handle_signals();
 
 
 #endif

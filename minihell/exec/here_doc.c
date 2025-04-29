@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/25 21:06:23 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/04/29 03:00:57 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,18 @@ void	init_redi_file(t_cmdarg *shell)
 	}
 }
 
-void	open_here_doc(t_redi_list *heredoc, t_list *env)
+int		open_here_doc(t_redi_list *heredoc, t_list *env)
 {
 	char *line;
 	char *content;
 	char *delimiter;
 
 	content = malloc(1 * sizeof(char));
+	if(!content)
+	{
+		perror("malloc failure\n");
+		return (0);
+	}
 	content[0] = '\0';
 	delimiter = ft_strjoin(heredoc->file, "\n");
 	while(1)
@@ -67,9 +72,10 @@ void	open_here_doc(t_redi_list *heredoc, t_list *env)
 	if(heredoc->is_last)
 		heredoc->content = content;
 	free(line);
+	return (1);
 }
 
-void	check_here_doc(t_cmdarg *shell, t_list *env)
+int	check_here_doc(t_cmdarg *shell, t_list *env)
 {
 	t_cmdarg *tmp;
 	t_redi_list *in;
@@ -85,11 +91,13 @@ void	check_here_doc(t_cmdarg *shell, t_list *env)
 		while (in)
 		{
 			if(in->type == HEREDOC)
-				open_here_doc(in, env);
+				if(!open_here_doc(in, env))
+					return (0);
 			in = in->next;
 		}
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 void	print_list(t_redi_list *in, t_redi_list *out)
