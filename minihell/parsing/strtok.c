@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:08:28 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/24 10:38:54 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:25:37 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lexer	*ft_lexer_init(char *input)
 	return (lexer);
 }
 
-t_token	*ft_strtok(char *input, t_list *minienv)
+t_token	*ft_strtok(char *input)
 {
 	t_lexer	*lexer;
 	t_token	*token;
@@ -36,8 +36,7 @@ t_token	*ft_strtok(char *input, t_list *minienv)
 	token = ft_get_next_token(lexer);
 	while (token)
 	{
-		if (token->type != SINGLE_QUOTE)
-			ft_expand_variables(&token, minienv);
+		// ft_expand_variables(&token, minienv);
 		if (token->value)
 			ft_tokadd_back(&token_list, ft_newtok(token));
 		ft_free_token(token);

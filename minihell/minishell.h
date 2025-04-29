@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 08:11:54 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 13:25:47 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_token		*ft_handle_word(t_lexer *lexer);
 t_token		*ft_handle_operator(t_lexer *lexer);
 
 t_token		*ft_handle_quotes(t_lexer *lexer, char quote_char);
-t_token		*ft_strtok(char *input, t_list *minienv);
+t_token		*ft_strtok(char *input);
 t_lexer		*ft_lexer_init(char *input);
 t_token		*ft_get_next_token(t_lexer *lexer);
 t_token		*ft_newtok(t_token *token);

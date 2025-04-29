@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/29 10:26:55 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 13:37:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			in->is_last = false;
 		in->content = NULL;
-	
+
 		in = in->next;
 	}
 	while(out)
@@ -61,7 +61,7 @@ int		open_here_doc(t_redi_list *heredoc, t_list *env)
 	{
 		write(1 ,"here_doc >> ", 12);
 		line = get_next_line(0);
-		
+
 		// Handle Ctrl+D (NULL return from get_next_line)
 		if (line == NULL)
 		{
@@ -71,10 +71,10 @@ int		open_here_doc(t_redi_list *heredoc, t_list *env)
 			free(delimiter);
 			return (1);
 		}
-		if (heredoc->expand)
-			ft_ExpandVarInChar(&line, env);
 		if(ft_strncmp(line , delimiter, ft_strlen(delimiter)) == 0)
 			break;
+		if (heredoc->expand)
+			ft_ExpandVarInChar(&line, env);
 		if(heredoc->is_last)
 			content = my_strjoin(content, line);
 		free(line);

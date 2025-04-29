@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 12:34:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 13:31:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,22 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
-t_cmdarg	*ft_parser(t_token *token_list)
+t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
 	t_cmdarg	*node;
+	t_token		*tmp;
 
 	if (!token_list)
 		return (NULL);
 	cmdarg_list = NULL;
+	tmp = token_list;
+	while (tmp)
+	{
+		if (!(tmp->type == WORD && tmp->prev && tmp->prev->type == HEREDOC))
+			ft_expand_variables(&tmp, minienv);
+		tmp = tmp->next;
+	}
 	token_list->current = token_list;
 	node = ft_get_next_node(token_list);
 	while (node)
@@ -100,15 +108,15 @@ void	minishell(char *input, t_list **minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	token_list = ft_strtok(input, *minienv);
-	// ft_print_tokenlist(token_list);
+	token_list = ft_strtok(input);
+	ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 	{
 		ft_free_tokenlist(token_list);
 		return ;
 	}
-	cmdarg_list = ft_parser(token_list);
-	// ft_printcmd_list(cmdarg_list);
+	cmdarg_list = ft_parser(token_list, *minienv);
+	ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return ;
 	if(check_builtin(cmdarg_list, minienv, input) == 1)
