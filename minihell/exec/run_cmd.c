@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/29 03:24:16 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/29 12:14:09 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,29 +149,43 @@ void         handle_input(t_redi_list *input)
 	}
 }
 // =====================/ end handle input redirection /========================//
+void  ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
+{
+	char **cmd;
 
-void	 ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
+	cmd = NULL;
+	if (current_cmd->strags != NULL)
+	{
+		cmd = parsing_split(current_cmd->strags, ' ');
+		if (cmd && cmd[0] && is_builtin(cmd[0]) == 0)
+		{
+			if (run_built_in(current_cmd, env, NULL))
+			{
+				free_dp(cmd);
+				ft_lstclear(env, free);
+				exit(g_exit_status);
+			}
+		}
+		free_dp(cmd);
+	}
+}
+void ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	if(tmp_in != 0 && dup2(tmp_in, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure", 1);
 	if(current_cmd->next && dup2(p_fd[1], STDOUT_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure", 1);
-		
+
 	if(tmp_in != 0)
 		close(tmp_in);
 	if(current_cmd->next)
-		close(p_fd[1]);
-	if(current_cmd->next)
-		close(p_fd[0]);
-	if (check_builtin(current_cmd, &env, NULL) == 1)
 	{
-		printf("here\n");
-		ft_lstclear(&env, free);
-		ft_free_cmdlist(current_cmd);
-		exit(0);
+		close(p_fd[1]);
+		close(p_fd[0]);
 	}
 	
 	handle_input(current_cmd->input);
 	handle_output(current_cmd->output);
+	ft_is_builtin(current_cmd, &env);
 	handle_execution(current_cmd, env);
 }

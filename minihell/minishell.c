@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 09:36:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:34:56 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -95,13 +96,9 @@ void	minishell(char *input, t_list **minienv)
 	t_cmdarg	*cmdarg_list;
 
 	if (input == NULL)
-		ft_cmd_error(NULL, RED"[EOF]\n"RESET, 0);
+	ft_cmd_error(NULL, RED"[EOF]\n"RESET, 0);
 	if (input[0] == '\0')
-	{
-		free(input);
-		g_exit_status = 0;
 		return ;
-	}
 	add_history(input);
 	token_list = ft_strtok(input, *minienv);
 	// ft_print_tokenlist(token_list);
@@ -111,7 +108,6 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	}
 	cmdarg_list = ft_parser(token_list);
-
 	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return ;
@@ -119,7 +115,8 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	if(!execution(cmdarg_list, *minienv))
 		return ;
-
+	free(input);
+	input = NULL;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
@@ -142,14 +139,14 @@ int	main(int ac, char **av, char **env)
 		return (printf(YELLOW"\nError: No arguments expected\n"RESET), 1);
 	else
 	{
-		printf(GREEN"Welcome to the Minishell!\n\n"RESET);
+		// printf(GREEN"Welcome to the Minishell!\n\n"RESET);
 		minienv = ft_envinit(env);
 		while (1)
 		{
 			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
 			minishell(input, &minienv);
-			free(input);
+			// free(input);
 			free(cwd);
 		}
 		ft_lstclear(&minienv, free);
