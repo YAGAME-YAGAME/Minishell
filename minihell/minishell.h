@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 13:25:47 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:26:45 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ typedef struct s_redi_list
 typedef struct s_cmdarg
 {
 	char			*strags;
+	char			**cmd;
+	int				cmdSize;
 	bool			is_builtin;
 	int 			origin_stdout;
 	int 			origin_stdin;
@@ -135,7 +137,8 @@ t_lexer		*ft_lexer_init(char *input);
 t_token		*ft_get_next_token(t_lexer *lexer);
 t_token		*ft_newtok(t_token *token);
 
-void    	minishell(char *input, t_list **minienv);
+void		minishell(char *input, t_list **minienv);
+int			ft_toksize(t_token *lst);
 void		ft_tokadd_back(t_token **token_list, t_token *token);
 void		ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new);
 int			ft_isspecial(char c);

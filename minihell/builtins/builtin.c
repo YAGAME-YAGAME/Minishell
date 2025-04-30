@@ -6,14 +6,14 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:55:24 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/27 21:35:02 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:26:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-void    free_dp(char **cmd)
+void	free_dp(char **cmd)
 {
 	int i;
 

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 16:45:27 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:24:03 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,13 @@ void	ft_free_node(t_cmdarg *node)
 {
 	if (node)
 	{
-		free(node->strags);
+		// free(node->strags);
+		if (node->cmd)
+		{
+			for (int i = 0; i < node->cmdSize; i++)
+				free(node->cmd[i]);
+			free(node->cmd);
+		}
 		ft_free_redi_list(node->input);
 		ft_free_redi_list(node->output);
 		free(node);

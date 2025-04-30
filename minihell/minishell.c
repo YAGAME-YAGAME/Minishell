@@ -5,19 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 14:15:25 by abenajib         ###   ########.fr       */
+/*   Created: 2025/04/05 12:14:53 by abenajib          #+#                #+#             */
+/*   Updated: 2025/04/30 19:00:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
-
 
 // Global variable for exit status
 int g_exit_status = 0;
-
-
 
 bool	ft_rediErrors(t_token *current)
 {
@@ -91,10 +87,10 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	{
 		if (node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
+		freeall(node->cmd, node->cmdSize);
 		free(node);
 		node = ft_get_next_node(token_list);
 	}
-	free(node);
 	return (cmdarg_list);
 }
 
@@ -107,13 +103,17 @@ void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 	while (tmp)
 	{
 		printf("-------------------------------------\n");
-		printf("Command: [%s]\n", tmp->strags);
+		printf("Command:\n");
+		for (int i = 0; i < tmp->cmdSize; i++)
+			printf("[%s]\n", tmp->cmd[i]);
+		printf("\n");
+		printf("Redirections:\n");
 		if (tmp->input)
 			ft_printredi(tmp->input);
 		if (tmp->output)
 			ft_printredi(tmp->output);
 		tmp = tmp->next;
-		printf("-------------------------------------\n");
+		printf("-------------------------------------\n\n");
 	}
 }
 
@@ -129,19 +129,19 @@ void	minishell(char *input, t_list **minienv)
 	add_history(input);
 	token_list = ft_strtok(input);
 	// ft_print_tokenlist(token_list);
-	if (ft_check_syntax(token_list) == -1)
-	{
-		ft_free_tokenlist(token_list);
-		return ;
-	}
+	// if (ft_check_syntax(token_list) == -1)
+	// {
+	// 	ft_free_tokenlist(token_list);
+	// 	return ;
+	// }
 	cmdarg_list = ft_parser(token_list, *minienv);
-	// ft_printcmd_list(cmdarg_list);
-	if (!check_here_doc(cmdarg_list, *minienv))
-		return ;
-	if(check_builtin(cmdarg_list, minienv, input) == 1)
-		return ;
-	if(!execution(cmdarg_list, *minienv))
-		return ;
+	ft_printcmd_list(cmdarg_list);
+	// if (!check_here_doc(cmdarg_list, *minienv))
+	// 	return ;
+	// if(check_builtin(cmdarg_list, minienv, input) == 1)
+	// 	return ;
+	// if(!execution(cmdarg_list, *minienv))
+	// 	return ;
 	free(input);
 	input = NULL;
 	ft_free_tokenlist(token_list);
