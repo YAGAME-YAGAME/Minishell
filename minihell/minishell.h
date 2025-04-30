@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/30 19:26:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/04/30 22:52:37 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define RESET "\033[0m"
 
 
+# define HEREDOC_FILE "/tmp/heredoc"
 // Global variables
 extern int g_exit_status;
 
@@ -52,7 +53,12 @@ void    handle_sigint(int sig);
 void    setup_signals(void);
 void    init_readline(void);
 
-
+// Signal handling functions
+void    handle_sigint(int sig);
+void    handle_heredoc_sigint(int sig);
+void    handle_signals(void);
+void    setup_heredoc_signals(void);
+void    restore_signals(void);
 //--libft functions
 # include "libft/libft.h"
 

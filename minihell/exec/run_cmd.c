@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/29 12:14:09 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/30 23:45:55 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,55 +24,42 @@ void ft_cmd_error(char *cmd_name, char *error, int status)
     exit(status);
 }
 
-void 	check_cmd(char **cmd)
-{	
-	if(cmd == NULL || cmd[0] == NULL || cmd[0][0] == '\0')
-	{
-		free_dp(cmd);
-		ft_cmd_error(NULL, "command not found\n", 127);
-	}
-}
+
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
-	char **cmd;
 	char *cmd_path;
 	char **envp = NULL;
 
 	
-	if(current_cmd == NULL || current_cmd->strags == NULL)
+	if(current_cmd == NULL || current_cmd->cmd[0] == NULL)
 		exit(0);  
-	cmd = parsing_split(current_cmd->strags, ' ');
-	check_cmd(cmd);
-	cmd_path = check_exec(cmd[0], env);
+	cmd_path = check_exec(current_cmd->cmd[0], env);
 	if(cmd_path == NULL)
-	{
-		// free_dp(cmd);
-		ft_cmd_error(cmd[0], "command not found\n", 127);
-	}
+		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
 	envp = get_env(env);
-	if(execve(cmd_path, cmd, envp) == -1)
+	if(execve(cmd_path, current_cmd->cmd, envp) == -1)
 	{
-		free_dp(cmd);
 		free_dp(envp);
 		if (errno == EACCES)
-            ft_cmd_error(cmd[0], "Permission denied\n", 126);
+            ft_cmd_error(current_cmd->cmd[0], "Permission denied\n", 126);
         else
-			ft_cmd_error(cmd[0], "execution failure\n", 1);
+			ft_cmd_error(current_cmd->cmd[0], "execution failure\n", 1);
 	}
 }
 
-int	handle_heredoc(t_redi_list *input)
+void	handle_heredoc(t_redi_list *input)
 {
-	int	heredoc_fd[2];
-
-	if(pipe(heredoc_fd) == -1)
-		ft_cmd_error(NULL, "pipe failure\n", 1);
-	write(heredoc_fd[1], input->content, ft_strlen(input->content));
-	close(heredoc_fd[1]);
-	dup2(heredoc_fd[0], STDIN_FILENO);
-	close(heredoc_fd[0]);
-	free(input->content);
-	return (1);
+	int fd;
+	(void)input;
+	fd = open(HEREDOC_FILE, O_RDONLY);
+	if(fd == -1)
+		ft_cmd_error(NULL, "open failure\n", 1);
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		close(fd);
+		ft_cmd_error(NULL, "dup2 failure\n", 1);
+	}
+	close(fd);
 }
 
 int handel_append(t_redi_list *output)
@@ -143,7 +130,7 @@ void         handle_input(t_redi_list *input)
 			}
 			close(in_fd);
 		}
-		if(input->type == HEREDOC && input->content)
+		if(input->type == HEREDOC && input->is_last)
 			handle_heredoc(input);
 		input = input->next;
 	}
