@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/02 13:32:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/02 19:01:56 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		open_here_doc(t_redi_list *heredoc, t_list *env)
 	char *line;
 	char *delimiter;
 	int fd;
-	
+
 	line = NULL;
 	signal(SIGINT, handle_heredoc_sigint);
 	fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -35,13 +35,13 @@ int		open_here_doc(t_redi_list *heredoc, t_list *env)
 static void ft_parent_proc(int *status, int pid)
 {
 	waitpid(pid, status, 0);
-	if (WIFEXITED(status))
+	if (WIFEXITED(*status))
 	{
-		if (WEXITSTATUS(status) != 0)
-			g_exit_status = WEXITSTATUS(status);
+		if (WEXITSTATUS(*status) != 0)
+			g_exit_status = WEXITSTATUS(*status);
 	}
-	else if (WIFSIGNALED(status))
-		g_exit_status = 128 + WTERMSIG(status);
+	else if (WIFSIGNALED(*status))
+		g_exit_status = 128 + WTERMSIG(*status);
 	restore_signals();
 }
 
@@ -49,13 +49,13 @@ int handel_heredoc(t_redi_list *in, t_list *env)
 {
 	int pid;
 	int status;
-	
+
 	status = 0;
 	if(in->type == HEREDOC)
 	{
 		if((pid = fork()) == -1)
 			return (perror("fork"), -1);
-			
+
 		if (pid == 0)
 			open_here_doc(in, env);
 		else

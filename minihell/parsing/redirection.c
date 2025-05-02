@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:18:40 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/15 22:24:53 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:12:22 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_redi_list	*ft_redinew(t_token *token, bool expand)
 	new->type = token->type;
 	new->file = token->next->value;
 	new->expand = expand;
+	new->variable = token->next->variable;
 	new->next = NULL;
 	return (new);
 }
@@ -54,7 +55,7 @@ void	ft_printredi(t_redi_list *redi)
 	tmp = redi;
 	while (tmp)
 	{
-		printf("type: {%s}, file: [%s]\n", ft_printtype(tmp->type), tmp->file);
+		printf("type: {%s}, file: [%s]:%d\n", ft_printtype(tmp->type), tmp->file, tmp->variable);
 		tmp = tmp->next;
 	}
 }

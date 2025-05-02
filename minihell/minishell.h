@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 13:33:10 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/02 20:27:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_token
 	char			*value;
 	char			quote_type;
 	bool			addSpace;
+	bool			variable;
 	struct s_token	*current;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -117,6 +118,7 @@ typedef struct s_redi_list
 	int 				tmp_fd;
 	bool 				is_ambiguous;
 	bool				expand;
+	bool				variable;
 	struct s_redi_list	*next;
 }	t_redi_list;
 
@@ -162,6 +164,7 @@ void		ft_printcmd_list(t_cmdarg *cmdarg_list);
 void		ft_free_tokenlist(t_token *token_list);
 void		ft_free_token(t_token *token);
 bool		ft_isredi(t_token *token);
+bool		isCmd(t_token *current);
 void		ft_parse_word(t_cmdarg **node, t_token *token_list);
 t_cmdarg	*ft_get_next_node(t_token *token_list);
 

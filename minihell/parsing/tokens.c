@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 14:21:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:08:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_token	*ft_newtok(t_token *token)
 	new_token->next = NULL;
 	new_token->prev = NULL;
 	new_token->addSpace = token->addSpace;
+	new_token->variable = false;
 	return (new_token);
 }
 

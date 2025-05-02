@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 13:24:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:06:42 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 	char	*temp;
 	char	*temp2;
 
-	// printf("========================================\n");
 	if ((*token)->type == SINGLE_QUOTE)
 		return ;
 	dollar_pos = ft_dollar_pos((*token)->value);
@@ -83,6 +82,7 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 				dollar_pos + ft_get_var_length((*token)->value + dollar_pos + 1) + 1,
 				ft_strlen((*token)->value));
 		(*token)->value = ft_strjoin_free(temp, temp2);
+		(*token)->variable = true; // when the value is from an expanded variable set true
 		free(temp2);
 		dollar_pos = ft_dollar_pos((*token)->value);
 	}
