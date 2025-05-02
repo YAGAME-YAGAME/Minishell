@@ -25,7 +25,8 @@ SRCS=	$(TARGET).c \
 	./exec/run_cmd.c \
 	./exec/execution.c \
 	./exec/ft_error.c \
-	./exec/here_doc.c \
+	./exec/heredoc/here_doc.c \
+	./exec/heredoc/here_doc_utils.c \
 	./exec/gnl/gnl.c \
 	./exec/gnl/gnl_utils.c \
 	./exec/signals.c \

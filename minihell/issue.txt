@@ -39,3 +39,7 @@ $>ls > out | << ot << lim cat -e | head -n 2 | wc -l
 syntax error near unexpected token `|'
 [~/Desktop/Minishell/minihell]
 $>
+
+
+ls > | ls
+yes |

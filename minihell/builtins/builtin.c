@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:55:24 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/30 23:04:58 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/02 13:37:40 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int is_builtin(char *cmd)
 		return (0);
 	else if (ft_strcmp(cmd, "pwd") == 0)
 		return (0);
-	else if (ft_strcmp(cmd, "clear") == 0)
-		return (0);
 	else if (ft_strcmp(cmd, "export") == 0)
 		return (0);
 	else if (ft_strcmp(cmd, "unset") == 0)
@@ -58,8 +56,6 @@ int    run_built_in(t_cmdarg *shell, t_list **env, char *input)
 		result = ft_cd(shell->cmd, env);
 	else if (ft_strcmp(shell->cmd[0], "pwd") == 0)
 		result = ft_pwd(env);
-	else if (ft_strcmp(shell->cmd[0], "clear") == 0)
-		result = ft_clear();
 	else if (ft_strcmp(shell->cmd[0], "export") == 0)
 		result = ft_export(shell->cmd, env);
 	else if (ft_strcmp(shell->cmd[0], "unset") == 0)

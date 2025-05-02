@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:35 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/27 21:35:13 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:38:46 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int    ft_clear()
-{
-	printf("\033[H\033[2J");
-	return (1);
-}
 
 int    ft_env(t_list **env)
 {

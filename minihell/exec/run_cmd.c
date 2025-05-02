@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/30 23:45:55 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/02 12:20:40 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void         handle_input(t_redi_list *input)
 			}
 			close(in_fd);
 		}
+
 		if(input->type == HEREDOC && input->is_last)
 			handle_heredoc(input);
 		input = input->next;
@@ -170,6 +171,7 @@ void ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 		close(p_fd[1]);
 		close(p_fd[0]);
 	}
+	// fprintf(stderr,"%s\n", "hello");
 	
 	handle_input(current_cmd->input);
 	handle_output(current_cmd->output);
