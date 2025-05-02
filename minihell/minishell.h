@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 20:27:58 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 21:39:56 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ char		*my_strdup(const char *s1);
 void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
 char 		*ft_get_pwd(t_list *env);
+bool 		is_ambiguous(char *file);
 
 //--builtins
 void 		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
