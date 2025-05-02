@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 20:36:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 23:29:12 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,22 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list)
 	char	*tmp;
 
 	val = ft_strdup(token_list->current->value);
-	if ((*node)->cmdSize != 0)
+	if (token_list->current->prev && token_list->current->prev->addSpace == true)
+		(*node)->cmd[(*node)->cmdSize++] = val;
+	else
 	{
-		token_list->current = token_list->current->next;
-		while (token_list->current && isCmd(token_list->current))
+		if ((*node)->cmdSize > 0)
 		{
-			if (token_list->current->addSpace == true)
-			{
-				(*node)->cmd[(*node)->cmdSize++] = ft_strjoin(val, token_list->current->value);
-				free(val);
-				return ;
-			}
-			else
-			{
-				tmp = val;
-				val = ft_strjoin(tmp, token_list->current->value);
-				free(tmp);
-			}
-			token_list->current = token_list->current->next;
+			tmp = (*node)->cmd[(*node)->cmdSize - 1];
+			(*node)->cmd[(*node)->cmdSize - 1] = ft_strjoin(tmp, val);
+			free(tmp);
+			free(val);
+		}
+		else
+		{
+			(*node)->cmd[(*node)->cmdSize++] = val;
 		}
 	}
-	(*node)->cmd[(*node)->cmdSize++] = val;
-	// exit(0);
 }
 
 // void	ft_parse_squote(t_cmdarg **node, t_token *token_list)
