@@ -3,9 +3,9 @@ CC = clang
 
 CFLAGS = -Wall -Wextra -Werror
 MINIFLAGS = -lreadline
-# READLINE = $(shell brew --prefix readline)
-# CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
-# MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+READLINE = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \
 	./parsing/env_init.c \
@@ -25,9 +25,12 @@ SRCS=	$(TARGET).c \
 	./exec/run_cmd.c \
 	./exec/execution.c \
 	./exec/ft_error.c \
-	./exec/here_doc.c \
+	./exec/heredoc/here_doc.c \
+	./exec/heredoc/here_doc_utils.c \
 	./exec/gnl/gnl.c \
 	./exec/gnl/gnl_utils.c \
+	./exec/signals.c \
+	./exec/get_cmd_path.c \
 	./builtins/builtin.c \
 	./builtins/cd.c \
 	./builtins/echo.c \
@@ -38,7 +41,6 @@ SRCS=	$(TARGET).c \
 	./builtins/unset.c \
 	./builtins/handle_builtin_redi.c \
 	./builtins/utils.c \
-	signals.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

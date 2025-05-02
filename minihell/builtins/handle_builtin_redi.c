@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/29 03:35:17 by yagame           ###   ########.fr       */
+/*   Updated: 2025/04/30 23:06:49 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,18 +126,15 @@ void	ft_reset_std(t_cmdarg *shell)
 
 int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input)
 {
-	char	**cmd;
 	int		check;
 
 	if (cmdarg_list == NULL)
 		return (1);
-	if(cmdarg_list->strags == NULL || cmdarg_list->strags[0] == '\0')
+	if(cmdarg_list->cmd == NULL) 
 		return (0);
-	cmd = parsing_split(cmdarg_list->strags, ' ');
-	if(cmd == NULL)
-		return (g_exit_status = 1, 0);  // Set exit status to 1 for malloc failure
-	check = is_builtin(cmd[0]);
-	free_dp(cmd);
+
+	check = is_builtin(cmdarg_list->cmd[0]);
+
 	if(size_list(cmdarg_list) == 1 && !check)
 	{
 		if (cmdarg_list->input || cmdarg_list->output)

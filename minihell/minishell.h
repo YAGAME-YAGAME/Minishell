@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/30 19:26:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:33:10 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 # define RESET "\033[0m"
 
 
+# define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
 // Global variables
 extern int g_exit_status;
 
@@ -52,7 +53,12 @@ void    handle_sigint(int sig);
 void    setup_signals(void);
 void    init_readline(void);
 
-
+// Signal handling functions
+void    handle_sigint(int sig);
+void    handle_heredoc_sigint(int sig);
+void    handle_signals(void);
+void    setup_heredoc_signals(void);
+void    restore_signals(void);
 //--libft functions
 # include "libft/libft.h"
 
@@ -83,6 +89,7 @@ typedef enum e_token_type
 // }	t_node_type;
 //--structs
 
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -108,6 +115,7 @@ typedef struct s_redi_list
 	char				*content;
 	bool				is_last;
 	int 				tmp_fd;
+	bool 				is_ambiguous;
 	bool				expand;
 	struct s_redi_list	*next;
 }	t_redi_list;
@@ -179,7 +187,7 @@ void		ft_free_node(t_cmdarg *node);
 
 
 //--exec
-int		check_here_doc(t_cmdarg *shell, t_list *env);
+int			check_here_doc(t_cmdarg *shell, t_list *env);
 int			execution(t_cmdarg *shell, t_list *env);
 int			count(char *s, char p);
 void		free_all(char **bf, int j);
@@ -197,6 +205,8 @@ int			size_list(t_cmdarg *node);
 char 		*ft_get_pwd(t_list *env);
 
 //--builtins
+void 		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
+void		init_redi_file(t_cmdarg *shell);
 void    	ft_update_path(t_list *env, char *new_path, char *old_path);
 int   		run_built_in(t_cmdarg *shell, t_list **env, char *input);
 void 		handle_input(t_redi_list *input);
