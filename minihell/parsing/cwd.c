@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/29 14:35:18 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:26:37 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char 	*ft_get_pwd(t_list *env)
 	{
 		if (ft_strcmp(tmp->key, "PWD") == 0)
 			return (ft_strdup(tmp->value));
+		
 		tmp = tmp->next;
 	}
 	return (NULL);

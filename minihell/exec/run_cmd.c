@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/02 22:06:23 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 15:51:10 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void         handle_input(t_redi_list *input)
 		{
 			if(input->variable)
 			{
-				printf("hello\n");
 				if(is_ambiguous(input->file) == false)
 					ft_cmd_error(input->file, "ambiguous redirect\n", 1);
 			}
