@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:21:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/26 09:57:39 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 20:17:20 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_list	*ft_envinit(char **env)
 		return (minienv);
 	}
 	i = 0;
-	while (env[i])
+	while (env && env[i])
 	{
 		key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
 		value = ft_substr(env[i], ft_strchr(env[i], '=') - env[i] + 1,

@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/27 23:19:51 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 20:34:31 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 t_list	*ft_copy_list(t_list *env)
 {
-	t_list	*new_list = NULL;
-	t_list	*current = env;
-
+	t_list	*new_list;
+	t_list	*current;
+	char    *key_cp;
+	char    *value_cp;
+	
+	current = env;
+	new_list = NULL;
+	if(!env)
+		return (NULL);
+		
 	while (current)
 	{
-		ft_lstadd_back(&new_list, ft_lstnew(ft_strdup(current->key),
-			ft_strdup(current->value)));
+		// Safely handle NULL values
+		key_cp = current->key ? ft_strdup(current->key) : ft_strdup("");
+		value_cp = current->value ? ft_strdup(current->value) : ft_strdup("");
+		
+		ft_lstadd_back(&new_list, ft_lstnew(key_cp, value_cp));
 		current = current->next;
 	}
 	return new_list;
@@ -48,6 +58,7 @@ void	ft_print_sorted_env(t_list **env)
 {
 	t_list *ptr1;
 	t_list *head;
+	t_list *temp;
 	int size_list;
 
 	if (*env == NULL)
@@ -57,7 +68,7 @@ void	ft_print_sorted_env(t_list **env)
 	size_list = ft_lstsize(ptr1);
 	while(size_list > 0)
 	{
-		while (ptr1->next)
+		while (ptr1 && ptr1->next)
 		{
 			ft_swap_list(ptr1);
 			ptr1 = ptr1->next;
@@ -67,9 +78,14 @@ void	ft_print_sorted_env(t_list **env)
 	}
 	while(head)
 	{
-		if (head)
-			printf("declare -x %s=\"%s\"\n", head->key, head->value);
+		if (head && head->key)
+			printf("declare -x %s=\"%s\"\n", head->key, head->value ? head->value : "");
+		temp = head;
 		head = head->next;
+		// Free memory for this node
+		free(temp->key);
+		free(temp->value);
+		free(temp);
 	}
 }
 
