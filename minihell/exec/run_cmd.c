@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/03 18:26:01 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 22:01:34 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int handel_append(t_redi_list *output)
 	int out_fd;
 
 	if(output->variable)
-		if(is_ambiguous(output->file) == false)
+		if(is_ambiguous(output->file) == true)
 				ft_cmd_error(output->file, "ambiguous redirect\n", 1);
 	out_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if(out_fd == -1)
-		ft_cmd_error(output->file, "open failure\n", 1);
+		ft_cmd_error(output->file, "no such file or directory\n", 1);
 	if(output->is_last)
 	{
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
@@ -93,11 +93,11 @@ void	handle_output(t_redi_list *output)
 		if(output->type == OUTPUT)
 		{
 			if(output->variable)
-				if(is_ambiguous(output->file) == false)
+				if(is_ambiguous(output->file) == true)
 					ft_cmd_error(output->file, "ambiguous redirect\n", 1);
 			out_fd = open(output->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if(out_fd == -1)
-				ft_cmd_error(output->file, "failure to open out file\n", 27);
+				ft_cmd_error(output->file, "no such file or directory\n", 1);
 			if(output->is_last)
 			{
 				if(dup2(out_fd, STDOUT_FILENO) == -1)
@@ -114,6 +114,7 @@ void	handle_output(t_redi_list *output)
 	}
 }
 
+
 void         handle_input(t_redi_list *input)
 {
 	int in_fd;
@@ -124,12 +125,12 @@ void         handle_input(t_redi_list *input)
 		{
 			if(input->variable)
 			{
-				if(is_ambiguous(input->file) == false)
+				if(is_ambiguous(input->file) == true)
 					ft_cmd_error(input->file, "ambiguous redirect\n", 1);
 			}
 			in_fd = open(input->file, O_RDONLY);
 			if(in_fd == -1)
-				ft_cmd_error(input->file, "No such file or directory\n", 27);
+				ft_cmd_error(input->file, "No such file or directory\n", 1);
 			if(input->is_last)
 			{
 				if(dup2(in_fd, STDIN_FILENO) == -1)
