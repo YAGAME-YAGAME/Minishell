@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 22:59:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:05:25 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_cmdarg	*ft_get_next_node(t_token *token_list)
 
 	while (token_list->current && token_list->current->type != PIPE)
 	{
-		printf(YELLOW"current in while [%s]\n"RESET, token_list->current->value);
+		// printf(YELLOW"current in while [%s]\n"RESET, token_list->current->value);
 		if (isCmd(token_list->current))
 			ft_parse_word(&node, token_list);
 		else if (ft_isredi(token_list->current))
