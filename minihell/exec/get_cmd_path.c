@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/02 13:30:42 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 18:18:24 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,5 @@ char	*check_exec(char *p, t_list *env)
 		return (NULL);
 	path_cmd = parsing_split(path, ':');
 	ft_get_path(&full_path, path_cmd, p);
-	free_dp(path_cmd);
 	return (full_path);
 }

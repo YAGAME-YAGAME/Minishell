@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varexp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 19:06:42 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:04:27 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*ft_getenv(char *var, t_list *minienv)
 	t_list	*tmp;
 
 	tmp = minienv;
+	if(tmp == NULL)
+		return (NULL);
 	while (tmp)
 	{
 		if (ft_strcmp(var, tmp->key) == 0)
