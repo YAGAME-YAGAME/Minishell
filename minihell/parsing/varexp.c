@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 17:35:37 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:47:00 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_ExpandVarInChar(char **value, t_list *minienv)
 	{
 		var = ft_substr(*value, dollar_pos + 1,
 				ft_get_var_length(*value + dollar_pos + 1));
+
 		expanded = ft_getvar(var, minienv);
 		free(var);
 		temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
@@ -51,6 +52,7 @@ void	ft_expand_exit_status(t_token **token)
 		expanded = ft_itoa(getpid());
 	else
 		expanded = ft_strdup("");
+	expanded = ft_itoa(g_exit_status);
 	temp = ft_strjoin_free(ft_substr((*token)->value, 0, dollar_pos), expanded);
 	temp2 = ft_substr((*token)->value,
 			dollar_pos + 2,
@@ -72,7 +74,8 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 	dollar_pos = ft_dollar_pos((*token)->value);
 	while (dollar_pos != -1)
 	{
-		if ((*token)->value[dollar_pos + 1] == '$' || (*token)->value[dollar_pos + 1] == '?' || ft_isdigit((*token)->value[dollar_pos + 1]))
+		if ((*token)->value[dollar_pos + 1] == '$' || (*token)->value[dollar_pos + 1] == '?'
+			|| ft_isdigit((*token)->value[dollar_pos + 1]))
 		{
 			ft_expand_exit_status(token);
 			dollar_pos = ft_dollar_pos((*token)->value);
