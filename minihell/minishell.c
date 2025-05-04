@@ -128,14 +128,14 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input);
-	// ft_print_tokenlist(token_list);
+	ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 	{
 		ft_free_tokenlist(token_list);
 		return ;
 	}
 	cmdarg_list = ft_parser(token_list, *minienv);
-	// ft_printcmd_list(cmdarg_list);
+	ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return ;
 	if(check_builtin(cmdarg_list, minienv, input) == 1)

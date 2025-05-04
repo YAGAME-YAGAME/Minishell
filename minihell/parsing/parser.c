@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 23:29:12 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:35:25 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list)
 	{
 		if ((*node)->cmdSize > 0)
 		{
+			printf(RED"[%s]\n"RESET, val);
 			tmp = (*node)->cmd[(*node)->cmdSize - 1];
 			(*node)->cmd[(*node)->cmdSize - 1] = ft_strjoin(tmp, val);
 			free(tmp);
@@ -35,48 +36,6 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list)
 		}
 	}
 }
-
-// void	ft_parse_squote(t_cmdarg **node, t_token *token_list)
-// {
-// 	char	*tmp;
-
-// 	// tmp = (*node)->strags;
-// 	// (*node)->strags = ft_strjoin((*node)->strags, "'");
-// 	// free(tmp);
-// 	tmp = (*node)->strags;
-// 	(*node)->strags = ft_strjoin((*node)->strags, token_list->current->value);
-// 	free(tmp);
-// 	// tmp = (*node)->strags;
-// 	// (*node)->strags = ft_strjoin((*node)->strags, "'");
-// 	// free(tmp);
-// 	if (token_list->current->addSpace == true)
-// 	{
-// 		tmp = (*node)->strags;
-// 		(*node)->strags = ft_strjoin((*node)->strags, " ");
-// 		free(tmp);
-// 	}
-// }
-
-// void	ft_parse_dquote(t_cmdarg **node, t_token *token_list)
-// {
-// 	char	*tmp;
-
-// 	// tmp = (*node)->strags;
-// 	// (*node)->strags = ft_strjoin((*node)->strags, "\"");
-// 	// free(tmp);
-// 	tmp = (*node)->strags;
-// 	(*node)->strags = ft_strjoin((*node)->strags, token_list->current->value);
-// 	free(tmp);
-// 	// tmp = (*node)->strags;
-// 	// (*node)->strags = ft_strjoin((*node)->strags, "\"");
-// 	// free(tmp);
-// 	if (token_list->current->addSpace == true)
-// 	{
-// 		tmp = (*node)->strags;
-// 		(*node)->strags = ft_strjoin((*node)->strags, " ");
-// 		free(tmp);
-// 	}
-// }
 
 void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 {
