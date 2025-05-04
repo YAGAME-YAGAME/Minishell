@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/03 20:12:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:15:55 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_ExpandVarInChar(char **value, t_list *minienv)
 	{
 		var = ft_substr(*value, dollar_pos + 1,
 				ft_get_var_length(*value + dollar_pos + 1));
+		
 		expanded = ft_getvar(var, minienv);
 		free(var);
 		temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
