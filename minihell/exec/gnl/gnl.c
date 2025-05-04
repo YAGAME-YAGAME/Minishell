@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 10:41:12 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/12 16:16:09 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/03 23:42:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,11 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		free(hold);
+		hold = NULL;
 		return (NULL);
+	}
 	hold = get_line(fd, hold);
 	if (!hold)
 		return (NULL);

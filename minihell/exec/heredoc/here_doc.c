@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/02 19:01:56 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 00:01:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ int		open_here_doc(t_redi_list *heredoc, t_list *env)
 		ft_cmd_error(NULL, "open failure\n", 1);
 	delimiter = ft_strjoin(heredoc->file, "\n");
 	if(!delimiter)
+	{
+		if (line)
+			free(line);
 		ft_cmd_error(NULL, "malloc failure\n", 1);
-	ft_read_line(fd, &line, delimiter,heredoc, env);
+	}
+	ft_read_line(fd, &line, delimiter, heredoc, env);
 	close(fd);
 	free(delimiter);
 	exit(0);

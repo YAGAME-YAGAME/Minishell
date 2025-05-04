@@ -137,26 +137,30 @@ void	minishell(char *input, t_list **minienv)
 	cmdarg_list = ft_parser(token_list, *minienv);
 	ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
+	{
+		ft_free_tokenlist(token_list);
+		ft_free_cmdlist(cmdarg_list);
 		return ;
-	// if(check_builtin(cmdarg_list, minienv, input) == 1)
-	// 	return ;
+	}
+	if(check_builtin(cmdarg_list, minienv, input) == 1)
+		return ;
 	// if(!execution(cmdarg_list, *minienv))
 	// 	return ;
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
 
-void	leak_check(void)
-{
-	system("leaks -q minishell");
-}
+// void	leak_check(void)
+// {
+// 	system("leaks -q minishell");
+// }
 
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
 	char	*input;
 	char	*cwd;
-	atexit(leak_check);
+	// atexit(leak_check);
 
 	handle_signals();
 	(void)av;
