@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:34:58 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:54:31 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_parse_word(t_cmdarg **node, t_token *token_list)
 	{
 		if ((*node)->cmdSize > 0)
 		{
+			printf(RED"[%s]\n"RESET, val);
 			tmp = (*node)->cmd[(*node)->cmdSize - 1];
 			(*node)->cmd[(*node)->cmdSize - 1] = ft_strjoin(tmp, val);
 			free(tmp);

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:33:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:54:00 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,12 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 {
 	t_token	*new_token;
 	char	*value;
-	char	*tmp;
 
 	new_token = ft_get_next_token(*lexer);
 	if (!new_token)
 		return (NULL);
 	if (token->type != WORD)
 		new_token->type = token->type;
-	tmp = new_token->value;
 	value = ft_strjoin(token->value, new_token->value);
 	new_token->value = value;
 	return (new_token);
