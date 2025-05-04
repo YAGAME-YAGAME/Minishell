@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 11:44:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:28:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 	char	*tmp;
 
 	new_token = ft_get_next_token(*lexer);
+	if (!new_token)
+		return (NULL);
+	if (token->type != WORD)
+		new_token->type = token->type;
 	tmp = new_token->value;
 	value = ft_strjoin(token->value, new_token->value);
-	// ft_free_token(token);
-	// free(tmp);
-	// free(new_token->value);
 	new_token->value = value;
-	// printf(RED"new_token->value = %s\n"RESET, new_token->value);
-	new_token->type = COMBINED;
 	return (new_token);
 }
 
@@ -82,7 +81,11 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 	else
 	{
 		if (current_char == '\'' || current_char == '"')
+		{
 			token = ft_handle_quotes(lexer, current_char);
+			if (!token)
+				return (NULL);
+		}
 		else
 			token = ft_handle_word(lexer);
 		if (lexer->input[lexer->pos] != ' ' && lexer->input[lexer->pos] != '\0')

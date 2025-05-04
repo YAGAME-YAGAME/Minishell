@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 11:36:08 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:13:57 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*ft_printtype(t_token_type type)
 		return ("SINGLE_QUOTE");
 	else if (type == DOUBLE_QUOTE)
 		return ("DOUBLE_QUOTE");
-	else if (type == COMBINED)
-		return ("COMBINED");
 	return ("UNKNOWN");
 }
 

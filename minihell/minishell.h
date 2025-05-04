@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 11:35:25 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 13:13:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef enum e_token_type
 	APPEND,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	COMBINED,
 }	t_token_type;
 
 typedef struct s_token
