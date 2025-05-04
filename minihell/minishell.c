@@ -19,7 +19,7 @@ bool	ft_rediErrors(t_token *current)
 {
 	return (ft_isredi(current) && (current->next == NULL
 		|| (current->next->type != WORD && current->next->type != DOUBLE_QUOTE
-			&& current->next->type != SINGLE_QUOTE)
+			&& current->next->type != SINGLE_QUOTE && current->next->type != COMBINED)
 			|| ft_isredi(current->next)));
 }
 
@@ -128,7 +128,7 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input);
-	// ft_print_tokenlist(token_list);
+	ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 	{
 		ft_free_tokenlist(token_list);
@@ -173,7 +173,7 @@ int	main(int ac, char **av, char **env)
 			cwd = ft_getcwd(minienv);
 			input = readline(cwd);
 			minishell(input, &minienv);
-			// free(input);
+			free(input);
 			free(cwd);
 		}
 		ft_lstclear(&minienv, free);

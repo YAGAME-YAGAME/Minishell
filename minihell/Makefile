@@ -4,9 +4,15 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror
 MINIFLAGS = -lreadline
 
+<<<<<<< HEAD
 # READLINE = $(shell brew --prefix readline)
 # CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
 # MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+=======
+READLINE = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -fsanitize=address -g
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+>>>>>>> 07e3ca553310a1e6385261418f69f0e9b2f2242a
 
 SRCS=	$(TARGET).c \
 	./parsing/cwd.c \

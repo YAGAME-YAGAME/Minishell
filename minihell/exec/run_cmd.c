@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/02 22:06:23 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/03 18:26:01 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void         handle_input(t_redi_list *input)
 		{
 			if(input->variable)
 			{
-				printf("hello\n");
 				if(is_ambiguous(input->file) == false)
 					ft_cmd_error(input->file, "ambiguous redirect\n", 1);
 			}
@@ -151,24 +150,20 @@ void         handle_input(t_redi_list *input)
 void  ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 {
 	char **cmd;
-
-	cmd = NULL;
+	
+	cmd = current_cmd->cmd;
 	if (current_cmd->strags != NULL)
 	{
-		cmd = parsing_split(current_cmd->strags, ' ');
 		if (cmd && cmd[0] && is_builtin(cmd[0]) == 0)
 		{
 			if (run_built_in(current_cmd, env, NULL))
 			{
-				free_dp(cmd);
-				ft_lstclear(env, free);
 				exit(g_exit_status);
 			}
 		}
-		free_dp(cmd);
 	}
 }
-void ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
+void     ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	if(tmp_in != 0 && dup2(tmp_in, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure", 1);
