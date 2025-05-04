@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 21:39:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/04 11:35:25 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # include <sys/ioctl.h>
 # include <pwd.h>
 
-//--macros
 //----colors
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -43,22 +42,24 @@
 # define CYAN "\033[0;36m"
 # define RESET "\033[0m"
 
-
+//--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
+
 // Global variables
 extern int g_exit_status;
 
 // Signal handling and readline functions
-void    handle_sigint(int sig);
-void    setup_signals(void);
-void    init_readline(void);
+void	handle_sigint(int sig);
+void	setup_signals(void);
+void	init_readline(void);
 
 // Signal handling functions
-void    handle_sigint(int sig);
-void    handle_heredoc_sigint(int sig);
-void    handle_signals(void);
-void    setup_heredoc_signals(void);
-void    restore_signals(void);
+void	handle_sigint(int sig);
+void	handle_heredoc_sigint(int sig);
+void	handle_signals(void);
+void	setup_heredoc_signals(void);
+void	restore_signals(void);
+
 //--libft functions
 # include "libft/libft.h"
 
@@ -77,18 +78,8 @@ typedef enum e_token_type
 	APPEND,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	COMBINED,
 }	t_token_type;
-
-// typedef enum e_node_type
-// {
-// 	NODE_CMD,
-// 	NODE_PIPE,
-// 	NODE_AND,
-// 	NODE_OR,
-// 	SUBSHELL,
-// }	t_node_type;
-//--structs
-
 
 typedef struct s_token
 {
@@ -137,7 +128,6 @@ typedef struct s_cmdarg
 
 t_list		*ft_envinit(char **env);
 char		*ft_getcwd(t_list *env);
-// void		ft_builtins(char *input, t_list *minienv);
 t_token		*ft_handle_word(t_lexer *lexer);
 t_token		*ft_handle_operator(t_lexer *lexer);
 
@@ -183,8 +173,6 @@ void		ft_rediradd(t_redi_list **redi, t_redi_list *new);
 
 t_redi_list	*ft_redinew(t_token *token, bool expand);
 void		ft_parse_redi(t_cmdarg **node, t_token *token_list);
-void		ft_parse_squote(t_cmdarg **node, t_token *token_list);
-void		ft_parse_dquote(t_cmdarg **node, t_token *token_list);
 void		ft_free_cmdlist(t_cmdarg *cmdarg_list);
 void		ft_free_node(t_cmdarg *node);
 
@@ -209,30 +197,30 @@ char 		*ft_get_pwd(t_list *env);
 bool 		is_ambiguous(char *file);
 
 //--builtins
-void 		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
+void		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
 void		init_redi_file(t_cmdarg *shell);
-void    	ft_update_path(t_list *env, char *new_path, char *old_path);
-int   		run_built_in(t_cmdarg *shell, t_list **env, char *input);
-void 		handle_input(t_redi_list *input);
-void 		handle_output(t_redi_list *output);
-int 		check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input);
-char 		**handel_quote(char **cmd);
-void 		ft_cmd_error(char *cmd_name, char *error, int status);
+void		ft_update_path(t_list *env, char *new_path, char *old_path);
+int			run_built_in(t_cmdarg *shell, t_list **env, char *input);
+void		handle_input(t_redi_list *input);
+void		handle_output(t_redi_list *output);
+int			check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input);
+char		**handel_quote(char **cmd);
+void		ft_cmd_error(char *cmd_name, char *error, int status);
 
 
-int    		ft_echo(char **cmd, t_cmdarg*env);
-int    		ft_pwd(t_list **env);
-int    		ft_unset(char **cmd, t_list **env);
-int    		ft_exit(char **cmd, t_list **env, char *input);
-int    		ft_cd(char **cmd, t_list **env);
-int    		ft_env(t_list **env);
-int    		ft_export(char **cmd, t_list **env);
-int    		ft_clear();
-int 		is_builtin(char *cmd);
-int    		ft_set_env(t_list **env);
-void    	free_dp(char **cmd);
-int 		remove_env_node(t_list **env_list, t_list *node);
-void 		ft_reset_std(t_cmdarg *shell);
+int			ft_echo(char **cmd, t_cmdarg*env);
+int			ft_pwd(t_list **env);
+int			ft_unset(char **cmd, t_list **env);
+int			ft_exit(char **cmd, t_list **env, char *input);
+int			ft_cd(char **cmd, t_list **env);
+int			ft_env(t_list **env);
+int			ft_export(char **cmd, t_list **env);
+// int			ft_clear();
+int			is_builtin(char *cmd);
+int			ft_set_env(t_list **env);
+void		free_dp(char **cmd);
+int			remove_env_node(t_list **env_list, t_list *node);
+void		ft_reset_std(t_cmdarg *shell);
 
 // --signals
 void 		handle_signals();

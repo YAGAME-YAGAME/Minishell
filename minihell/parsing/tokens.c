@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 19:08:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 11:44:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,28 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
+t_token	*ft_jointok(t_token *token, t_lexer **lexer)
+{
+	t_token	*new_token;
+	char	*value;
+	char	*tmp;
+
+	new_token = ft_get_next_token(*lexer);
+	tmp = new_token->value;
+	value = ft_strjoin(token->value, new_token->value);
+	// ft_free_token(token);
+	// free(tmp);
+	// free(new_token->value);
+	new_token->value = value;
+	// printf(RED"new_token->value = %s\n"RESET, new_token->value);
+	new_token->type = COMBINED;
+	return (new_token);
+}
+
 t_token	*ft_get_next_token(t_lexer *lexer)
 {
 	char	current_char;
+	t_token	*token;
 
 	while (lexer->pos < lexer->len
 		&& ft_isspace(lexer->input[lexer->pos]))
@@ -58,10 +77,16 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 	if (lexer->pos >= lexer->len)
 		return (NULL);
 	current_char = lexer->input[lexer->pos];
-	if (current_char == '\'' || current_char == '"')
-		return (ft_handle_quotes(lexer, current_char));
-	else if (ft_isspecial(current_char))
+	if (ft_isspecial(current_char))
 		return (ft_handle_operator(lexer));
 	else
-		return (ft_handle_word(lexer));
+	{
+		if (current_char == '\'' || current_char == '"')
+			token = ft_handle_quotes(lexer, current_char);
+		else
+			token = ft_handle_word(lexer);
+		if (lexer->input[lexer->pos] != ' ' && lexer->input[lexer->pos] != '\0')
+			token = ft_jointok(token, &lexer);
+		return (token);
+	}
 }
