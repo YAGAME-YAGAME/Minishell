@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:18:40 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 19:12:22 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:29:07 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	ft_printredi(t_redi_list *redi)
 	tmp = redi;
 	while (tmp)
 	{
-		printf("type: {%s}, file: [%s]:%d\n", ft_printtype(tmp->type), tmp->file, tmp->variable);
+		printf("type: {%s}, file: [%s]:%d\n", ft_printtype(tmp->type),
+			tmp->file, tmp->variable);
 		tmp = tmp->next;
 	}
 }

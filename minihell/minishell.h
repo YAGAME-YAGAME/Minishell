@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 13:13:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:50:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 
 //--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
+# define UNCLOSED "unexpected EOF while looking for matching quote"
 
 // Global variables
 extern int g_exit_status;
@@ -84,7 +85,6 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	char			quote_type;
 	bool			addSpace;
 	bool			variable;
 	struct s_token	*current;
@@ -153,16 +153,16 @@ void		ft_printcmd_list(t_cmdarg *cmdarg_list);
 void		ft_free_tokenlist(t_token *token_list);
 void		ft_free_token(t_token *token);
 bool		ft_isredi(t_token *token);
-bool		isCmd(t_token *current);
+bool		ft_is_cmd(t_token *current);
 void		ft_parse_word(t_cmdarg **node, t_token *token_list);
 t_cmdarg	*ft_get_next_node(t_token *token_list);
 
 t_cmdarg	*ft_newnode(t_cmdarg *node);
 t_cmdarg	*ft_init_node(void);
 void		ft_expand_variables(t_token **token, t_list *minienv);
-void		ft_ExpandVarInChar(char **value, t_list *minienv);
+void		ft_expand_var_in_char(char **value, t_list *minienv);
 ssize_t		ft_dollar_pos(char *str);
-int			ft_get_var_length(char *str);
+int			ft_get_varlen(char *str);
 
 char		*ft_getenv(char *var, t_list *minienv);
 char		*ft_strjoin_free(char *s1, char *s2);
@@ -175,6 +175,10 @@ void		ft_parse_redi(t_cmdarg **node, t_token *token_list);
 void		ft_free_cmdlist(t_cmdarg *cmdarg_list);
 void		ft_free_node(t_cmdarg *node);
 
+bool		ft_condition(t_token **token, ssize_t dollar_pos);
+char		*ft_expand(t_token **token, t_list *minienv, ssize_t dollar_pos);
+char		*ft_temp2(t_token **token, ssize_t dollar_pos);
+char		*ft_strjoin_free(char *s1, char *s2);
 
 //--exec
 int			check_here_doc(t_cmdarg *shell, t_list *env);

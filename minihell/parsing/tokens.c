@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 13:28:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:33:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_token	*ft_newtok(t_token *token)
 		return (NULL);
 	new_token->type = token->type;
 	new_token->value = ft_strdup(token->value);
-	new_token->quote_type = token->quote_type;
 	new_token->next = NULL;
 	new_token->prev = NULL;
 	new_token->addSpace = token->addSpace;

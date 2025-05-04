@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 13:13:57 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:46:28 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,6 @@ char	*ft_printtype(t_token_type type)
 	return ("UNKNOWN");
 }
 
-void	ft_print_tokenlist(t_token *token_list)
-{
-	t_token	*tmp;
-
-	tmp = token_list;
-	printf("---------------------------------\n");
-	printf("Token list:\n");
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("[%s]-", tmp->value);
-		tmp = tmp->next;
-	}
-	printf("\n");
-	tmp = token_list;
-	while (tmp)
-	{
-		printf("[%s]-", ft_printtype(tmp->type));
-		tmp = tmp->next;
-	}
-	printf("\n");
-	tmp = token_list;
-	while (tmp)
-	{
-		if (tmp->addSpace == true)
-			printf("[addSpace]-");
-		else
-			printf("[no addSpace]-");
-		tmp = tmp->next;
-	}
-	printf("\n");
-	printf("---------------------------------\n");
-}
-
 void	ft_print_env(t_list *minienv)
 {
 	t_list	*current;
@@ -80,8 +46,40 @@ void	ft_print_env(t_list *minienv)
 			printf("=");
 			printf("%s\n", current->value);
 		}
-			// printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}
 	printf(RESET"\n"RESET);
 }
+// void	ft_print_tokenlist(t_token *token_list)
+// {
+// 	t_token	*tmp;
+
+// 	tmp = token_list;
+// 	printf("---------------------------------\n");
+// 	printf("Token list:\n");
+// 	while (tmp)
+// 	{
+// 		if (tmp->value)
+// 			printf("[%s]-", tmp->value);
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	tmp = token_list;
+// 	while (tmp)
+// 	{
+// 		printf("[%s]-", ft_printtype(tmp->type));
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	tmp = token_list;
+// 	while (tmp)
+// 	{
+// 		if (tmp->addSpace == true)
+// 			printf("[addSpace]-");
+// 		else
+// 			printf("[no addSpace]-");
+// 		tmp = tmp->next;
+// 	}
+// 	printf("\n");
+// 	printf("---------------------------------\n");
+// }
