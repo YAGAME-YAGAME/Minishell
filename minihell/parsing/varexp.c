@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:53:19 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:34:33 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_expand_var_in_char(char **value, t_list *minienv)
 {
 	ssize_t	dollar_pos;
-	char	*var;
 	char	*expanded;
 	char	*temp;
 	char	*temp2;
@@ -23,14 +22,15 @@ void	ft_expand_var_in_char(char **value, t_list *minienv)
 	dollar_pos = ft_dollar_pos(*value);
 	while (dollar_pos != -1)
 	{
-		var = ft_substr(*value, dollar_pos + 1,
-				ft_get_varlen(*value + dollar_pos + 1));
-		expanded = ft_getvar(var, minienv);
-		free(var);
+		if (ft_condition_inchar(*value, dollar_pos))
+		{
+			ft_expand_exit_status_inchar(value);
+			dollar_pos = ft_dollar_pos(*value);
+			continue ;
+		}
+		expanded = ft_expand_inchar(*value, minienv, dollar_pos);
 		temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
-		temp2 = ft_substr(*value,
-				dollar_pos + ft_get_varlen(*value + dollar_pos + 1) + 1,
-				ft_strlen(*value));
+		temp2 = ft_temp2_inchar(*value, dollar_pos);
 		*value = ft_strjoin_free(temp, temp2);
 		free(temp2);
 		dollar_pos = ft_dollar_pos(*value);

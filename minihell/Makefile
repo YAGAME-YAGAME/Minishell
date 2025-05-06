@@ -22,6 +22,7 @@ SRCS=	$(TARGET).c \
 	./parsing/varexp.c \
 	./parsing/nodes.c \
 	./parsing/expanding_utils.c \
+	./parsing/heredoc_exp.c \
 	./parsing/redirection.c \
 	./exec/parsing_split.c \
 	./exec/utils.c \

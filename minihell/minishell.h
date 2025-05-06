@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:50:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:37:15 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void		ft_free_tokenlist(t_token *token_list);
 void		ft_free_token(t_token *token);
 bool		ft_isredi(t_token *token);
 bool		ft_is_cmd(t_token *current);
-void		ft_parse_word(t_cmdarg **node, t_token *token_list);
+void		*ft_parse_word(t_cmdarg **node, t_token *token_list);
 t_cmdarg	*ft_get_next_node(t_token *token_list);
 
 t_cmdarg	*ft_newnode(t_cmdarg *node);
@@ -179,6 +179,11 @@ bool		ft_condition(t_token **token, ssize_t dollar_pos);
 char		*ft_expand(t_token **token, t_list *minienv, ssize_t dollar_pos);
 char		*ft_temp2(t_token **token, ssize_t dollar_pos);
 char		*ft_strjoin_free(char *s1, char *s2);
+
+bool		ft_condition_inchar(char *value, ssize_t dollar_pos);
+void		ft_expand_exit_status_inchar(char **value);
+char		*ft_expand_inchar(char *value, t_list *minienv, ssize_t dollar_pos);
+char		*ft_temp2_inchar(char *value, ssize_t dollar_pos);
 
 //--exec
 int			check_here_doc(t_cmdarg *shell, t_list *env);

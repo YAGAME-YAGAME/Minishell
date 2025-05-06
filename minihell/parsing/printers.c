@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:46:28 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 20:31:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ void	ft_print_env(t_list *minienv)
 	}
 	printf(RESET"\n"RESET);
 }
+
 // void	ft_print_tokenlist(t_token *token_list)
 // {
 // 	t_token	*tmp;
-
 // 	tmp = token_list;
 // 	printf("---------------------------------\n");
 // 	printf("Token list:\n");
