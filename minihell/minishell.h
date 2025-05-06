@@ -198,6 +198,8 @@ void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
 char 		*ft_get_pwd(t_list *env);
 bool 		is_ambiguous(char *file);
+void 		ft_cmd_error(char *cmd_name, char *error, int status);
+int 		ft_open_file(char *file, int flag);
 
 //--builtins
 void		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);

@@ -41,5 +41,6 @@ syntax error near unexpected token `|'
 $>
 
 
-ls > | ls
-yes |
+exit 42         # Should exit with status 42
+
+cat << ot : had leaks

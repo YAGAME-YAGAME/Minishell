@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/29 01:31:20 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:17:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ int is_digit(char *str)
 int    ft_exit(char **cmd, t_list **env, char *input)
 {
 	int status;
-	if (cmd[1])
+	if (cmd[1] && cmd[2])
+	{
+		g_exit_status = 1;
+		return (write(2, "exit: too many arguments\n", 25),g_exit_status);
+	}
+	else if (cmd[1])
 	{
 		if (is_digit(cmd[1]) == 0)
 		{
@@ -46,11 +51,7 @@ int    ft_exit(char **cmd, t_list **env, char *input)
 		status = status % 256;
 		g_exit_status = status;
 	}
-	if (cmd[1] && cmd[2])
-	{
-		g_exit_status = 1;
-		return (write(2, "exit: too many arguments\n", 25),g_exit_status);
-	}
+	
 	else
 		g_exit_status = 0;
 	ft_lstclear(env, free);
@@ -59,5 +60,6 @@ int    ft_exit(char **cmd, t_list **env, char *input)
         free(input);
         input = NULL;
     }
+	printf("exit --> [%d]\n", g_exit_status);
 	exit(g_exit_status);
 }

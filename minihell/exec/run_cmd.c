@@ -3,57 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/03 18:26:01 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:22:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void ft_cmd_error(char *cmd_name, char *error, int status)
-{
-    write(2, "minishell : ", 11);
-    if (cmd_name)
-    {
-        write(2, cmd_name, ft_strlen(cmd_name));
-        write(2, ": ", 2);
-    }
-    write(2, error, ft_strlen(error));
-    exit(status);
-}
+
 
 
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char *cmd_path;
 	char **envp = NULL;
+	char *cmd_name = NULL;  // Store command name to avoid use-after-free
 
-	
 	if(current_cmd == NULL || current_cmd->cmd[0] == NULL)
-		exit(0);  
+		exit(0);
+		
+	// Save command name before we potentially free anything
+	if (current_cmd->cmd[0])
+		cmd_name = ft_strdup(current_cmd->cmd[0]);
+		
 	cmd_path = check_exec(current_cmd->cmd[0], env);
 	if(cmd_path == NULL)
-		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
+	{
+		// Use our saved command name instead of accessing potentially freed memory
+		ft_cmd_error(cmd_name, "command not found\n", 127);
+		// ft_cmd_error exits the process, so this will never return
+	}
+	
 	envp = get_env(env);
+	if (envp == NULL)
+	{
+		free(cmd_path);
+		free(cmd_name);
+		ft_cmd_error(NULL, "malloc failure\n", 1);
+	}
+	
 	if(execve(cmd_path, current_cmd->cmd, envp) == -1)
 	{
+		free(cmd_path);
 		free_dp(envp);
+		free(cmd_name);
 		if (errno == EACCES)
-            ft_cmd_error(current_cmd->cmd[0], "Permission denied\n", 126);
+            ft_cmd_error(cmd_name, "Permission denied\n", 126);
         else
-			ft_cmd_error(current_cmd->cmd[0], "execution failure\n", 1);
+			ft_cmd_error(cmd_name, "execution failure\n", 1);
 	}
+	
+	// This code won't be reached if execve succeeds
+	free(cmd_path);
+	free(cmd_name);
+	free_dp(envp);
 }
 
 void	handle_heredoc(t_redi_list *input)
 {
 	int fd;
 	(void)input;
-	fd = open(HEREDOC_FILE, O_RDONLY);
-	if(fd == -1)
-		ft_cmd_error(NULL, "open failure\n", 1);
+	fd = ft_open_file(HEREDOC_FILE, 0);
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		close(fd);
@@ -67,11 +79,9 @@ int handel_append(t_redi_list *output)
 	int out_fd;
 
 	if(output->variable)
-		if(is_ambiguous(output->file) == false)
+		if(is_ambiguous(output->file) == true)
 				ft_cmd_error(output->file, "ambiguous redirect\n", 1);
-	out_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if(out_fd == -1)
-		ft_cmd_error(output->file, "open failure\n", 1);
+	out_fd = ft_open_file(output->file, 2);
 	if(output->is_last)
 	{
 		if (dup2(out_fd, STDOUT_FILENO) == -1)
@@ -93,11 +103,9 @@ void	handle_output(t_redi_list *output)
 		if(output->type == OUTPUT)
 		{
 			if(output->variable)
-				if(is_ambiguous(output->file) == false)
+				if(is_ambiguous(output->file) == true)
 					ft_cmd_error(output->file, "ambiguous redirect\n", 1);
-			out_fd = open(output->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if(out_fd == -1)
-				ft_cmd_error(output->file, "failure to open out file\n", 27);
+			out_fd = ft_open_file(output->file, 0);
 			if(output->is_last)
 			{
 				if(dup2(out_fd, STDOUT_FILENO) == -1)
@@ -114,6 +122,7 @@ void	handle_output(t_redi_list *output)
 	}
 }
 
+
 void         handle_input(t_redi_list *input)
 {
 	int in_fd;
@@ -124,12 +133,10 @@ void         handle_input(t_redi_list *input)
 		{
 			if(input->variable)
 			{
-				if(is_ambiguous(input->file) == false)
+				if(is_ambiguous(input->file) == true)
 					ft_cmd_error(input->file, "ambiguous redirect\n", 1);
 			}
-			in_fd = open(input->file, O_RDONLY);
-			if(in_fd == -1)
-				ft_cmd_error(input->file, "No such file or directory\n", 27);
+			in_fd = ft_open_file(input->file, 1);
 			if(input->is_last)
 			{
 				if(dup2(in_fd, STDIN_FILENO) == -1)
@@ -140,29 +147,30 @@ void         handle_input(t_redi_list *input)
 			}
 			close(in_fd);
 		}
-
 		if(input->type == HEREDOC && input->is_last)
 			handle_heredoc(input);
 		input = input->next;
 	}
 }
 // =====================/ end handle input redirection /========================//
-void  ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
+void ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 {
 	char **cmd;
-	
+
+	if (!current_cmd || !current_cmd->cmd)
+		return;
+		
 	cmd = current_cmd->cmd;
-	if (current_cmd->strags != NULL)
+	// Remove the check for strags as it might be uninitialized
+	if (cmd && cmd[0] && is_builtin(cmd[0]) == 0)
 	{
-		if (cmd && cmd[0] && is_builtin(cmd[0]) == 0)
+		if (run_built_in(current_cmd, env, NULL))
 		{
-			if (run_built_in(current_cmd, env, NULL))
-			{
-				exit(g_exit_status);
-			}
+			exit(g_exit_status);
 		}
 	}
 }
+
 void     ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	if(tmp_in != 0 && dup2(tmp_in, STDIN_FILENO) == -1)

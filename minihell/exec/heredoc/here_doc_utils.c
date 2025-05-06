@@ -51,15 +51,20 @@ void ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_
 		{
 			write(1, "\n", 1);
 			if(heredoc->is_last)
-				write(fd, *line, ft_strlen(*line));
-			exit(0);
+				write(fd, *line, ft_strlen(*line));	
+			break;
 		}
 		if(ft_strncmp(*line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(*line);
+			*line = NULL;
             break;
+		}
 		if (heredoc->expand)
 			ft_expand_var_in_char(line, env);
 		if(heredoc->is_last)
 			write(fd, *line, ft_strlen(*line));
 		free(*line);
+		*line = NULL;
 	}
 }
