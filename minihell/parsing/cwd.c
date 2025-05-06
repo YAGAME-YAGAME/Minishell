@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:22:42 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:10:01 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Retrieves the current working directory from the environment list or system.
+ * @param env The environment variable list.
+ * @return A newly allocated string with the current working directory.
+ */
 char	*ft_get_pwd(t_list *env)
 {
 	t_list	*tmp;
@@ -28,6 +33,11 @@ char	*ft_get_pwd(t_list *env)
 	return (NULL);
 }
 
+/**
+ * @brief Builds the shell prompt string based on the current working directory.
+ * @param env The environment variable list.
+ * @return A newly allocated prompt string.
+ */
 char	*ft_getcwd(t_list *env)
 {
 	char	*cwd;

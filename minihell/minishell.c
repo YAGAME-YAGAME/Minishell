@@ -5,16 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:14:53 by abenajib          #+#                #+#             */
-/*   Updated: 2025/04/30 19:00:44 by abenajib         ###   ########.fr       */
+/*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
+/*   Updated: 2025/05/06 21:05:19 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Global variable for exit status
 int g_exit_status = 0;
 
+/**
+ * @brief Checks for redirection syntax errors in the token list
+ * @param current The token to check for redirection errors
+ * @return true if there is a redirection error, false otherwise
+ */
 bool	ft_rediErrors(t_token *current)
 {
 	return (ft_isredi(current) && (current->next == NULL
@@ -23,6 +27,11 @@ bool	ft_rediErrors(t_token *current)
 			|| ft_isredi(current->next)));
 }
 
+/**
+ * @brief Checks for pipe syntax errors in the token list
+ * @param current The token to check for pipe errors
+ * @return true if there is a pipe error, false otherwise
+ */
 bool	ft_pipeErrors(t_token *current)
 {
 	return (current->type == PIPE && ((current->next == NULL
@@ -30,6 +39,11 @@ bool	ft_pipeErrors(t_token *current)
 		|| ft_isredi(current->prev))));
 }
 
+/**
+ * @brief Calculates the number of tokens in a token list
+ * @param lst The token list to count
+ * @return The number of tokens in the list
+ */
 int	ft_toksize(t_token *lst)
 {
 	t_token	*p;
@@ -47,6 +61,11 @@ int	ft_toksize(t_token *lst)
 	return (len);
 }
 
+/**
+ * @brief Validates the syntax of the token list, checking for common errors
+ * @param token_list The token list to check
+ * @return 0 if syntax is valid, -1 if there are syntax errors
+ */
 int	ft_check_syntax(t_token *token_list)
 {
 	t_token	*current;
@@ -65,6 +84,12 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
+/**
+ * @brief Parses token list into command arguments structure
+ * @param token_list The token list to parse
+ * @param minienv The environment variables list
+ * @return A linked list of command arguments
+ */
 t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
@@ -94,6 +119,10 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	return (cmdarg_list);
 }
 
+/**
+ * @brief Debug function to print the command argument list structure
+ * @param cmdarg_list The command argument list to print
+ */
 void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 {
 	t_cmdarg	*tmp;
@@ -117,12 +146,22 @@ void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 	}
 }
 
+/**
+ * @brief Frees memory allocated for token list and command argument list
+ * @param token_list The token list to free
+ * @param cmdarg_list The command argument list to free
+ */
 void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 {
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
 
+/**
+ * @brief Core function of the shell, processes user input
+ * @param input The user input string
+ * @param minienv Pointer to the environment variables list
+ */
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
@@ -148,11 +187,21 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
+// /**
+//  * @brief Memory leak checker for debugging
+//  */
 // void	leak_check(void)
 // {
 // 	system("leaks -q minishell");
 // }
 
+/**
+ * @brief Main function of the minishell program
+ * @param ac Argument count
+ * @param av Argument vector
+ * @param env Environment variables
+ * @return Exit status of the program
+ */
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;

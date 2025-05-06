@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:34:10 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:08:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Checks if a character is a shell operator (|, <, >).
+ * @param c The character to check.
+ * @return true if the character is an operator, false otherwise.
+ */
 bool	isoperator(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
@@ -19,6 +24,12 @@ bool	isoperator(char c)
 	return (false);
 }
 
+/**
+ * @brief Handles quoted substrings in the lexer and creates a token for them.
+ * @param lexer The lexer structure.
+ * @param quote_char The quote character (' or ").
+ * @return Pointer to the created token, or NULL on error.
+ */
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 {
 	int		start;
@@ -48,6 +59,12 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 	return (token);
 }
 
+/**
+ * @brief Sets the type of a token based on the operator string.
+ * @param token The token to set the type for.
+ * @param op_len The length of the operator string.
+ * @param op The operator string.
+ */
 void	ft_set_token_type(t_token *token, int op_len, char *op)
 {
 	if (op_len == 2)
@@ -68,6 +85,11 @@ void	ft_set_token_type(t_token *token, int op_len, char *op)
 	}
 }
 
+/**
+ * @brief Handles operator tokens (|, <, >, <<, >>) in the lexer.
+ * @param lexer The lexer structure.
+ * @return Pointer to the created operator token, or NULL on error.
+ */
 t_token	*ft_handle_operator(t_lexer *lexer)
 {
 	char	op[3];
@@ -94,6 +116,11 @@ t_token	*ft_handle_operator(t_lexer *lexer)
 	return (token);
 }
 
+/**
+ * @brief Handles word tokens in the lexer (non-operator, non-quoted, non-whitespace).
+ * @param lexer The lexer structure.
+ * @return Pointer to the created word token, or NULL on error.
+ */
 t_token	*ft_handle_word(t_lexer *lexer)
 {
 	int		start;

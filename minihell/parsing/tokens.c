@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:54:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:12:42 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Adds a token to the end of a token list.
+ * @param token_list Pointer to the head of the token list.
+ * @param token The token to add.
+ */
 void	ft_tokadd_back(t_token **token_list, t_token *token)
 {
 	t_token	*tmp;
@@ -31,6 +36,11 @@ void	ft_tokadd_back(t_token **token_list, t_token *token)
 	token->next = NULL;
 }
 
+/**
+ * @brief Creates a new token by duplicating the given token's data.
+ * @param token The token to duplicate.
+ * @return Pointer to the new token, or NULL on error.
+ */
 t_token	*ft_newtok(t_token *token)
 {
 	t_token	*new_token;
@@ -47,6 +57,12 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
+/**
+ * @brief Joins the value of the given token with the next token from the lexer.
+ * @param token The token whose value will be joined.
+ * @param lexer Pointer to the lexer structure.
+ * @return Pointer to the new joined token, or NULL on error.
+ */
 t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 {
 	t_token	*new_token;
@@ -62,6 +78,11 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 	return (new_token);
 }
 
+/**
+ * @brief Retrieves the next token from the lexer, handling words, quotes, and operators.
+ * @param lexer The lexer structure.
+ * @return Pointer to the next token, or NULL if no more tokens.
+ */
 t_token	*ft_get_next_token(t_lexer *lexer)
 {
 	char	current_char;

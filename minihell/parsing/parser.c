@@ -6,12 +6,18 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:15:04 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Parses a word token and adds it to the command array of the node.
+ * @param node Pointer to the command argument node.
+ * @param token_list The token list containing the current token.
+ * @return NULL (used for error handling and consistency).
+ */
 void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 {
 	char	*val;
@@ -39,6 +45,11 @@ void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 	return (NULL);
 }
 
+/**
+ * @brief Parses a redirection token and adds it to the input or output redirection list of the node.
+ * @param node Pointer to the command argument node.
+ * @param token_list The token list containing the current token.
+ */
 void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 {
 	if (token_list->current->type == INPUT

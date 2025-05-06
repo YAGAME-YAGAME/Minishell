@@ -6,12 +6,16 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:26:39 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:08:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Frees a linked list of command argument nodes.
+ * @param cmdarg_list The head of the command argument list to free.
+ */
 void	ft_free_cmdlist(t_cmdarg *cmdarg_list)
 {
 	t_cmdarg	*tmp;
@@ -24,6 +28,10 @@ void	ft_free_cmdlist(t_cmdarg *cmdarg_list)
 	}
 }
 
+/**
+ * @brief Frees a linked list of tokens.
+ * @param token_list The head of the token list to free.
+ */
 void	ft_free_tokenlist(t_token *token_list)
 {
 	t_token	*tmp;
@@ -37,6 +45,10 @@ void	ft_free_tokenlist(t_token *token_list)
 	}
 }
 
+/**
+ * @brief Frees a single token structure.
+ * @param token The token to free.
+ */
 void	ft_free_token(t_token *token)
 {
 	if (token)
@@ -46,6 +58,10 @@ void	ft_free_token(t_token *token)
 	}
 }
 
+/**
+ * @brief Frees a single command argument node, including its command array and redirection lists.
+ * @param node The command argument node to free.
+ */
 void	ft_free_node(t_cmdarg *node)
 {
 	int	i;
@@ -65,6 +81,10 @@ void	ft_free_node(t_cmdarg *node)
 	}
 }
 
+/**
+ * @brief Frees a linked list of redirection nodes.
+ * @param redi The head of the redirection list to free.
+ */
 void	ft_free_redi_list(t_redi_list *redi)
 {
 	t_redi_list	*tmp;

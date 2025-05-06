@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:34:33 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:12:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Expands all variables in a string, replacing $VAR with their values from the environment.
+ * @param value Pointer to the string to expand. The string is updated in place.
+ * @param minienv The environment variable list.
+ */
 void	ft_expand_var_in_char(char **value, t_list *minienv)
 {
 	ssize_t	dollar_pos;
@@ -37,6 +42,10 @@ void	ft_expand_var_in_char(char **value, t_list *minienv)
 	}
 }
 
+/**
+ * @brief Expands the exit status ($?) or process ID ($$) in a token's value.
+ * @param token Pointer to the token to expand. The token value is updated in place.
+ */
 void	ft_expand_exit_status(t_token **token)
 {
 	ssize_t	dollar_pos;
@@ -59,6 +68,11 @@ void	ft_expand_exit_status(t_token **token)
 	free(temp2);
 }
 
+/**
+ * @brief Expands all variables in a token's value, except inside single quotes.
+ * @param token Pointer to the token to expand. The token value is updated in place.
+ * @param minienv The environment variable list.
+ */
 void	ft_expand_variables(t_token **token, t_list *minienv)
 {
 	ssize_t	dollar_pos;
@@ -88,6 +102,12 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 	}
 }
 
+/**
+ * @brief Retrieves the value of an environment variable from the environment list.
+ * @param var The variable name to look up.
+ * @param minienv The environment variable list.
+ * @return The value of the variable, or NULL if not found.
+ */
 char	*ft_getenv(char *var, t_list *minienv)
 {
 	t_list	*tmp;
@@ -104,6 +124,12 @@ char	*ft_getenv(char *var, t_list *minienv)
 	return (NULL);
 }
 
+/**
+ * @brief Gets the value of an environment variable, or an empty string if not found.
+ * @param var The variable name to look up.
+ * @param minienv The environment variable list.
+ * @return The value of the variable, or a newly allocated empty string if not found.
+ */
 char	*ft_getvar(char *var, t_list *minienv)
 {
 	char	*value;

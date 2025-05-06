@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 13:21:14 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/03 20:17:20 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/06 21:09:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Initializes the environment variable list from the given envp array.
+ * @param env The environment variable array (envp).
+ * @return Pointer to the head of the initialized environment variable list.
+ */
 t_list	*ft_envinit(char **env)
 {
 	t_list	*minienv;

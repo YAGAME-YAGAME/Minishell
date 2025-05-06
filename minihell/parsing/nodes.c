@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:54:22 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:13:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Creates a new command argument node by duplicating the given node's data.
+ * @param node The node to duplicate.
+ * @return Pointer to the new node, or NULL on error.
+ */
 t_cmdarg	*ft_newnode(t_cmdarg *node)
 {
 	t_cmdarg	*new;
@@ -41,6 +46,11 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 	return (new);
 }
 
+/**
+ * @brief Adds a command argument node to the end of a command argument list.
+ * @param lst Pointer to the head of the command argument list.
+ * @param new The node to add.
+ */
 void	ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new)
 {
 	t_cmdarg	*tmp;
@@ -56,6 +66,10 @@ void	ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new)
 	tmp->next = new;
 }
 
+/**
+ * @brief Initializes a new command argument node with default values.
+ * @return Pointer to the new node, or NULL on error.
+ */
 t_cmdarg	*ft_init_node(void)
 {
 	t_cmdarg	*node;
@@ -72,12 +86,22 @@ t_cmdarg	*ft_init_node(void)
 	return (node);
 }
 
+/**
+ * @brief Checks if the current token is a command (word or quoted string).
+ * @param current The token to check.
+ * @return true if the token is a command, false otherwise.
+ */
 bool	ft_is_cmd(t_token *current)
 {
 	return (current->type == WORD || current->type == DOUBLE_QUOTE
 		|| current->type == SINGLE_QUOTE);
 }
 
+/**
+ * @brief Parses the next command node from the token list.
+ * @param token_list The token list to parse.
+ * @return Pointer to the next command node, or NULL if none found.
+ */
 t_cmdarg	*ft_get_next_node(t_token *token_list)
 {
 	t_cmdarg	*node;

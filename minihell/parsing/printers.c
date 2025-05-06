@@ -6,12 +6,17 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:31:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/06 21:13:48 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/**
+ * @brief Returns a string representation of a token type.
+ * @param type The token type to print.
+ * @return The string name of the token type.
+ */
 char	*ft_printtype(t_token_type type)
 {
 	if (type == WORD)
@@ -33,6 +38,10 @@ char	*ft_printtype(t_token_type type)
 	return ("UNKNOWN");
 }
 
+/**
+ * @brief Prints all environment variables in the given list.
+ * @param minienv The environment variable list to print.
+ */
 void	ft_print_env(t_list *minienv)
 {
 	t_list	*current;
@@ -51,6 +60,10 @@ void	ft_print_env(t_list *minienv)
 	printf(RESET"\n"RESET);
 }
 
+// /**
+//  * @brief Prints the token list for debugging purposes.
+//  * @param token_list The head of the token list to print.
+//  */
 // void	ft_print_tokenlist(t_token *token_list)
 // {
 // 	t_token	*tmp;
