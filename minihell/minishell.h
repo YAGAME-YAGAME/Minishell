@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/02 21:39:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/05 15:12:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ void 		ft_free_list(t_list **list);
 int			size_list(t_cmdarg *node);
 char 		*ft_get_pwd(t_list *env);
 bool 		is_ambiguous(char *file);
+void 		ft_cmd_error(char *cmd_name, char *error, int status);
+int 		ft_open_file(char *file, int flag);
 
 //--builtins
 void 		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);

@@ -135,7 +135,7 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	}
 	cmdarg_list = ft_parser(token_list, *minienv);
-	ft_printcmd_list(cmdarg_list);
+	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 	{
 		ft_free_tokenlist(token_list);
@@ -143,9 +143,17 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	}
 	if(check_builtin(cmdarg_list, minienv, input) == 1)
+	{
+		ft_free_tokenlist(token_list);
+		ft_free_cmdlist(cmdarg_list);
 		return ;
-	// if(!execution(cmdarg_list, *minienv))
-	// 	return ;
+	}
+	if(!execution(cmdarg_list, *minienv))
+	{
+		ft_free_tokenlist(token_list);
+		ft_free_cmdlist(cmdarg_list);
+		return ;
+	}
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }
