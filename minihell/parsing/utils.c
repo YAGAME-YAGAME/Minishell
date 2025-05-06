@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:10:47 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/23 16:15:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:53:31 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,16 @@ ssize_t	ft_dollar_pos(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] != '\0'
+			&& (ft_isalnum(str[i + 1]) || str[i + 1] == '_'
+				|| str[i + 1] == '$' || str[i + 1] == '?'))
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-int	ft_get_var_length(char *str)
+int	ft_get_varlen(char *str)
 {
 	int	i;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/04 00:01:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/04 19:24:12 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_
             break;
 		}
 		if (heredoc->expand)
-			ft_ExpandVarInChar(line, env);
+			ft_expand_var_in_char(line, env);
 		if(heredoc->is_last)
 			write(fd, *line, ft_strlen(*line));
 		free(*line);
