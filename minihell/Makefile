@@ -1,6 +1,5 @@
 TARGET = minishell
 CC = clang
-
 CFLAGS = -Wall -Wextra -Werror
 MINIFLAGS = -lreadline
 

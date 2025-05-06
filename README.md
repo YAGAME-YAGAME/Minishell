@@ -14,8 +14,8 @@ Minishell is a lightweight shell built in C, inspired by Bash. It supports comma
 ## 🛠️ Installation  
 Clone the repository and compile the project:  
 ```bash
-git clone https://github.com/yourusername/minishell.git
-cd minishell
+git clone https://github.com/AbdoCooder/minishell.git
+cd Minishell
 make
 ./minishell
 ```
@@ -52,4 +52,4 @@ You are free to use, modify, and distribute it, but **any modifications must als
 For full details, check the [LICENSE](https://www.gnu.org/licenses/gpl-3.0.en.html) file.  
 
 ## 👨‍💻 Authors  
-- **ABDELKADER BENAJIBA / OTHMANE ZARWAL** – [GitHub Profile](https://github.com/AbdoCooder)  /  [GitHub Profile](https://github.com/YAGAME-YAGAME)
+- [**ABDELKADER BENAJIBA**](https://github.com/AbdoCooder)  /  [**OTHMANE ZARWAL**](https://github.com/YAGAME-YAGAME) -
