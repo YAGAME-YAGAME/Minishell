@@ -6,20 +6,20 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/07 01:12:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 17:02:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		size_list(t_cmdarg *node)
+int	size_list(t_cmdarg *node)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(!node)
+	if (!node)
 		return (0);
-	while(node)
+	while (node)
 	{
 		i++;
 		node = node->next;
@@ -27,12 +27,12 @@ int		size_list(t_cmdarg *node)
 	return (i);
 }
 
-int 	create_pipe(int *pip)
+int	create_pipe(int *pip)
 {
-	int p;
+	int	p;
 
 	p = pipe(pip);
-	if(p == -1)
+	if (p == -1)
 	{
 		ft_cmd_error(NULL, "pipe error\n", 1);
 		g_exit_status = 1;
@@ -41,20 +41,20 @@ int 	create_pipe(int *pip)
 	return (1);
 }
 
-void ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
+void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 {
-	if(*tmp_in != 0)
+	if (*tmp_in != 0)
 		close(*tmp_in);
-	if(current_cmd->next)
+	if (current_cmd->next)
 	{
 		close(pip_fd[1]);
 		*tmp_in = pip_fd[0];
 	}
 }
 
-void ft_wait_children(int *status)
+void	ft_wait_children(int *status)
 {
-	while(wait(status) > 0)
+	while (wait(status) > 0)
 	{
 		if (WIFEXITED(*status))
 			g_exit_status = WEXITSTATUS(*status);
@@ -65,32 +65,27 @@ void ft_wait_children(int *status)
 
 int	execution(t_cmdarg *shell, t_list *env)
 {
-	t_cmdarg *current_cmd;
-	int 	pip_fd[2];
-	pid_t	pid;
-	int 	status;
-	int 	tmp_in;
-	
-	tmp_in = 0; 
+	t_cmdarg	*current_cmd;
+	int			pip_fd[2];
+	pid_t		pid;
+	int			status;
+	int			tmp_in;
+
+	tmp_in = 0;
 	current_cmd = shell;
-	while(current_cmd)
+	while (current_cmd)
 	{
-		if(current_cmd->next)
-			if(!create_pipe(pip_fd))
+		if (current_cmd->next)
+			if (!create_pipe(pip_fd))
 				return (0);
-		if((pid = fork()) == -1)
-		{
-			perror("minishell: fork");
-			return (g_exit_status = 1, 0);
-		}
-		if(pid == 0)
+		pid = fork();
+		if (pid == -1)
+			return (g_exit_status = 1, perror("minishell: fork"), 0);
+		if (pid == 0)
 			ft_child(current_cmd, env, tmp_in, pip_fd);
 		else
 			ft_parent(&tmp_in, pip_fd, current_cmd);
 		current_cmd = current_cmd->next;
 	}
-	ft_wait_children(&status);
-	return (1);
+	return (ft_wait_children(&status), 1);
 }
-
-// printf("cmd -> %s\n", tmp->strags);

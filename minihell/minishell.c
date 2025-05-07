@@ -141,7 +141,7 @@ void	minishell(char *input, t_list **minienv)
 	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	if(check_builtin(cmdarg_list, minienv, input) == 1)
+	if(check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
 	if(!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));

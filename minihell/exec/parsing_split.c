@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_split.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:43:18 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/25 22:12:51 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:27:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ void	edit(int len, int j, char *start, char **buff)
 
 char	**parsing_split(char *s, char p)
 {
-	char	**buff;
-	char	*start;
 	int		wc;
 	int		len;
 	int		j;
+	char	**buff;
+	char	*start;
 
 	if (!s)
 		return (NULL);

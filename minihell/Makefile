@@ -26,6 +26,7 @@ SRCS=	$(TARGET).c \
 	./exec/parsing_split.c \
 	./exec/utils.c \
 	./exec/run_cmd.c \
+	./exec/run_cmd_utils.c \
 	./exec/execution.c \
 	./exec/ft_error.c \
 	./exec/heredoc/here_doc.c \
@@ -41,9 +42,11 @@ SRCS=	$(TARGET).c \
 	./builtins/env.c \
 	./builtins/exit.c \
 	./builtins/export.c \
+	./builtins/export_utils.c \
 	./builtins/pwd.c \
 	./builtins/unset.c \
 	./builtins/handle_builtin_redi.c \
+	./builtins/handle_builtin_redi_utils.c \
 	./builtins/utils.c \
 
 RM = rm -rf

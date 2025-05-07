@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-int    ft_env(t_list **env)
+int	ft_env(t_list **env)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = *env;
 	if (!*env || !env)
@@ -24,14 +24,13 @@ int    ft_env(t_list **env)
 	}
 	while (tmp)
 	{
-		if(tmp->key && tmp->key[0] == '_' && tmp->value)
+		if (tmp->key && tmp->key[0] == '_' && tmp->value)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup("/usr/bin/env");
 		}
 		if (tmp->key && tmp->value && tmp->value[0] != '\0')
 			printf("%s=%s\n", tmp->key, tmp->value);
-
 		tmp = tmp->next;
 	}
 	return (1);

@@ -6,18 +6,18 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 00:55:01 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 17:42:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int     size_dp(char **c)
+int	size_dp(char **c)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(*c)
+	while (*c)
 	{
 		c++;
 		i++;
@@ -25,9 +25,9 @@ int     size_dp(char **c)
 	return (i);
 }
 
-t_list  *ft_find_node(t_list *env, char *key)
+t_list	*ft_find_node(t_list *env, char *key)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = env;
 	while (tmp)
@@ -38,46 +38,37 @@ t_list  *ft_find_node(t_list *env, char *key)
 	}
 	return (NULL);
 }
-void    ft_update_path(t_list *env, char *new_path, char *old_path)
+
+void	ft_update_path(t_list *env, char *new_path, char *old_path)
 {
-	t_list *old_pwd;
-	t_list  *current_pwd;
-	// char *hold;
-	char *tmp;
+	t_list	*old_pwd;
+	t_list	*current_pwd;
+	char	*tmp;
 
 	tmp = NULL;
-	// hold = NULL;
-
 	new_path = getcwd(NULL, 0);
 	old_pwd = ft_find_node(env, "OLDPWD");
 	current_pwd = ft_find_node(env, "PWD");
-	if(old_pwd)
+	if (old_pwd)
 		old_pwd->value = ft_strdup(old_path);
-
-	if(current_pwd)
+	if (current_pwd)
 	{
 		tmp = current_pwd->value;
 		current_pwd->value = new_path;
 		free(tmp);
 	}
-	// else
-	// {
-	//     pwd = ft_lstnew("PWD", hold);
-	//     ft_lstadd_back(&env, pwd);
-	// }
 }
 
-
-
-int    ft_cd(char **cmd, t_list **env)
+int	ft_cd(char **cmd, t_list **env)
 {
-	char *path;
-	char *old_path;
+	char	*path;
+	char	*old_path;
 
 	path = NULL;
 	old_path = ft_getenv("PWD", *env);
-	if(size_dp(cmd) > 2)
-			return (free(cmd), write(2, "minishell :cd: too many arguments\n", 34), 1);
+	if (size_dp(cmd) > 2)
+		return (free(cmd), write(2, "minishell :cd: too many arguments\n", 34),
+			1);
 	if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
 	{
 		path = ft_getenv("HOME", *env);
@@ -88,13 +79,11 @@ int    ft_cd(char **cmd, t_list **env)
 	{
 		path = ft_getenv("OLDPWD", *env);
 		if (path == NULL)
-			return (free_dp(cmd), write(2, "minishell :cd: OLDPWD not set\n", 30), 1);
-			
+			return (write(2, "minishell :cd: OLDPWD not set\n", 30), 1);
 	}
 	else
-	   path = cmd[1];
+		path = cmd[1];
 	if (chdir(path) != 0)
-	   return (perror(path), 1);
-	ft_update_path(*env, path, old_path);
-	return (0);
+		return (perror(path), 1);
+	return (ft_update_path(*env, path, old_path), 0);
 }

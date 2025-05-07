@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:15 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:18:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 //--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
 # define UNCLOSED "unexpected EOF while looking for matching quote"
-
+# define EXIT_ERROR "exit: numeric argument required"
 // Global variables
 extern int g_exit_status;
 
@@ -205,23 +205,33 @@ char 		*ft_get_pwd(t_list *env);
 bool 		is_ambiguous(char *file);
 void 		ft_cmd_error(char *cmd_name, char *error, int status);
 int 		ft_open_file(char *file, int flag);
+void		handle_input(t_redi_list *input);
+void		handle_output(t_redi_list *output);
+int			handel_append(t_redi_list *output);
+void		handle_heredoc(t_redi_list *input);
 
 //--builtins
 void		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
 void		init_redi_file(t_cmdarg *shell);
 void		ft_update_path(t_list *env, char *new_path, char *old_path);
-int			run_built_in(t_cmdarg *shell, t_list **env, char *input);
+int			run_built_in(t_cmdarg *shell, t_list **env);
 void		handle_input(t_redi_list *input);
 void		handle_output(t_redi_list *output);
-int			check_builtin(t_cmdarg *cmdarg_list, t_list **minienv, char *input);
+int			check_builtin(t_cmdarg *cmdarg_list, t_list **minienv);
 char		**handel_quote(char **cmd);
 void		ft_cmd_error(char *cmd_name, char *error, int status);
+void		ft_free_and_error(char **cmd_path, char **cmd_name, char **envp);
+void		ft_print_sorted_env(t_list **env);
+void		ft_print_export_env(t_list *head);
+void		ft_swap_list(t_list *ptr1);
+t_list		*ft_copy_list(t_list *env);
+void		ft_reset_std(t_cmdarg *shell);
 
 
 int			ft_echo(char **cmd, t_cmdarg*env);
 int			ft_pwd(t_list **env);
 int			ft_unset(char **cmd, t_list **env);
-int			ft_exit(char **cmd, t_list **env, char *input);
+int			ft_exit(char **cmd, t_list **env);
 int			ft_cd(char **cmd, t_list **env);
 int			ft_env(t_list **env);
 int			ft_export(char **cmd, t_list **env);

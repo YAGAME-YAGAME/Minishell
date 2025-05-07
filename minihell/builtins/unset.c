@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/03 23:54:55 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/07 19:17:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int	ft_set_env(t_list **env)
 		if (getcwd(cwd_buffer, sizeof(cwd_buffer)) != NULL)
 			cwd = ft_strdup(cwd_buffer);
 		else
-			cwd = ft_strdup("/Users/yagame"); // FIXME:
+			cwd = ft_strdup("/Users/yagame");
 		ft_lstadd_back(env, ft_lstnew(ft_strdup("OLDPWD"), NULL));
 		ft_lstadd_back(env, ft_lstnew(ft_strdup("PWD"), cwd));
 		ft_lstadd_back(env, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1")));
-		ft_lstadd_back(env, ft_lstnew(ft_strdup("_"), ft_strdup("/usr/bin/env")));
+		ft_lstadd_back(env, ft_lstnew(ft_strdup("_"),
+				ft_strdup("/usr/bin/env")));
 		return (1);
 	}
 	return (0);
 }
-
 
 int	ft_unset(char **cmd, t_list **env)
 {
@@ -66,7 +66,7 @@ int	ft_unset(char **cmd, t_list **env)
 				to_remove = tmp;
 				tmp = tmp->next;
 				remove_env_node(env_ptr, to_remove);
-				break;
+				break ;
 			}
 			else
 				tmp = tmp->next;
