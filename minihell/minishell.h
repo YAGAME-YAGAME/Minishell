@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/07 19:18:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 23:27:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ typedef enum e_token_type
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
 }	t_token_type;
+
+typedef struct s_list_heredoc
+{
+	char	*delimiter;
+	char 	*line;
+	int		fd;
+}	t_list_heredoc;
 
 typedef struct s_token
 {
@@ -209,9 +216,11 @@ void		handle_input(t_redi_list *input);
 void		handle_output(t_redi_list *output);
 int			handel_append(t_redi_list *output);
 void		handle_heredoc(t_redi_list *input);
+void 		ft_free_list_heredoc(t_list_heredoc *list);
+void		ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
-void		ft_read_line(int fd, char **line, char *delimiter, t_redi_list *heredoc, t_list *env);
+void		ft_read_line(t_list_heredoc *p, t_redi_list *heredoc, t_list *env);
 void		init_redi_file(t_cmdarg *shell);
 void		ft_update_path(t_list *env, char *new_path, char *old_path);
 int			run_built_in(t_cmdarg *shell, t_list **env);
