@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/06 19:58:53 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/07 00:50:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,17 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char *cmd_path;
 	char **envp = NULL;
-	char *cmd_name = NULL;  // Store command name to avoid use-after-free
+	char *cmd_name = NULL; 
 
 	if(current_cmd == NULL || current_cmd->cmd[0] == NULL)
 		exit(0);
-
-	// Save command name before we potentially free anything
 	if (current_cmd->cmd[0])
 		cmd_name = ft_strdup(current_cmd->cmd[0]);
 
 	cmd_path = check_exec(current_cmd->cmd[0], env);
 	if(cmd_path == NULL)
 	{
-		// Use our saved command name instead of accessing potentially freed memory
-		ft_cmd_error(cmd_name, "command not found\n", 127);
-		// ft_cmd_error exits the process, so this will never return
+		ft_cmd_error(cmd_name, NULL, 127);
 	}
 
 	envp = get_env(env);
@@ -54,8 +50,6 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
         else
 			ft_cmd_error(cmd_name, "execution failure\n", 1);
 	}
-
-	// This code won't be reached if execve succeeds
 	free(cmd_path);
 	free(cmd_name);
 	free_dp(envp);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/05 15:15:52 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 01:08:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void ft_cmd_error(char *cmd_name, char *error, int status)
         write(2, cmd_name, ft_strlen(cmd_name));
         write(2, ": ", 2);
     }
-	perror (error);
-    // write(2, error, ft_strlen(error));
+	// perror (error);
+    write(2, error, ft_strlen(error));
     exit(status);
 }
 

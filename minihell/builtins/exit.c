@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/05 14:17:28 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 01:04:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int    ft_exit(char **cmd, t_list **env, char *input)
 		status = status % 256;
 		g_exit_status = status;
 	}
-	
 	else
 		g_exit_status = 0;
 	ft_lstclear(env, free);
@@ -60,6 +59,5 @@ int    ft_exit(char **cmd, t_list **env, char *input)
         free(input);
         input = NULL;
     }
-	printf("exit --> [%d]\n", g_exit_status);
 	exit(g_exit_status);
 }

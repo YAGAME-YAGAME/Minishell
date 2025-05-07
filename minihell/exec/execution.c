@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/04/29 03:10:03 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/07 01:12:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	execution(t_cmdarg *shell, t_list *env)
 	current_cmd = shell;
 	while(current_cmd)
 	{
-		
 		if(current_cmd->next)
 			if(!create_pipe(pip_fd))
 				return (0);
