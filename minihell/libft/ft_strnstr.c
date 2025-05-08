@@ -28,8 +28,8 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	{
 		j = 0;
 		temp = i;
-		while ((haystack[temp] == needle[j])
-			&& (temp < len && haystack[temp] && needle[j]))
+		while ((haystack[temp] == needle[j]) && (temp < len && haystack[temp]
+				&& needle[j]))
 		{
 			j++;
 			temp++;

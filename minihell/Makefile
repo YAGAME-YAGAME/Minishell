@@ -8,6 +8,7 @@ MINIFLAGS = -lreadline
 # MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 
 SRCS=	$(TARGET).c \
+	minishell_utils.c \
 	./parsing/cwd.c \
 	./parsing/env_init.c \
 	./builtins/builtin.c \

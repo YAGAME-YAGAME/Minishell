@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	*ft_check_path(char	**paths, char *cmd)
+char	*ft_check_path(char **paths, char *cmd)
 {
 	char	*full_path;
 	char	*path;

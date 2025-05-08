@@ -32,13 +32,13 @@ char	*ft_strdup(const char *src)
 	char	*dest;
 
 	slen = 0;
-	if(src == NULL)
+	if (src == NULL)
 		return (NULL);
 	while (src[slen])
 		slen++;
 	dest = (char *)malloc(sizeof(char) * slen + 1);
 	if (!dest)
 		return (NULL);
-	ft_strcpy (dest, src);
+	ft_strcpy(dest, src);
 	return (dest);
 }

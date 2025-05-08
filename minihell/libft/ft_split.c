@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 20:49:38 by abenajib          #+#    #+#             */
-/*   Updated: 2025/04/05 15:39:08 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/08 00:02:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ size_t	countwords(const char *s, char *c)
 char	**freeall(char **p, size_t x)
 {
 	while (x > 0)
-		free (p[--x]);
-	free (p);
+		free(p[--x]);
+	free(p);
 	return (NULL);
 }
 
@@ -47,7 +47,7 @@ static char	**copywords(char **p, const char *s, char *c)
 
 	i = 0;
 	x = 0;
-	while (s[i] && x < countwords (s, c))
+	while (s[i] && x < countwords(s, c))
 	{
 		while (ft_strchr(c, s[i]) != NULL)
 			i++;
