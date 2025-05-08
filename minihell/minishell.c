@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/05 12:14:53 by abenajib          #+#                #+#             */
-/*   Updated: 2025/04/30 19:00:44 by abenajib         ###   ########.fr       */
+/*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
+/*   Updated: 2025/05/07 23:58:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Global variable for exit status
-int g_exit_status = 0;
-
-bool	ft_rediErrors(t_token *current)
-{
-	return (ft_isredi(current) && (current->next == NULL
-		|| (current->next->type != WORD && current->next->type != DOUBLE_QUOTE
-			&& current->next->type != SINGLE_QUOTE)
-			|| ft_isredi(current->next)));
-}
-
-bool	ft_pipeErrors(t_token *current)
-{
-	return (current->type == PIPE && ((current->next == NULL
-		|| current->next->type == PIPE || current->prev == NULL
-		|| ft_isredi(current->prev))));
-}
+int			g_exit_status = 0;
 
 int	ft_toksize(t_token *lst)
 {
@@ -53,13 +37,13 @@ int	ft_check_syntax(t_token *token_list)
 
 	current = token_list;
 	if (ft_toksize(token_list) == 1 && ft_isredi(current))
-		return (printf(RED"syntax error near unexpected token `newline'\n"RESET), -1);
+		return (printf(RED RESET), -1);
 	while (current)
 	{
-		if (ft_pipeErrors(current))
-			return (printf(RED"syntax error near unexpected token `|'\n"RESET), -1);
-		if (ft_rediErrors(current))
-			return (printf(RED"syntax error near unexpected token \n"RESET), -1);
+		if (ft_pipeerrors(current))
+			return (printf(RED PIPE_ERROR RESET), -1);
+		if (ft_redierrors(current))
+			return (printf(RED SYNTAX_ERROR RESET), -1);
 		current = current->next;
 	}
 	return (0);
@@ -94,79 +78,41 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	return (cmdarg_list);
 }
 
-void	ft_printcmd_list(t_cmdarg *cmdarg_list)
-{
-	t_cmdarg	*tmp;
-
-	tmp = cmdarg_list;
-	printf("\nCMD Parser:\n");
-	while (tmp)
-	{
-		printf("-------------------------------------\n");
-		printf("Command:\n");
-		for (int i = 0; i < tmp->cmdSize; i++)
-			printf("[%s]\n", tmp->cmd[i]);
-		printf("\n");
-		printf("Redirections:\n");
-		if (tmp->input)
-			ft_printredi(tmp->input);
-		if (tmp->output)
-			ft_printredi(tmp->output);
-		tmp = tmp->next;
-		printf("-------------------------------------\n\n");
-	}
-}
-
-void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
-{
-	ft_free_tokenlist(token_list);
-	ft_free_cmdlist(cmdarg_list);
-}
-
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
 	t_cmdarg	*cmdarg_list;
 
 	if (input == NULL)
-	ft_cmd_error(NULL, RED"[EOF]\n"RESET, 0);
+		ft_cmd_error(NULL, RED "[EOF]\n" RESET, 0);
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input);
-	// ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = ft_parser(token_list, *minienv);
-	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	if(check_builtin(cmdarg_list, minienv, input) == 1)
+	if (check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
-	if(!execution(cmdarg_list, *minienv))
+	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	ft_cleaner(token_list, cmdarg_list);
 }
-
-// void	leak_check(void)
-// {
-// 	system("leaks -q minishell");
-// }
 
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
 	char	*input;
 	char	*cwd;
-	// atexit(leak_check);
 
 	handle_signals();
 	(void)av;
 	if (ac != 1)
-		return (printf(YELLOW"\nError: No arguments expected\n"RESET), 1);
+		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
 	else
 	{
-		// printf(GREEN"Welcome to the Minishell!\n\n"RESET);
 		minienv = ft_envinit(env);
 		while (1)
 		{

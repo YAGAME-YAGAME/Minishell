@@ -31,5 +31,5 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 // {
 // 	char *s3 = "zxcvbnm";
 // 	ft_memcpy(s3, s3, 5);
-// 	return 0;
+// 	return (0);
 // }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:54:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:00:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 	if (token->type != WORD)
 		new_token->type = token->type;
 	value = ft_strjoin(token->value, new_token->value);
+	ft_free_token(token);
+	free(new_token->value);
 	new_token->value = value;
 	return (new_token);
 }

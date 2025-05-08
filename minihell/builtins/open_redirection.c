@@ -17,7 +17,7 @@ int	handel_output(t_redi_list *output)
 	int	fd;
 
 	fd = -1;
-	while(output)
+	while (output)
 	{
 		fd = open(output->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
@@ -25,7 +25,7 @@ int	handel_output(t_redi_list *output)
 			perror("Error opening file");
 			return (-1);
 		}
-		if(output->is_last)
+		if (output->is_last)
 			return (fd);
 		close(fd);
 		output = output->next;

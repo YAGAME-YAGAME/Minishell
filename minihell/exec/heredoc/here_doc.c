@@ -6,37 +6,49 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/04 00:01:03 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/07 23:27:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../minishell.h"
+#include "../../minishell.h"
 
-int		open_here_doc(t_redi_list *heredoc, t_list *env)
+void	ft_free_list_heredoc(t_list_heredoc *list)
 {
-	char *line;
-	char *delimiter;
-	int fd;
+	if (list->line)
+		free(list->line);
+	if (list->delimiter)
+		free(list->delimiter);
+	if (list->fd != -1)
+		close(list->fd);
+	free(list);
+}
 
-	line = NULL;
+int	open_here_doc(t_redi_list *heredoc, t_list *env)
+{
+	t_list_heredoc	*p;
+
+	p = malloc(sizeof(t_list_heredoc));
+	if (!p)
+		ft_cmd_error(NULL, "malloc failure\n", 1);
 	signal(SIGINT, handle_heredoc_sigint);
-	fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	ft_int_list_heredoc(p);
+	p->fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (p->fd == -1)
 		ft_cmd_error(NULL, "open failure\n", 1);
-	delimiter = ft_strjoin(heredoc->file, "\n");
-	if(!delimiter)
+	p->delimiter = ft_strjoin(heredoc->file, "\n");
+	if (!p->delimiter)
 	{
-		if (line)
-			free(line);
+		if (p->line)
+			free(p->line);
 		ft_cmd_error(NULL, "malloc failure\n", 1);
 	}
-	ft_read_line(fd, &line, delimiter, heredoc, env);
-	close(fd);
-	free(delimiter);
+	ft_read_line(p, heredoc, env);
+	close(p->fd);
+	ft_free_list_heredoc(p);
 	exit(0);
 }
 
-static void ft_parent_proc(int *status, int pid)
+static void	ft_parent_proc(int *status, int pid)
 {
 	waitpid(pid, status, 0);
 	if (WIFEXITED(*status))
@@ -49,17 +61,17 @@ static void ft_parent_proc(int *status, int pid)
 	restore_signals();
 }
 
-int handel_heredoc(t_redi_list *in, t_list *env)
+int	handel_heredoc(t_redi_list *in, t_list *env)
 {
-	int pid;
-	int status;
+	int	pid;
+	int	status;
 
 	status = 0;
-	if(in->type == HEREDOC)
+	if (in->type == HEREDOC)
 	{
-		if((pid = fork()) == -1)
+		pid = fork();
+		if (pid == -1)
 			return (perror("fork"), -1);
-
 		if (pid == 0)
 			open_here_doc(in, env);
 		else
@@ -70,13 +82,13 @@ int handel_heredoc(t_redi_list *in, t_list *env)
 
 int	check_here_doc(t_cmdarg *shell, t_list *env)
 {
-	t_cmdarg *tmp;
-	t_redi_list *in;
-	int ret;
+	t_cmdarg	*tmp;
+	t_redi_list	*in;
+	int			ret;
 
 	tmp = shell;
 	ret = 0;
-	while(tmp)
+	while (tmp)
 	{
 		init_redi_file(tmp);
 		in = tmp->input;

@@ -18,7 +18,7 @@ char	**handel_quote(char **cmd)
 	int		i;
 
 	i = 0;
-	while(cmd[i])
+	while (cmd[i])
 		i++;
 	trim = malloc(sizeof(char *) * (i + 1));
 	if (!trim)

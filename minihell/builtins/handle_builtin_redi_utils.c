@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ambiguous.c                                        :+:      :+:    :+:   */
+/*   handle_builtin_redi_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 15:34:26 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 16:24:16 by codespace        ###   ########.fr       */
+/*   Created: 2025/05/07 19:17:54 by codespace         #+#    #+#             */
+/*   Updated: 2025/05/07 19:18:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	is_ambiguous(char *file)
+void	ft_reset_std(t_cmdarg *shell)
 {
-	char	*tmp;
-
-	if (!file || file[0] == '\0')
-		return (true);
-	tmp = file;
-	while (*tmp)
+	if (dup2(shell->origin_stdout, STDOUT_FILENO) < 0)
 	{
-		if (*tmp == ' ')
-			return (true);
-		tmp++;
+		write(2, "dup2 failure\n", 13);
+		return ;
 	}
-	return (false);
+	if (dup2(shell->origin_stdin, STDIN_FILENO) < 0)
+	{
+		write(2, "dup2 failure\n", 13);
+		return ;
+	}
+	close(shell->origin_stdout);
+	close(shell->origin_stdin);
+	shell->origin_stdout = -1;
+	shell->origin_stdin = -1;
+	return ;
 }
