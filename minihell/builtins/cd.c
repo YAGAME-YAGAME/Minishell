@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 17:42:06 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 12:40:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,27 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 	t_list	*old_pwd;
 	t_list	*current_pwd;
 	char	*tmp;
+	char	*cwd;
 
+	(void)new_path;
 	tmp = NULL;
-	new_path = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 0);
 	old_pwd = ft_find_node(env, "OLDPWD");
 	current_pwd = ft_find_node(env, "PWD");
 	if (old_pwd)
+	{
+		if (old_pwd->value)
+			free(old_pwd->value);
 		old_pwd->value = ft_strdup(old_path);
+	}
 	if (current_pwd)
 	{
 		tmp = current_pwd->value;
-		current_pwd->value = new_path;
+		current_pwd->value = cwd;
 		free(tmp);
 	}
+	else
+		free(cwd);
 }
 
 int	ft_cd(char **cmd, t_list **env)

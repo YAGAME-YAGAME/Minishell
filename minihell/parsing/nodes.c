@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:41:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ t_cmdarg	*ft_get_next_node(t_token *token_list)
 		return (free(node->cmd), free(node), NULL);
 	while (token_list->current && token_list->current->type != PIPE)
 	{
-		if (ft_is_cmd(token_list->current))
+		if (token_list->current && ft_is_cmd(token_list->current))
 			ft_parse_word(&node, token_list);
-		else if (ft_isredi(token_list->current))
+		else if (token_list->current && ft_isredi(token_list->current))
 			ft_parse_redi(&node, token_list);
 		token_list->current = token_list->current->next;
 	}

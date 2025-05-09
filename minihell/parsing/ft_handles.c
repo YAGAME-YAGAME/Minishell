@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handles.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:17 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:59:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_init_token_fields(t_token *token)
+{
+	token->variable = false;
+	token->current = NULL;
+	token->next = NULL;
+	token->prev = NULL;
+}
 
 bool	isoperator(char c)
 {
@@ -45,6 +53,7 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 		token->addspace = true;
 	else
 		token->addspace = false;
+	ft_init_token_fields(token);
 	return (token);
 }
 
@@ -89,6 +98,8 @@ t_token	*ft_handle_operator(t_lexer *lexer)
 	token->value = ft_strdup(op);
 	if (!token->value)
 		return (free(token), NULL);
+	token->addspace = false;
+	ft_init_token_fields(token);
 	ft_set_token_type(token, op_len, op);
 	lexer->pos += op_len;
 	return (token);
@@ -116,5 +127,6 @@ t_token	*ft_handle_word(t_lexer *lexer)
 		token->addspace = true;
 	else
 		token->addspace = false;
+	ft_init_token_fields(token);
 	return (token);
 }

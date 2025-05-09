@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:35 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 00:57:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 14:51:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_env(t_list **env)
 	}
 	while (tmp)
 	{
-		if (tmp->key && tmp->key[0] == '_' && tmp->value)
+		if (tmp->key && ft_strcmp(tmp->key, "_") == 0 && tmp->value)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup("/usr/bin/env");

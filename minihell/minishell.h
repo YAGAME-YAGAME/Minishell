@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 12:37:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:59:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include "libft/libft.h"
 
@@ -125,7 +126,10 @@ typedef struct s_cmdarg
 }						t_cmdarg;
 
 t_list					*ft_envinit(char **env);
+int						ft_parse_env_var(char *env_var,
+							char **key, char **value);
 char					*ft_getcwd(t_list *env);
+void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
 t_token					*ft_handle_operator(t_lexer *lexer);
 
