@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/07 23:58:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	{
 		if (node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
-		freeall(node->cmd, node->cmdSize);
+		freeall(node->cmd, node->cmdsize);
 		free(node);
 		node = ft_get_next_node(token_list);
 	}
