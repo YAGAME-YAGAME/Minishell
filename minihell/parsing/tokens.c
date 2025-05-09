@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/07 16:00:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 10:02:17 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*ft_newtok(t_token *token)
 	new_token->value = ft_strdup(token->value);
 	new_token->next = NULL;
 	new_token->prev = NULL;
-	new_token->addSpace = token->addSpace;
+	new_token->addspace = token->addspace;
 	new_token->variable = false;
 	return (new_token);
 }

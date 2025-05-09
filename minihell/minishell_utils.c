@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/08 00:12:35 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		g_exit_status = 0;
 
 bool	ft_redierrors(t_token *current)
 {
@@ -46,7 +44,7 @@ void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 // 	{
 // 		printf("-------------------------------------\n");
 // 		printf("Command:\n");
-// 		for (int i = 0; i < tmp->cmdSize; i++)
+// 		for (int i = 0; i < tmp->cmdsize; i++)
 // 			printf("[%s]\n", tmp->cmd[i]);
 // 		printf("\n");
 // 		printf("Redirections:\n");

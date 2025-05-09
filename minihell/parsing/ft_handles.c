@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:34:10 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:02:17 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 		token->type = DOUBLE_QUOTE;
 	token->value = content;
 	if (ft_isspace(lexer->input[lexer->pos]))
-		token->addSpace = true;
+		token->addspace = true;
 	else
-		token->addSpace = false;
+		token->addspace = false;
 	return (token);
 }
 
@@ -113,8 +113,8 @@ t_token	*ft_handle_word(t_lexer *lexer)
 	token->type = WORD;
 	token->value = value;
 	if (ft_isspace(lexer->input[lexer->pos]))
-		token->addSpace = true;
+		token->addspace = true;
 	else
-		token->addSpace = false;
+		token->addspace = false;
 	return (token);
 }
