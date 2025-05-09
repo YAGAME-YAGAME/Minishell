@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:37:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_check_syntax(t_token *token_list)
 
 	current = token_list;
 	if (ft_toksize(token_list) == 1 && ft_isredi(current))
-		return (printf(RED RESET), -1);
+		return (printf(RED SYNTAX_ERROR RESET), -1);
 	while (current)
 	{
 		if (ft_pipeerrors(current))

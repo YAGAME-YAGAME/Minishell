@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:17 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:24:56 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ void	ft_print_env(t_list *minienv)
 // 		tmp = tmp->next;
 // 	}
 // 	printf("\n");
-// 	tmp = token_list;
-// 	while (tmp)
-// 	{
-// 		if (tmp->addspace == true)
-// 			printf("[addspace]-");
-// 		else
-// 			printf("[no addspace]-");
-// 		tmp = tmp->next;
-// 	}
-// 	printf("\n");
+// 	// tmp = token_list;
+// 	// while (tmp)
+// 	// {
+// 	// 	if (tmp->addspace == true)
+// 	// 		printf("[addspace]-");
+// 	// 	else
+// 	// 		printf("[no addspace]-");
+// 	// 	tmp = tmp->next;
+// 	// }
+// 	// printf("\n");
 // 	printf("---------------------------------\n");
 // }

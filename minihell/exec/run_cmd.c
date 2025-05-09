@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/07 17:12:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 12:35:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	ft_isdirectory(char *path)
+{
+	struct stat	sb;
+
+	if (stat(path, &sb) == -1)
+		return (false);
+	return (S_ISDIR(sb.st_mode));
+}
+
+void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd)
+{
+	free(*cmd_path);
+	free(*cmd_name);
+	ft_cmd_error(current_cmd->cmd[0], "is a directory\n", 126);
+}
 
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
@@ -25,6 +41,8 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	if (current_cmd->cmd[0])
 		cmd_name = ft_strdup(current_cmd->cmd[0]);
 	cmd_path = check_exec(current_cmd->cmd[0], env);
+	if (ft_isdirectory(cmd_path))
+		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);
 	if (cmd_path == NULL)
 		ft_cmd_error(cmd_name, "command not found\n", 127);
 	envp = get_env(env);

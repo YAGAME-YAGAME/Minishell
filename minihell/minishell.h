@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:37:38 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
 
 //----colors
@@ -113,7 +114,6 @@ typedef struct s_redi_list
 
 typedef struct s_cmdarg
 {
-	char				*strags;
 	char				**cmd;
 	int					cmdsize;
 	bool				is_builtin;
@@ -134,7 +134,7 @@ t_token					*ft_strtok(char *input);
 t_lexer					*ft_lexer_init(char *input);
 t_token					*ft_get_next_token(t_lexer *lexer);
 t_token					*ft_newtok(t_token *token);
-
+void					ft_freeee(char *temp2, char *exp);
 void					minishell(char *input, t_list **minienv);
 int						ft_toksize(t_token *lst);
 void					ft_tokadd_back(t_token **token_list, t_token *token);
@@ -144,10 +144,10 @@ int						ft_isspace(char c);
 bool					ft_is_duplicated(t_lexer *lexer, char op[3]);
 
 void					ft_print_env(t_list *minienv);
-// void					ft_print_tokenlist(t_token *token_list);
+void					ft_print_tokenlist(t_token *token_list);
 char					*ft_printtype(t_token_type type);
 void					ft_printredi(t_redi_list *redi);
-// void					ft_printcmd_list(t_cmdarg *cmdarg_list);
+void					ft_printcmd_list(t_cmdarg *cmdarg_list);
 
 void					ft_free_tokenlist(t_token *token_list);
 void					ft_free_token(t_token *token);
