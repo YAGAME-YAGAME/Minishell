@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 19:48:03 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:33:19 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:27:19 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	result = ft_strjoin(s1, s2);
 	free(s1);
 	return (result);
+}
+
+void	ft_freeee(char *temp2, char *exp)
+{
+	free(temp2);
+	free(exp);
 }

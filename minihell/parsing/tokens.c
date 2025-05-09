@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:17 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:26:38 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 	return (new_token);
 }
 
+bool	ft_tojoin(t_lexer *lexer)
+{
+	return (lexer->input[lexer->pos] != ' '
+		&& lexer->input[lexer->pos] != '\0'
+		&& !ft_isspecial(lexer->input[lexer->pos]));
+}
+
 t_token	*ft_get_next_token(t_lexer *lexer)
 {
 	char	current_char;
@@ -87,7 +94,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 		}
 		else
 			token = ft_handle_word(lexer);
-		if (lexer->input[lexer->pos] != ' ' && lexer->input[lexer->pos] != '\0')
+		if (ft_tojoin(lexer))
 			token = ft_jointok(token, &lexer);
 		return (token);
 	}

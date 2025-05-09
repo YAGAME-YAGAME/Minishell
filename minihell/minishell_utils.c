@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:36:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 bool	ft_redierrors(t_token *current)
 {
-	return (ft_isredi(current) && (current->next == NULL
-			|| (current->next->type != WORD
-				&& current->next->type != DOUBLE_QUOTE
-				&& current->next->type != SINGLE_QUOTE)
+	return (ft_isredi(current)
+		&& (current->next == NULL
 			|| ft_isredi(current->next)));
 }
 

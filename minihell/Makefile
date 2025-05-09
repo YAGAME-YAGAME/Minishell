@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror
 MINIFLAGS = -lreadline
 
 READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
 MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 
 SRCS=	$(TARGET).c \
