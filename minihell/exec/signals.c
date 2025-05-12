@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 08:03:07 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 16:45:11 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 16:16:40 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	handle_sigint(int sig)
 	g_exit_status = 130;
 }
 
-void	handle_heredoc_sigint(int sig)
-{
-	(void)sig;
-	g_exit_status = 130;
-	close(STDIN_FILENO);
-}
+// void	handle_heredoc_sigint(int sig)
+// {
+// 	(void)sig;
+// 	g_exit_status = 1;
+// 	close(STDIN_FILENO);
+// }
 
 void	handle_signals(void)
 {

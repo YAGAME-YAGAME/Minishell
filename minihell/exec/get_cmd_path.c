@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 16:46:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 14:07:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 void	ft_free_list(t_list **list)
 {
+	t_list	*current;
+	t_list	*next;
+
 	if (!list || !*list)
 		return ;
-	if ((*list)->key)
-		free((*list)->key);
-	if ((*list)->value)
-		free((*list)->value);
-	free(*list);
+	current = *list;
+	while (current)
+	{
+		next = current->next;
+		if (current->key)
+			free(current->key);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
+	*list = NULL;
 }
 
 char	*find_path(t_list *path)

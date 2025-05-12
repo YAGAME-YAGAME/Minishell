@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:40:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 	val = ft_strdup(token_list->current->value);
 	if (val == NULL)
 		return (perror("malloc failure"), g_exit_status = 1, NULL);
-	if (token_list->current->prev
-		&& token_list->current->prev->addspace == true)
+	if (token_list->current->prev != NULL
+			&& token_list->current->prev->addspace == true)
 		(*node)->cmd[(*node)->cmdsize++] = val;
 	else
 	{

@@ -52,15 +52,21 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 	}
 }
 
-void	ft_wait_children(int *status)
+void ft_wait_children(int *status)
 {
-	while (wait(status) > 0)
-	{
-		if (WIFEXITED(*status))
-			g_exit_status = WEXITSTATUS(*status);
-		else if (WIFSIGNALED(*status))
-			g_exit_status = 128 + WTERMSIG(*status);
-	}
+    while (wait(status) > 0)
+    {
+        if (WIFEXITED(*status))
+        {
+            if (g_exit_status != 1) // Preserve g_exit_status if set to 1
+                g_exit_status = WEXITSTATUS(*status);
+        }
+        else if (WIFSIGNALED(*status))
+        {
+            if (g_exit_status != 1) // Preserve g_exit_status if set to 1
+                g_exit_status = 128 + WTERMSIG(*status);
+        }
+    }
 }
 
 int	execution(t_cmdarg *shell, t_list *env)

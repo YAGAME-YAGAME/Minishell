@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varexp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 12:26:52 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:32:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 		temp2 = ft_temp2(token, dpos);
 		free((*token)->value);
 		(*token)->value = ft_strjoin_free(temp, temp2);
+		free(temp2);
 		(*token)->variable = true;
-		ft_freeee(temp2, exp);
 		dpos = ft_dollar_pos((*token)->value);
 	}
 }

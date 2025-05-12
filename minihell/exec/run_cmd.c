@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/09 12:35:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:55:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ bool	ft_isdirectory(char *path)
 {
 	struct stat	sb;
 
+	if (path == NULL || *path == '\0' || ft_strchr(path, '/') == NULL)
+		return (false);
 	if (stat(path, &sb) == -1)
 		return (false);
 	return (S_ISDIR(sb.st_mode));

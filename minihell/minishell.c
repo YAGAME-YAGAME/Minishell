@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 12:37:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/10 11:41:00 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	ft_check_syntax(t_token *token_list)
 
 	current = token_list;
 	if (ft_toksize(token_list) == 1 && ft_isredi(current))
-		return (printf(RED SYNTAX_ERROR RESET), -1);
+		return (printf(RED SYNTAX_ERROR RESET), g_exit_status = 258, -1);
 	while (current)
 	{
 		if (ft_pipeerrors(current))
-			return (printf(RED PIPE_ERROR RESET), -1);
+			return (printf(RED PIPE_ERROR RESET), g_exit_status = 258, -1);
 		if (ft_redierrors(current))
-			return (printf(RED SYNTAX_ERROR RESET), -1);
+			return (printf(RED SYNTAX_ERROR RESET), g_exit_status = 258, -1);
 		current = current->next;
 	}
 	return (0);
@@ -89,15 +89,19 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input);
+	// ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = ft_parser(token_list, *minienv);
+	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
+
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
+	printf("g_exit_status ---> %d\n", g_exit_status);
 	ft_cleaner(token_list, cmdarg_list);
 }
 
@@ -122,8 +126,6 @@ int	main(int ac, char **av, char **env)
 			free(input);
 			free(cwd);
 		}
-		ft_lstclear(&minienv, free);
 	}
-	ft_free_list(&minienv);
 	return (0);
 }

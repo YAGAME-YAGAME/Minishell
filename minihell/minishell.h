@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 12:37:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 # include "libft/libft.h"
 
@@ -36,7 +37,7 @@
 
 //--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
-# define UNCLOSED "unexpected EOF while looking for matching quote"
+# define UNCLOSED "unexpected EOF while looking for matching quote\n"
 # define EXIT_ERROR "exit: numeric argument required"
 # define PIPE_ERROR "syntax error near unexpected token `|'\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `newline'\n"
@@ -125,7 +126,10 @@ typedef struct s_cmdarg
 }						t_cmdarg;
 
 t_list					*ft_envinit(char **env);
+int						ft_parse_env_var(char *env_var,
+							char **key, char **value);
 char					*ft_getcwd(t_list *env);
+void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
 t_token					*ft_handle_operator(t_lexer *lexer);
 
