@@ -18,9 +18,11 @@ void	ft_print_export_env(t_list *head)
 	{
 		if (head && head->key)
 		{
-			printf("declare -x %s=", head->key);
-			if (head->value)
+			if (head->value == NULL)
+				printf("declare -x %s\n", head->key);
+			else
 			{
+				printf("declare -x %s=", head->key);
 				if (head->value[0] == '\0')
 					printf("\"\"\n");
 				else
