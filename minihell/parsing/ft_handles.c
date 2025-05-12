@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handles.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 13:59:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/10 11:45:33 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 	while (lexer->pos < lexer->len && lexer->input[lexer->pos] != quote_char)
 		lexer->pos++;
 	if (lexer->pos >= lexer->len)
-		return (printf(UNCLOSED), NULL);
+		return (printf(RED UNCLOSED RESET), g_exit_status = 258, NULL);
 	content = ft_substr(lexer->input, start, lexer->pos - start);
 	lexer->pos++;
 	token = (t_token *)malloc(sizeof(t_token));

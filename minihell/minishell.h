@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 13:59:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 //--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
-# define UNCLOSED "unexpected EOF while looking for matching quote"
+# define UNCLOSED "unexpected EOF while looking for matching quote\n"
 # define EXIT_ERROR "exit: numeric argument required"
 # define PIPE_ERROR "syntax error near unexpected token `|'\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `newline'\n"
