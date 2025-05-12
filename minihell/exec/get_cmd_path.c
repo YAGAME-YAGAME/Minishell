@@ -47,6 +47,7 @@ char	*find_path(t_list *path)
 	return (NULL);
 }
 
+
 void	ft_get_path(char **full_path, char **path_cmd, char *p)
 {
 	char	*tmp;
@@ -72,11 +73,39 @@ void	ft_get_path(char **full_path, char **path_cmd, char *p)
 	}
 }
 
+char *ft_join_with_path(char *p)
+{
+	char *path;
+	char *tmp;
+
+	tmp = NULL;
+	
+	path = getcwd(NULL, 0);
+	if (!path)
+		return (NULL);
+	tmp = ft_strjoin(path, "/");
+	if (!tmp)
+	{
+		free(path);
+		return (NULL);
+	}
+	free(path);
+	tmp = my_strjoin(tmp, p);
+	if (!tmp)
+		return (NULL);
+	if (access(tmp, X_OK) == 0)
+		return (tmp);
+	free(tmp);
+	return (NULL);
+}
+
 char	*check_exec(char *p, t_list *env)
 {
 	char	*full_path;
 	char	*path;
 	char	**path_cmd;
+	char	*dir_path;
+
 
 	if (!p)
 		return (NULL);
@@ -88,6 +117,10 @@ char	*check_exec(char *p, t_list *env)
 		else
 			return (NULL);
 	}
+	dir_path = ft_join_with_path(p);
+	if (dir_path)
+		return (dir_path);
+	free(dir_path);
 	path = find_path(env);
 	if (!path)
 		return (NULL);
