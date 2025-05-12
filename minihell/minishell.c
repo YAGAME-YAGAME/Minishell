@@ -101,7 +101,7 @@ void	minishell(char *input, t_list **minienv)
 
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	printf("g_exit_status ---> %d\n", g_exit_status);
+	// printf("g_exit_status ---> %d\n", g_exit_status);
 	ft_cleaner(token_list, cmdarg_list);
 }
 
