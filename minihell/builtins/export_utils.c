@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/07 19:16:44 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 10:26:31 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_swap_list(t_list *ptr1)
 
 	tmp_key = NULL;
 	tmp_value = NULL;
-	if (strcmp(ptr1->key, ptr1->next->key) > 0)
+	if (ft_strcmp(ptr1->key, ptr1->next->key) > 0)
 	{
 		tmp_key = ptr1->key;
 		tmp_value = ptr1->value;

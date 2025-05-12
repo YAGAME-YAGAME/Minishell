@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:58:34 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/07 17:20:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 09:53:50 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env)
 
 	while (env)
 	{
-		if (strcmp(env->key, "SHLVL") == 0)
+		if (ft_strcmp(env->key, "SHLVL") == 0)
 			env->value = ft_itoa(ft_atoi(env->value) + 1);
 		key_equals = ft_strjoin(env->key, "=");
 		str = ft_strjoin(key_equals, env->value);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 19:17:02 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 14:17:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int	remove_env_node(t_list **env_list, t_list *node)
 		*env_list = node->next;
 	if (node->next)
 		node->next->prev = node->prev;
-	ft_free_list(&node);
+	if (node->key)
+		free(node->key);
+	if (node->value)
+		free(node->value);
+	free(node);
 	return (1);
 }
 

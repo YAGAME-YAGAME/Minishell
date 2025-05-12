@@ -3,35 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/08 00:07:18 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-//--includes FIXME: Make sure no unused includes are present
 # include <curses.h>
-# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <pwd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <string.h>
-# include <sys/ioctl.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <term.h>
-# include <termios.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include "libft/libft.h"
 
 //----colors
@@ -45,17 +37,18 @@
 
 //--macros
 # define HEREDOC_FILE "/tmp/minishell_heredoc_tmp"
-# define UNCLOSED "unexpected EOF while looking for matching quote"
+# define UNCLOSED "unexpected EOF while looking for matching quote\n"
 # define EXIT_ERROR "exit: numeric argument required"
 # define PIPE_ERROR "syntax error near unexpected token `|'\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `newline'\n"
+
 // Global variables
 extern int				g_exit_status;
 
 // Signal handling and readline functions
 void					handle_sigint(int sig);
-void					setup_signals(void);
-void					init_readline(void);
+// void					setup_signals(void);
+// void					init_readline(void);
 
 // Signal handling functions
 void					handle_sigint(int sig);
@@ -63,7 +56,6 @@ void					handle_heredoc_sigint(int sig);
 void					handle_signals(void);
 void					setup_heredoc_signals(void);
 void					restore_signals(void);
-
 
 //--enums
 typedef enum e_token_type
@@ -82,6 +74,7 @@ typedef enum e_token_type
 	DOUBLE_QUOTE,
 }						t_token_type;
 
+//--structs
 typedef struct s_list_heredoc
 {
 	char				*delimiter;
@@ -93,7 +86,7 @@ typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
-	bool				addSpace;
+	bool				addspace;
 	bool				variable;
 	struct s_token		*current;
 	struct s_token		*next;
@@ -122,9 +115,8 @@ typedef struct s_redi_list
 
 typedef struct s_cmdarg
 {
-	char				*strags;
 	char				**cmd;
-	int					cmdSize;
+	int					cmdsize;
 	bool				is_builtin;
 	int					origin_stdout;
 	int					origin_stdin;
@@ -134,7 +126,10 @@ typedef struct s_cmdarg
 }						t_cmdarg;
 
 t_list					*ft_envinit(char **env);
+int						ft_parse_env_var(char *env_var,
+							char **key, char **value);
 char					*ft_getcwd(t_list *env);
+void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
 t_token					*ft_handle_operator(t_lexer *lexer);
 
@@ -143,7 +138,7 @@ t_token					*ft_strtok(char *input);
 t_lexer					*ft_lexer_init(char *input);
 t_token					*ft_get_next_token(t_lexer *lexer);
 t_token					*ft_newtok(t_token *token);
-
+void					ft_freeee(char *temp2, char *exp);
 void					minishell(char *input, t_list **minienv);
 int						ft_toksize(t_token *lst);
 void					ft_tokadd_back(t_token **token_list, t_token *token);
@@ -199,7 +194,6 @@ char					*ft_temp2_inchar(char *value, ssize_t dollar_pos);
 bool					ft_redierrors(t_token *current);
 bool					ft_pipeerrors(t_token *current);
 void					ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list);
-void					ft_printcmd_list(t_cmdarg *cmdarg_list);
 
 //--exec
 int						check_here_doc(t_cmdarg *shell, t_list *env);
@@ -256,7 +250,6 @@ int						ft_exit(char **cmd, t_list **env);
 int						ft_cd(char **cmd, t_list **env);
 int						ft_env(t_list **env);
 int						ft_export(char **cmd, t_list **env);
-// int			ft_clear(void);
 int						is_builtin(char *cmd);
 int						ft_set_env(t_list **env);
 void					free_dp(char **cmd);

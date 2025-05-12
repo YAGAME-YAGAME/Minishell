@@ -1,16 +1,17 @@
 TARGET = minishell
 CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 MINIFLAGS = -lreadline
 
-# READLINE = $(shell brew --prefix readline)
-# CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include -fsanitize=address -g
-# MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+READLINE = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 
 SRCS=	$(TARGET).c \
 	minishell_utils.c \
 	./parsing/cwd.c \
 	./parsing/env_init.c \
+	./parsing/env_parse.c \
 	./builtins/builtin.c \
 	./parsing/strtok.c \
 	./parsing/ft_handles.c \

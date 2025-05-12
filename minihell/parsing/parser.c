@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/06 20:37:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:40:45 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 	val = ft_strdup(token_list->current->value);
 	if (val == NULL)
 		return (perror("malloc failure"), g_exit_status = 1, NULL);
-	if (token_list->current->prev
-		&& token_list->current->prev->addSpace == true)
-		(*node)->cmd[(*node)->cmdSize++] = val;
+	if (token_list->current->prev != NULL
+			&& token_list->current->prev->addspace == true)
+		(*node)->cmd[(*node)->cmdsize++] = val;
 	else
 	{
-		if ((*node)->cmdSize > 0)
+		if ((*node)->cmdsize > 0)
 		{
-			tmp = (*node)->cmd[(*node)->cmdSize - 1];
-			(*node)->cmd[(*node)->cmdSize - 1] = ft_strjoin(tmp, val);
+			tmp = (*node)->cmd[(*node)->cmdsize - 1];
+			(*node)->cmd[(*node)->cmdsize - 1] = ft_strjoin(tmp, val);
 			free(tmp);
 			free(val);
 		}
 		else
-			(*node)->cmd[(*node)->cmdSize++] = val;
+			(*node)->cmd[(*node)->cmdsize++] = val;
 	}
 	return (NULL);
 }

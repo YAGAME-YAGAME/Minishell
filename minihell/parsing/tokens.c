@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/07 16:00:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/09 12:26:38 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*ft_newtok(t_token *token)
 	new_token->value = ft_strdup(token->value);
 	new_token->next = NULL;
 	new_token->prev = NULL;
-	new_token->addSpace = token->addSpace;
+	new_token->addspace = token->addspace;
 	new_token->variable = false;
 	return (new_token);
 }
@@ -62,6 +62,13 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 	free(new_token->value);
 	new_token->value = value;
 	return (new_token);
+}
+
+bool	ft_tojoin(t_lexer *lexer)
+{
+	return (lexer->input[lexer->pos] != ' '
+		&& lexer->input[lexer->pos] != '\0'
+		&& !ft_isspecial(lexer->input[lexer->pos]));
 }
 
 t_token	*ft_get_next_token(t_lexer *lexer)
@@ -87,7 +94,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 		}
 		else
 			token = ft_handle_word(lexer);
-		if (lexer->input[lexer->pos] != ' ' && lexer->input[lexer->pos] != '\0')
+		if (ft_tojoin(lexer))
 			token = ft_jointok(token, &lexer);
 		return (token);
 	}

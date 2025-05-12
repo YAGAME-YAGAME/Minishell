@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:54:22 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:41:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 	new = malloc(sizeof(t_cmdarg));
 	if (!new)
 		return (NULL);
-	new->cmdSize = node->cmdSize;
-	new->cmd = malloc(sizeof(char *) * (node->cmdSize + 1));
+	new->cmdsize = node->cmdsize;
+	new->cmd = malloc(sizeof(char *) * (node->cmdsize + 1));
 	if (!new->cmd)
 		return (free(new), NULL);
 	i = 0;
-	while (i < node->cmdSize)
+	while (i < node->cmdsize)
 	{
 		if (node->cmd[i])
 			new->cmd[i] = ft_strdup(node->cmd[i]);
@@ -68,7 +68,7 @@ t_cmdarg	*ft_init_node(void)
 	node->next = NULL;
 	node->output = NULL;
 	node->cmd = NULL;
-	node->cmdSize = 0;
+	node->cmdsize = 0;
 	return (node);
 }
 
@@ -94,12 +94,12 @@ t_cmdarg	*ft_get_next_node(t_token *token_list)
 		return (free(node->cmd), free(node), NULL);
 	while (token_list->current && token_list->current->type != PIPE)
 	{
-		if (ft_is_cmd(token_list->current))
+		if (token_list->current && ft_is_cmd(token_list->current))
 			ft_parse_word(&node, token_list);
-		else if (ft_isredi(token_list->current))
+		else if (token_list->current && ft_isredi(token_list->current))
 			ft_parse_redi(&node, token_list);
 		token_list->current = token_list->current->next;
 	}
-	node->cmd[node->cmdSize] = NULL;
+	node->cmd[node->cmdsize] = NULL;
 	return (node);
 }
