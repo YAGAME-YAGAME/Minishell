@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 12:40:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 21:14:55 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 	char	*tmp;
 	char	*cwd;
 
-	(void)new_path;
+	if(new_path)
+		free(new_path);
 	tmp = NULL;
 	cwd = getcwd(NULL, 0);
 	old_pwd = ft_find_node(env, "OLDPWD");
@@ -110,8 +111,7 @@ int	ft_cd(char **cmd, t_list **env)
 	}
 	else
 		path = ft_handel_tilde(cmd[1], *env);
-	printf("------> [ %s ]\n", path);
 	if (chdir(path) != 0)
 		return (perror(path), 1);
-	return (free(path),ft_update_path(*env, path, old_path), 0);
+	return (ft_update_path(*env, path, old_path), 0);
 }
