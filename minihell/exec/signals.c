@@ -23,12 +23,12 @@ void	handle_sigint(int sig)
 	g_exit_status = 130;
 }
 
-void	handle_heredoc_sigint(int sig)
-{
-	(void)sig;
-	g_exit_status = 130;
-	close(STDIN_FILENO);
-}
+// void	handle_heredoc_sigint(int sig)
+// {
+// 	(void)sig;
+// 	g_exit_status = 1;
+// 	close(STDIN_FILENO);
+// }
 
 void	handle_signals(void)
 {
