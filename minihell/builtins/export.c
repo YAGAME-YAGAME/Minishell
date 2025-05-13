@@ -58,17 +58,31 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	t_list	*dup_key;
 
 	dup_key = NULL;
-	*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
-	*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1, ft_strlen(cmd)
-			- (ft_strchr(cmd, '=') - cmd));
-	if (!*key)
-		return ;
+	if (ft_strchr(cmd, '='))
+	{
+		
+		*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
+		*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1,
+				ft_strlen(cmd) - (ft_strchr(cmd, '=') - cmd));
+		if (!*key)
+		{
+			if (*value)
+				free(*value);
+			return ;
+		}
+	}
+	else
+	{
+		*key = ft_strdup(cmd);
+		*value = NULL;
+	}
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
 	{
 		if (dup_key->value)
 			free(dup_key->value);
 		dup_key->value = *value;
+		free(*key);
 	}
 	else
 		ft_lstadd_back(env, ft_lstnew(*key, *value));

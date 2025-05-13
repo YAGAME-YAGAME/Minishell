@@ -60,6 +60,7 @@ typedef struct s_list
 {
 	char			*key;
 	char			*value;
+	int 			check;
 	struct s_list	*prev;
 	struct s_list	*next;
 }	t_list;
