@@ -23,13 +23,6 @@ void	ft_free_list_heredoc(t_list_heredoc *list)
 	free(list);
 }
 
-void handle_heredoc_sigint(int sig)
-{
-    (void)sig;
-    write(1, "\n", 1);
-    g_exit_status = 1;
-    exit(1);
-}
 
 int	open_here_doc(t_redi_list *heredoc, t_list *env)
 {
@@ -68,8 +61,6 @@ static void	ft_parent_proc(int *status, int pid)
 	else if (WIFSIGNALED(*status))
 	{
 		if (WTERMSIG(*status) == SIGINT)
-			g_exit_status = 1;
-		else
 			g_exit_status = 1;
 	}
 	restore_signals();
@@ -111,14 +102,14 @@ int	check_here_doc(t_cmdarg *shell, t_list *env)
 		while (in)
 		{
 			ret = handel_heredoc(in, env);
-			if (ret == -1)
+			if (ret == -1 || g_exit_status == 1)
+			{
+				printf("g_exit_status ---> %d\n", g_exit_status);
 				return (0);
+			}
 			in = in->next;
 		}
 		tmp = tmp->next;
 	}
-	// if(g_exit_status == 1)
-	// 	return (0);
-	
 	return (1);
 }
