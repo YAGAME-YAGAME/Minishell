@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 18:14:32 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/13 00:49:46 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,6 @@ void					ft_free_list(t_list **list);
 int						size_list(t_cmdarg *node);
 char					*ft_get_pwd(t_list *env);
 bool					is_ambiguous(char *file);
-void					ft_cmd_error(char *cmd_name, char *error, int status);
 int						ft_open_file(char *file, int flag);
 void					handle_input(t_redi_list *input);
 void					handle_output(t_redi_list *output);
@@ -233,7 +232,7 @@ int						run_built_in(t_cmdarg *shell, t_list **env);
 void					handle_input(t_redi_list *input);
 void					handle_output(t_redi_list *output);
 int						check_builtin(t_cmdarg *cmdarg_list, t_list **minienv);
-char					**handel_quote(char **cmd);
+char					**handle_quote(char **cmd);
 void					ft_cmd_error(char *cmd_name, char *error, int status);
 void					ft_free_and_error(char **cmd_path, char **cmd_name,
 							char **envp);

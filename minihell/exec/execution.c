@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/07 17:02:29 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 00:19:25 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,23 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 
 void ft_wait_children(int *status)
 {
-    while (wait(status) > 0)
+    int last_status = 0;
+    pid_t last_pid;
+
+    /* Wait for all child processes and use exit status of last command */
+    while ((last_pid = wait(status)) > 0)
     {
         if (WIFEXITED(*status))
-        {
-            if (g_exit_status != 1) // Preserve g_exit_status if set to 1
-                g_exit_status = WEXITSTATUS(*status);
-        }
+            last_status = WEXITSTATUS(*status);
         else if (WIFSIGNALED(*status))
         {
-            if (g_exit_status != 1) // Preserve g_exit_status if set to 1
-                g_exit_status = 128 + WTERMSIG(*status);
+            /* Ignore SIGPIPE in pipelines - this is normal when writer's pipe is closed */
+            if (WTERMSIG(*status) == SIGPIPE)
+                continue;
+            last_status = 128 + WTERMSIG(*status);
         }
     }
+    g_exit_status = last_status;
 }
 
 int	execution(t_cmdarg *shell, t_list *env)

@@ -3,24 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 19:19:40 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 01:21:47 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void 	ft_redi_error(char *file, char *msg, int err)
+{
+	write(2, "minishell : ", 11);
+	if (file)
+	{
+		write(2, file, ft_strlen(file));
+		write(2, ": ", 2);
+	}
+	write(2, msg, ft_strlen(msg));
+	// write(2, file, ft_strlen(file));
+	// write(2, msg, ft_strlen(msg));
+	g_exit_status = err;
+}
+int 	ft_open_redi_builtin(char *file, int flag)
+{
+	int	fd;
+
+	fd = 0;
+	if (is_ambiguous(file) == true)
+		ft_cmd_error(file, "ambiguous redirect\n", 1);
+	if (flag == 0)
+		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	else if (flag == 1)
+		fd = open(file, O_RDONLY);
+	else
+		fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		if(errno == ENOENT)
+			ft_redi_error(file, "No such file or directory\n", 1);
+		else if (errno == EISDIR)
+			ft_redi_error(file, "Is a directory\n", 1);
+		else
+			ft_redi_error(file, "Permission denied\n", 1);
+	}
+	return (fd);
+}
+
 int	open_append(t_redi_list *output)
 {
-	output->tmp_fd = open(output->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	output->tmp_fd = ft_open_redi_builtin(output->file, 2);
 	if (output->tmp_fd == -1)
-	{
-		write(2, output->file, ft_strlen(output->file));
-		write(2, "failure to open out file\n", 25);
 		return (0);
-	}
 	if (output->is_last)
 	{
 		dup2(output->tmp_fd, STDOUT_FILENO);
@@ -37,14 +71,9 @@ int	open_output(t_redi_list *output)
 	{
 		if (output->type == OUTPUT)
 		{
-			output->tmp_fd = open(output->file, O_WRONLY | O_CREAT | O_TRUNC,
-					0644);
+			output->tmp_fd = ft_open_redi_builtin(output->file, 0);
 			if (output->tmp_fd == -1)
-			{
-				write(2, output->file, ft_strlen(output->file));
-				write(2, " : no such file or directory\n", 19);
 				return (-1);
-			}
 			if (output->is_last)
 			{
 				dup2(output->tmp_fd, STDOUT_FILENO);
@@ -68,13 +97,9 @@ int	open_input(t_redi_list *input)
 	{
 		if (input->type == INPUT)
 		{
-			in_fd = open(input->file, O_RDONLY);
+			in_fd = ft_open_redi_builtin(input->file, 1);
 			if (in_fd == -1)
-			{
-				perror(input->file);
-				write(2, " : failure to open in file\n", 27);
-				return (g_exit_status = 1, -1);
-			}
+				return (-1);
 			close(in_fd);
 		}
 		if (input->type == HEREDOC && input->content)
@@ -84,7 +109,7 @@ int	open_input(t_redi_list *input)
 	return (1);
 }
 
-int	open_buitlin_redi(t_cmdarg *cmdarg_list)
+int	open_builtin_redi(t_cmdarg *cmdarg_list)
 {
 	t_redi_list	*input;
 	t_redi_list	*output;
@@ -116,7 +141,7 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 	if (size_list(cmdarg_list) == 1 && !check)
 	{
 		if (cmdarg_list->input || cmdarg_list->output)
-			if (open_buitlin_redi(cmdarg_list) == 1)
+			if (open_builtin_redi(cmdarg_list) == 1)
 				return (1);
 		if (run_built_in(cmdarg_list, minienv) == 1)
 		{
