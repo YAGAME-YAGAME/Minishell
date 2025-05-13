@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/09 10:26:31 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:32:52 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	ft_print_export_env(t_list *head)
 {
+	// while(head)
+	// {
+	// 	printf("print: %s===%s\n", (head)->key, (head)->value);
+	// 	head = (head)->next;
+	// }
+	// exit(0);
 	while (head)
 	{
 		if (head && head->key)
@@ -39,7 +45,8 @@ void	ft_print_sorted_env(t_list **env)
 	t_list	*head;
 	t_list	*temp;
 	int		size_list;
-
+	
+	
 	if (*env == NULL)
 		return ;
 	ptr1 = ft_copy_list(*env);

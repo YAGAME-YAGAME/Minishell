@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 18:52:40 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 11:56:26 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*ft_copy_list(t_list *env)
 		if (current->value)
 			value_cp = ft_strdup(current->value);
 		else
-			value_cp = ft_strdup("");
+			value_cp = NULL;
 		ft_lstadd_back(&new_list, ft_lstnew(key_cp, value_cp));
 		current = current->next;
 	}
@@ -79,10 +79,14 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
 	{
-		if (dup_key->value)
-			free(dup_key->value);
-		dup_key->value = *value;
-		free(*key);
+		if (ft_strchr(cmd, '=') && dup_key->value) // key already exists and value not NULL
+		{
+			free(dup_key->value); // must change the value
+			dup_key->value = *value;
+		}
+		if (ft_strchr(cmd, '='))
+			dup_key->value = *value;
+		// free(*key);
 	}
 	else
 		ft_lstadd_back(env, ft_lstnew(*key, *value));
