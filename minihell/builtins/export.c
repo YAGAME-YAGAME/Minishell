@@ -98,6 +98,8 @@ int	check_error(char *cmd)
 		return (write(2, "export: `' : not a valid identifier\n", 36), 1);
 	if (*cmd == '=')
 		return (write(2, "export: `= : not a valid identifier\n", 36), 1);
+	if (!ft_strcmp(cmd, "$"))
+		return (write(2, "export: `$ : not a valid identifier\n", 36), 1);
 	if (ft_isdigit(*cmd))
 	{
 		write(2, "export: `", 9);
