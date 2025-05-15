@@ -20,16 +20,22 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_redisplay();
 	printf("");
-	g_exit_status = 130;
+	g_exit_status = 1;
 }
 
-// void	handle_heredoc_sigint(int sig)
-// {
-// 	(void)sig;
-// 	g_exit_status = 1;
-// 	close(STDIN_FILENO);
-// }
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	exit(1);
+}
 
+// void handle_heredoc_sigint(int sig)
+// {
+//     (void)sig;
+//     write(1, "\n", 1);
+//     g_exit_status = 1;
+//     exit(1);
+// }
 void	handle_signals(void)
 {
 	signal(SIGINT, handle_sigint);

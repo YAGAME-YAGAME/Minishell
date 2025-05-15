@@ -64,6 +64,7 @@ void	ft_read_line(t_list_heredoc *p, t_redi_list *heredoc, t_list *env)
 		{
 			free(p->line);
 			p->line = NULL;
+			g_exit_status = 0;
 			break ;
 		}
 		if (heredoc->expand)

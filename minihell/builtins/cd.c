@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 12:40:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 21:14:55 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 	char	*tmp;
 	char	*cwd;
 
-	(void)new_path;
+	if(new_path)
+		free(new_path);
 	tmp = NULL;
 	cwd = getcwd(NULL, 0);
 	old_pwd = ft_find_node(env, "OLDPWD");
@@ -65,6 +66,25 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 	}
 	else
 		free(cwd);
+}
+
+char	*ft_handel_tilde(char *cmd, t_list *env)
+{
+	char	*home;
+	char	*tmp;
+
+	tmp = NULL;
+	if (cmd[0] == '~')
+	{
+		home = ft_getenv("HOME", env);
+		if (home == NULL)
+			return (NULL);
+		tmp = my_strjoin(home, cmd + 1);
+		
+	}
+	else
+		tmp = ft_strdup(cmd);
+	return (tmp);
 }
 
 int	ft_cd(char **cmd, t_list **env)
@@ -90,7 +110,7 @@ int	ft_cd(char **cmd, t_list **env)
 			return (write(2, "minishell :cd: OLDPWD not set\n", 30), 1);
 	}
 	else
-		path = cmd[1];
+		path = ft_handel_tilde(cmd[1], *env);
 	if (chdir(path) != 0)
 		return (perror(path), 1);
 	return (ft_update_path(*env, path, old_path), 0);
