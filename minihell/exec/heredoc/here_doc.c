@@ -32,7 +32,7 @@ int	open_here_doc(t_redi_list *heredoc, t_list *env)
 	if (!p)
 		ft_cmd_error(NULL, "malloc failure\n", 1);
 	// setup_heredoc_signals();
-	signal(SIGINT, handle_heredoc_sigint);
+	setup_heredoc_signals();
 	ft_int_list_heredoc(p);
 	p->fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (p->fd == -1)
@@ -53,16 +53,7 @@ int	open_here_doc(t_redi_list *heredoc, t_list *env)
 static void	ft_parent_proc(int *status, int pid)
 {
 	waitpid(pid, status, 0);
-	if (WIFEXITED(*status))
-	{
-		if (WEXITSTATUS(*status) != 0)
-			g_exit_status = WEXITSTATUS(*status);
-	}
-	else if (WIFSIGNALED(*status))
-	{
-		if (WTERMSIG(*status) == SIGINT)
-			g_exit_status = 1;
-	}
+	g_exit_status = WEXITSTATUS(*status);
 	restore_signals();
 }
 
@@ -104,7 +95,6 @@ int	check_here_doc(t_cmdarg *shell, t_list *env)
 			ret = handel_heredoc(in, env);
 			if (ret == -1 || g_exit_status == 1)
 			{
-				printf("g_exit_status ---> %d\n", g_exit_status);
 				return (0);
 			}
 			in = in->next;

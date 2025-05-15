@@ -26,7 +26,6 @@ void	handle_sigint(int sig)
 void	handle_heredoc_sigint(int sig)
 {
 	(void)sig;
-	g_exit_status = 1;
 	exit(1);
 }
 
