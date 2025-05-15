@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/10 11:41:00 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:58:40 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,16 @@ void	minishell(char *input, t_list **minienv)
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
-
+	printf("here\n");
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	// printf("g_exit_status ---> %d\n", g_exit_status);
 	ft_cleaner(token_list, cmdarg_list);
 }
 
+void ll(void)
+{
+	system("leaks -q minishell");
+}
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
@@ -112,6 +115,7 @@ int	main(int ac, char **av, char **env)
 	char	*cwd;
 
 	handle_signals();
+	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);

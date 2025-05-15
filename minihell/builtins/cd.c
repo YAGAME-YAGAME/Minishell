@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/12 21:14:55 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:04:27 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ char	*ft_handel_tilde(char *cmd, t_list *env)
 		if (home == NULL)
 			return (NULL);
 		tmp = my_strjoin(home, cmd + 1);
-		
 	}
 	else
-		tmp = ft_strdup(cmd);
+		tmp = cmd;
 	return (tmp);
 }
 
