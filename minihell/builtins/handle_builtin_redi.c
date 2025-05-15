@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/13 01:21:47 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/15 20:37:27 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void 	ft_redi_error(char *file, char *msg, int err)
 int 	ft_open_redi_builtin(char *file, int flag)
 {
 	int	fd;
-
+	
 	fd = 0;
 	if (is_ambiguous(file) == true)
 		ft_cmd_error(file, "ambiguous redirect\n", 1);
@@ -142,7 +142,10 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 	{
 		if (cmdarg_list->input || cmdarg_list->output)
 			if (open_builtin_redi(cmdarg_list) == 1)
+			{
+				ft_reset_std(cmdarg_list);
 				return (1);
+			}
 		if (run_built_in(cmdarg_list, minienv) == 1)
 		{
 			if (cmdarg_list->output)

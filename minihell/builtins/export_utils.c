@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/13 11:32:52 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:07:17 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 void	ft_print_export_env(t_list *head)
 {
-	// while(head)
-	// {
-	// 	printf("print: %s===%s\n", (head)->key, (head)->value);
-	// 	head = (head)->next;
-	// }
-	// exit(0);
 	while (head)
 	{
 		if (head && head->key)

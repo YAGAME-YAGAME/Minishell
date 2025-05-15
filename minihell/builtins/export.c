@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/13 11:56:26 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:42:48 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 		}
 		if (ft_strchr(cmd, '='))
 			dup_key->value = *value;
-		// free(*key);
+		free(*key);
 	}
 	else
 		ft_lstadd_back(env, ft_lstnew(*key, *value));

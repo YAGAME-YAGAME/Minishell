@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varexp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 14:32:27 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/15 20:49:22 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*ft_getenv(char *var, t_list *minienv)
 	while (tmp)
 	{
 		if (ft_strcmp(var, tmp->key) == 0)
-			return (tmp->value);
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -119,5 +119,5 @@ char	*ft_getvar(char *var, t_list *minienv)
 		value = ft_strdup("");
 		return (value);
 	}
-	return (value);
+	return (ft_strdup(value));
 }
