@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/15 21:04:27 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/16 19:38:59 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 			free(old_pwd->value);
 		old_pwd->value = ft_strdup(old_path);
 	}
+	free(old_path);
 	if (current_pwd)
 	{
 		tmp = current_pwd->value;

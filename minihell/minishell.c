@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/15 20:58:40 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/16 19:39:32 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	minishell(char *input, t_list **minienv)
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
-	printf("here\n");
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	ft_cleaner(token_list, cmdarg_list);
