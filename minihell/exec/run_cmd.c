@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/09 12:55:37 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/17 16:00:00 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd)
 	free(*cmd_path);
 	free(*cmd_name);
 	ft_cmd_error(current_cmd->cmd[0], "is a directory\n", 126);
+	// The following code will never be reached because ft_cmd_error exits
 }
 
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
@@ -43,10 +44,13 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	if (current_cmd->cmd[0])
 		cmd_name = ft_strdup(current_cmd->cmd[0]);
 	cmd_path = check_exec(current_cmd->cmd[0], env);
+	if (cmd_path == NULL)
+	{
+		free(cmd_name); // This will never be reached because ft_cmd_error exits
+		ft_cmd_error(cmd_name, "command not found\n", 127);
+	}
 	if (ft_isdirectory(cmd_path))
 		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);
-	if (cmd_path == NULL)
-		ft_cmd_error(cmd_name, "command not found\n", 127);
 	envp = get_env(env);
 	if (envp == NULL)
 	{

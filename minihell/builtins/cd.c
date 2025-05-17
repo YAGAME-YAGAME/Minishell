@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/15 21:04:27 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/17 04:17:31 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 			free(old_pwd->value);
 		old_pwd->value = ft_strdup(old_path);
 	}
+	free(old_path);
 	if (current_pwd)
 	{
 		tmp = current_pwd->value;
@@ -94,7 +95,7 @@ int	ft_cd(char **cmd, t_list **env)
 	path = NULL;
 	old_path = ft_getenv("PWD", *env);
 	if (size_dp(cmd) > 2)
-		return (free(cmd), write(2, "minishell :cd: too many arguments\n", 34),
+		return (write(2, "minishell :cd: too many arguments\n", 34),
 			1);
 	if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
 	{
