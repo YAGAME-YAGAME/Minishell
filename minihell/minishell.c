@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/18 16:43:30 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:23:07 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,6 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
-void	ll(void)
-{
-	system("leaks -q minishell");
-}
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
@@ -114,7 +110,6 @@ int	main(int ac, char **av, char **env)
 	char	*cwd;
 
 	handle_signals();
-	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);

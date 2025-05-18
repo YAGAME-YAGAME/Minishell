@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 01:37:01 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:09:09 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	check_here_doc(t_cmdarg *shell, t_list *env)
 
 	tmp = shell;
 	ret = 0;
+	g_exit_status = 0;
 	while (tmp)
 	{
 		init_redi_file(tmp);

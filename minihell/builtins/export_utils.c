@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/18 01:21:34 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:21:20 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,15 @@ void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 			dup_key->value = *value;
 		free(*key);
 	}
+}
+
+int ft_check_name(char *cmd)
+{
+	// int	i;
+	(void)cmd;
+	// if (!cmd || !*cmd)
+	// 	return (1);
+	// while()
+	// return (0);
+	return (1);
 }

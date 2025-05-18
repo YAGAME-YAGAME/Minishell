@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 01:22:53 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:16:48 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	check_error(char *cmd)
 		return (write(2, "export: `= : not a valid identifier\n", 36), 1);
 	if (!ft_strcmp(cmd, "$"))
 		return (write(2, "export: `$ : not a valid identifier\n", 36), 1);
+	if (cmd[0] == '+' || ft_check_name(cmd) == 0)
+		return (write(2, "export: `+ : not a valid identifier\n", 36), 1);
 	if (ft_isdigit(*cmd))
 	{
 		write(2, "export: `", 9);

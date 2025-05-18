@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 16:40:30 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:11:45 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_cd(char **cmd, t_list **env)
 	path = NULL;
 	old_path = ft_getenv("PWD", *env);
 	if (size_dp(cmd) > 2)
-		return (write(2, "minishell :cd: too many arguments\n", 34), 1);
+		return (free(old_path), write(2, "minishell :cd: too many arguments\n", 34), 1);
 	if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
 	{
 		path = ft_getenv("HOME", *env);
