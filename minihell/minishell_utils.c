@@ -14,8 +14,7 @@
 
 bool	ft_redierrors(t_token *current)
 {
-	return (ft_isredi(current)
-		&& (current->next == NULL
+	return (ft_isredi(current) && (current->next == NULL
 			|| ft_isredi(current->next)));
 }
 

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/13 00:49:46 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 16:32:06 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 # include <curses.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -21,10 +22,9 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
-# include "libft/libft.h"
+# include <sys/wait.h>
+# include <unistd.h>
 
 //----colors
 # define RED "\033[0;31m"
@@ -126,8 +126,8 @@ typedef struct s_cmdarg
 }						t_cmdarg;
 
 t_list					*ft_envinit(char **env);
-int						ft_parse_env_var(char *env_var,
-							char **key, char **value);
+int						ft_parse_env_var(char *env_var, char **key,
+							char **value);
 char					*ft_getcwd(t_list *env);
 void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
@@ -241,7 +241,8 @@ void					ft_print_export_env(t_list *head);
 void					ft_swap_list(t_list *ptr1);
 t_list					*ft_copy_list(t_list *env);
 void					ft_reset_std(t_cmdarg *shell);
-
+int						ft_open_redi_builtin(char *file, int flag);
+void					ft_redi_error(char *file, char *msg, int err);
 int						ft_echo(char **cmd, t_cmdarg *env);
 int						ft_pwd(t_list **env);
 int						ft_unset(char **cmd, t_list **env);
@@ -252,8 +253,14 @@ int						ft_export(char **cmd, t_list **env);
 int						is_builtin(char *cmd);
 int						ft_set_env(t_list **env);
 void					free_dp(char **cmd);
+void					ft_free_char_p(char *s);
 int						remove_env_node(t_list **env_list, t_list *node);
 void					ft_reset_std(t_cmdarg *shell);
+char					*check_full_path(char *p);
+void					handle_exec_error(char *cmd_path, char *cmd_name,
+							char **envp);
+void					ft_alloc_dup(t_list *dup_key, char **key, char **value,
+							char *cmd);
 
 // --signals
 void					handle_signals(void);

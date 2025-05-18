@@ -48,12 +48,13 @@ void	ft_print_env(t_list *minienv)
 		}
 		current = current->next;
 	}
-	printf(RESET"\n"RESET);
+	printf(RESET "\n" RESET);
 }
 
 void	ft_print_tokenlist(t_token *token_list)
 {
 	t_token	*tmp;
+
 	tmp = token_list;
 	printf("---------------------------------\n");
 	printf("Token list:\n");

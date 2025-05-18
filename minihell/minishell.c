@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/16 19:39:32 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 16:43:30 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
-void ll(void)
+void	ll(void)
 {
 	system("leaks -q minishell");
 }

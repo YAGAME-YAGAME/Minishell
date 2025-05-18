@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 14:07:01 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/18 01:48:00 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*find_path(t_list *path)
 	return (NULL);
 }
 
-
 void	ft_get_path(char **full_path, char **path_cmd, char *p)
 {
 	char	*tmp;
@@ -73,13 +72,12 @@ void	ft_get_path(char **full_path, char **path_cmd, char *p)
 	}
 }
 
-char *ft_join_with_path(char *p)
+char	*ft_join_with_path(char *p)
 {
-	char *path;
-	char *tmp;
+	char	*path;
+	char	*tmp;
 
 	tmp = NULL;
-	
 	path = getcwd(NULL, 0);
 	if (!path)
 		return (NULL);
@@ -106,17 +104,11 @@ char	*check_exec(char *p, t_list *env)
 	char	**path_cmd;
 	char	*dir_path;
 
-
 	if (!p)
 		return (NULL);
-	full_path = NULL;
-	if (*p == '/' || *p == '.')
-	{
-		if (access(p, X_OK) == 0)
-			return (ft_strdup(p));
-		else
-			return (NULL);
-	}
+	full_path = check_full_path(p);
+	if (full_path)
+		return (full_path);
 	dir_path = ft_join_with_path(p);
 	if (dir_path)
 		return (dir_path);

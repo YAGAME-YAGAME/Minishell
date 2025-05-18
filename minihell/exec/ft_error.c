@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/17 15:59:54 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 01:41:16 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_free_char_p(char *s)
+{
+	if (s)
+	{
+		free(s);
+		s = NULL;
+	}
+}
 
 void	ft_cmd_error(char *cmd_name, char *error, int status)
 {
@@ -51,11 +60,10 @@ void	ft_free_and_error(char **cmd_path, char **cmd_name, char **envp)
 	*cmd_path = NULL;
 	free_dp(envp);
 	*envp = NULL;
-	free(*cmd_name); // Free cmd_name before exiting
+	free(*cmd_name);
 	*cmd_name = NULL;
 	if (errno == EACCES)
 		ft_cmd_error(NULL, "Permission denied\n", 126);
 	else
 		ft_cmd_error(NULL, "execution failure\n", 1);
-	// The following code will never be reached because ft_cmd_error exits
 }

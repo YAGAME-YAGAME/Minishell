@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 16:12:25 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/18 01:37:01 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	ft_free_list_heredoc(t_list_heredoc *list)
 	free(list);
 }
 
-
 int	open_here_doc(t_redi_list *heredoc, t_list *env)
 {
 	t_list_heredoc	*p;
@@ -31,7 +30,6 @@ int	open_here_doc(t_redi_list *heredoc, t_list *env)
 	p = malloc(sizeof(t_list_heredoc));
 	if (!p)
 		ft_cmd_error(NULL, "malloc failure\n", 1);
-	// setup_heredoc_signals();
 	setup_heredoc_signals();
 	ft_int_list_heredoc(p);
 	p->fd = open(HEREDOC_FILE, O_WRONLY | O_CREAT | O_TRUNC, 0644);

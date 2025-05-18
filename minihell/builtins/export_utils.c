@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/15 21:07:17 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 01:21:34 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void	ft_print_sorted_env(t_list **env)
 	t_list	*head;
 	t_list	*temp;
 	int		size_list;
-	
-	
+
 	if (*env == NULL)
 		return ;
 	ptr1 = ft_copy_list(*env);
@@ -76,5 +75,20 @@ void	ft_swap_list(t_list *ptr1)
 		ptr1->value = ptr1->next->value;
 		ptr1->next->key = tmp_key;
 		ptr1->next->value = tmp_value;
+	}
+}
+
+void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
+{
+	if (dup_key)
+	{
+		if (ft_strchr(cmd, '=') && dup_key->value)
+		{
+			free(dup_key->value);
+			dup_key->value = *value;
+		}
+		if (ft_strchr(cmd, '='))
+			dup_key->value = *value;
+		free(*key);
 	}
 }

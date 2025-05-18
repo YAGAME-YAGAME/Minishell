@@ -14,9 +14,8 @@
 
 bool	ft_condition(t_token **token, ssize_t dollar_pos)
 {
-	return ((*token)->value[dollar_pos + 1] == '$'
-		|| (*token)->value[dollar_pos + 1] == '?'
-		|| ft_isdigit((*token)->value[dollar_pos + 1]));
+	return ((*token)->value[dollar_pos + 1] == '$' || (*token)->value[dollar_pos
+		+ 1] == '?' || ft_isdigit((*token)->value[dollar_pos + 1]));
 }
 
 char	*ft_expand(t_token **token, t_list *minienv, ssize_t dollar_pos)
@@ -33,8 +32,8 @@ char	*ft_expand(t_token **token, t_list *minienv, ssize_t dollar_pos)
 
 char	*ft_temp2(t_token **token, ssize_t dollar_pos)
 {
-	return (ft_substr((*token)->value,
-			dollar_pos + ft_get_varlen((*token)->value + dollar_pos + 1) + 1,
+	return (ft_substr((*token)->value, dollar_pos
+			+ ft_get_varlen((*token)->value + dollar_pos + 1) + 1,
 			ft_strlen((*token)->value)));
 }
 
