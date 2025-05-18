@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 18:59:01 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:29:48 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 {
 	int	check;
 
-	printf(GREEN "here\n" RESET);
 	if (cmdarg_list == NULL)
 		return (1);
 	if (cmdarg_list->cmd == NULL)

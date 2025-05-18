@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 20:16:48 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:20:41 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 
 int	check_error(char *cmd)
 {
+	if (!cmd || !*cmd)
+		return (write(2, "export: ` : not a valid identifier\n", 36), 1);
 	if (*cmd == '\0')
 		return (write(2, "export: `' : not a valid identifier\n", 36), 1);
 	if (*cmd == '=')
