@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 20:49:38 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/08 00:02:15 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/18 16:49:01 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ size_t	countwords(const char *s, char *c)
 	count = 0;
 	while (s[i])
 	{
-		if (ft_strchr(c, s[i]) == NULL
-			&& (i == 0 || ft_strchr(c, s[i - 1]) != NULL))
+		if (ft_strchr(c, s[i]) == NULL && (i == 0 || ft_strchr(c, s[i
+			- 1]) != NULL))
 		{
 			count++;
 		}

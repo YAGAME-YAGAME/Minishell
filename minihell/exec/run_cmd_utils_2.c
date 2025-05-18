@@ -6,13 +6,13 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 01:52:00 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 01:57:10 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:45:10 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_full_path(char *p)
+char	*check_full_path(char *p)
 {
 	if (!p)
 		return (NULL);
@@ -26,7 +26,7 @@ void	check_full_path(char *p)
 	return (NULL);
 }
 
-void	handle_exec_error(char *cmd_path, char *cmd_name, char **envp)
+void	handle_exec_error(char *cmd_path, char *cmd_name)
 {
 	free(cmd_path);
 	free(cmd_name);

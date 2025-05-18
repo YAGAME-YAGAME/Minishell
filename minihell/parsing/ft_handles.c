@@ -114,8 +114,7 @@ t_token	*ft_handle_word(t_lexer *lexer)
 	start = lexer->pos;
 	while (lexer->pos < lexer->len && !ft_isspace(lexer->input[lexer->pos])
 		&& !ft_isspecial(lexer->input[lexer->pos])
-		&& lexer->input[lexer->pos] != '\''
-		&& lexer->input[lexer->pos] != '"')
+		&& lexer->input[lexer->pos] != '\'' && lexer->input[lexer->pos] != '"')
 		lexer->pos++;
 	value = ft_substr(lexer->input, start, lexer->pos - start);
 	token = (t_token *)malloc(sizeof(t_token));

@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 01:40:17 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:22:40 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 
 void	ft_wait_children(int *status)
 {
-	int		last_status;
-	pid_t	last_pid;
+	int	last_status;
 
 	last_status = 0;
 	while (wait(status) > 0)

@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 01:08:22 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:40:30 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_update_path(t_list *env, char *new_path, char *old_path)
 	char	*tmp;
 	char	*cwd;
 
-	ft_free_char_p(old_path);
+	ft_free_char_p(new_path);
 	tmp = NULL;
 	cwd = getcwd(NULL, 0);
 	old_pwd = ft_find_node(env, "OLDPWD");

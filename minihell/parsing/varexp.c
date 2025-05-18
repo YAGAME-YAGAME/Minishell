@@ -54,8 +54,7 @@ void	ft_expand_exit_status(t_token **token)
 		expanded = ft_strdup("");
 	leak = (*token)->value;
 	temp = ft_strjoin_free(ft_substr((*token)->value, 0, dollar_pos), expanded);
-	temp2 = ft_substr((*token)->value,
-			dollar_pos + 2,
+	temp2 = ft_substr((*token)->value, dollar_pos + 2,
 			ft_strlen((*token)->value));
 	(*token)->value = ft_strjoin_free(temp, temp2);
 	free(expanded);

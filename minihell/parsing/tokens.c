@@ -66,8 +66,7 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer)
 
 bool	ft_tojoin(t_lexer *lexer)
 {
-	return (lexer->input[lexer->pos] != ' '
-		&& lexer->input[lexer->pos] != '\0'
+	return (lexer->input[lexer->pos] != ' ' && lexer->input[lexer->pos] != '\0'
 		&& !ft_isspecial(lexer->input[lexer->pos]));
 }
 
@@ -76,8 +75,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 	char	current_char;
 	t_token	*token;
 
-	while (lexer->pos < lexer->len
-		&& ft_isspace(lexer->input[lexer->pos]))
+	while (lexer->pos < lexer->len && ft_isspace(lexer->input[lexer->pos]))
 		lexer->pos++;
 	if (lexer->pos >= lexer->len)
 		return (NULL);

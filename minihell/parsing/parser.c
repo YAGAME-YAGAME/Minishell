@@ -22,7 +22,7 @@ void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 	if (val == NULL)
 		return (perror("malloc failure"), g_exit_status = 1, NULL);
 	if (token_list->current->prev != NULL
-			&& token_list->current->prev->addspace == true)
+		&& token_list->current->prev->addspace == true)
 		(*node)->cmd[(*node)->cmdsize++] = val;
 	else
 	{
@@ -47,8 +47,8 @@ void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 		if (token_list->current->next->type == WORD)
 			ft_rediradd(&(*node)->input, ft_redinew(token_list->current, true));
 		else
-			ft_rediradd(&(*node)->input,
-				ft_redinew(token_list->current, false));
+			ft_rediradd(&(*node)->input, ft_redinew(token_list->current,
+					false));
 	}
 	else
 		ft_rediradd(&(*node)->output, ft_redinew(token_list->current, true));
