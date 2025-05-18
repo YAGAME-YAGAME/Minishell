@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambiguous.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:34:26 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 16:24:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/18 19:19:46 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ bool	is_ambiguous(char *file)
 	while (*tmp)
 	{
 		if (*tmp == ' ')
-			return (true);
+			break ;
 		tmp++;
 	}
+	if (*tmp == ' ')
+		return (true);
 	return (false);
 }

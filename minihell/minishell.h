@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/18 16:32:06 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:13:35 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,10 +257,10 @@ void					ft_free_char_p(char *s);
 int						remove_env_node(t_list **env_list, t_list *node);
 void					ft_reset_std(t_cmdarg *shell);
 char					*check_full_path(char *p);
-void					handle_exec_error(char *cmd_path, char *cmd_name,
-							char **envp);
+void					handle_exec_error(char *cmd_path, char *cmd_name);
 void					ft_alloc_dup(t_list *dup_key, char **key, char **value,
 							char *cmd);
+int 					ft_check_name(char *cmd);
 
 // --signals
 void					handle_signals(void);

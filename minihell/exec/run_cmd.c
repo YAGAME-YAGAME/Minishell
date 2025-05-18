@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 01:56:37 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:35:04 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);
 	envp = get_env(env);
 	if (envp == NULL)
-		handle_exec_error(cmd_path, cmd_name, envp);
+		handle_exec_error(cmd_path, cmd_name);
 	if (execve(cmd_path, current_cmd->cmd, envp) == -1)
 		ft_free_and_error(&cmd_path, &cmd_name, envp);
 }
