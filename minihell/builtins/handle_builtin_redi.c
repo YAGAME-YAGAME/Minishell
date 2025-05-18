@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/15 20:37:27 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 01:34:53 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void 	ft_redi_error(char *file, char *msg, int err)
-{
-	write(2, "minishell : ", 11);
-	if (file)
-	{
-		write(2, file, ft_strlen(file));
-		write(2, ": ", 2);
-	}
-	write(2, msg, ft_strlen(msg));
-	// write(2, file, ft_strlen(file));
-	// write(2, msg, ft_strlen(msg));
-	g_exit_status = err;
-}
-int 	ft_open_redi_builtin(char *file, int flag)
-{
-	int	fd;
-	
-	fd = 0;
-	if (is_ambiguous(file) == true)
-		ft_cmd_error(file, "ambiguous redirect\n", 1);
-	if (flag == 0)
-		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	else if (flag == 1)
-		fd = open(file, O_RDONLY);
-	else
-		fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		if(errno == ENOENT)
-			ft_redi_error(file, "No such file or directory\n", 1);
-		else if (errno == EISDIR)
-			ft_redi_error(file, "Is a directory\n", 1);
-		else
-			ft_redi_error(file, "Permission denied\n", 1);
-	}
-	return (fd);
-}
 
 int	open_append(t_redi_list *output)
 {
@@ -142,10 +104,7 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 	{
 		if (cmdarg_list->input || cmdarg_list->output)
 			if (open_builtin_redi(cmdarg_list) == 1)
-			{
-				ft_reset_std(cmdarg_list);
-				return (1);
-			}
+				return (ft_reset_std(cmdarg_list), 1);
 		if (run_built_in(cmdarg_list, minienv) == 1)
 		{
 			if (cmdarg_list->output)

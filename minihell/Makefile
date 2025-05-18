@@ -38,6 +38,7 @@ SRCS=	$(TARGET).c \
 	./exec/signals.c \
 	./exec/get_cmd_path.c \
 	./exec/ambiguous.c \
+	./exec/run_cmd_utils_2 \
 	./builtins/builtin.c \
 	./builtins/cd.c \
 	./builtins/echo.c \

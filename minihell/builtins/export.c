@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/15 20:42:48 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/18 01:22:53 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	dup_key = NULL;
 	if (ft_strchr(cmd, '='))
 	{
-		
 		*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
-		*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1,
-				ft_strlen(cmd) - (ft_strchr(cmd, '=') - cmd));
+		*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1, ft_strlen(cmd)
+				- (ft_strchr(cmd, '=') - cmd));
 		if (!*key)
 		{
 			if (*value)
@@ -78,16 +77,7 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	}
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
-	{
-		if (ft_strchr(cmd, '=') && dup_key->value) // key already exists and value not NULL
-		{
-			free(dup_key->value); // must change the value
-			dup_key->value = *value;
-		}
-		if (ft_strchr(cmd, '='))
-			dup_key->value = *value;
-		free(*key);
-	}
+		ft_alloc_dup(dup_key, key, value, cmd);
 	else
 		ft_lstadd_back(env, ft_lstnew(*key, *value));
 }
