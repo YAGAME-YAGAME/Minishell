@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 21:20:41 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:38:47 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,27 @@ t_list	*check_dup_env(char *key, t_list *env)
 void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 {
 	t_list	*dup_key;
+	int		is_append;
+	char	*plus_pos;
 
 	dup_key = NULL;
+	is_append = 0;
+	plus_pos = NULL;
 	if (ft_strchr(cmd, '='))
 	{
-		*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
-		*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1, ft_strlen(cmd)
-				- (ft_strchr(cmd, '=') - cmd));
+		plus_pos = ft_strchr(cmd, '+');
+		if (plus_pos && plus_pos + 1 && *(plus_pos + 1) == '=')
+		{
+			is_append = 1;
+			*key = ft_substr(cmd, 0, plus_pos - cmd);
+			*value = ft_substr(cmd, (plus_pos - cmd) + 2, ft_strlen(cmd) - (plus_pos - cmd) - 2);
+		}
+		else
+		{
+			*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
+			*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1, ft_strlen(cmd)
+					- (ft_strchr(cmd, '=') - cmd));
+		}
 		if (!*key)
 		{
 			if (*value)
@@ -77,7 +91,12 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	}
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
-		ft_alloc_dup(dup_key, key, value, cmd);
+	{
+		if (is_append && dup_key->value)
+			ft_handle_append(dup_key, key, value);
+		else
+			ft_alloc_dup(dup_key, key, value, cmd);
+	}
 	else
 		ft_lstadd_back(env, ft_lstnew(*key, *value));
 }

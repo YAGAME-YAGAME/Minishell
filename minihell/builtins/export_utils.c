@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/18 21:21:35 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:35:08 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,19 @@ void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 			dup_key->value = *value;
 		free(*key);
 	}
+}
+
+void	ft_handle_append(t_list *dup_key, char **key, char **value)
+{
+	char	*tmp;
+
+	tmp = dup_key->value;
+	dup_key->value = ft_strjoin(dup_key->value, *value);
+	free(tmp);
+	free(*value);
+	free(*key);
+	*key = NULL;
+	*value = NULL;
 }
 
 int ft_check_name(char *cmd)
