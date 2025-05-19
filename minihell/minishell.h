@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/18 21:35:06 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/19 20:31:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,12 +131,12 @@ int						ft_parse_env_var(char *env_var, char **key,
 char					*ft_getcwd(t_list *env);
 void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
-t_token					*ft_handle_operator(t_lexer *lexer);
+t_token					*ft_handle_operator(t_lexer *lexer, bool *heredoc);
 
 t_token					*ft_handle_quotes(t_lexer *lexer, char quote_char);
-t_token					*ft_strtok(char *input);
+t_token					*ft_strtok(char *input, t_list *minienv);
 t_lexer					*ft_lexer_init(char *input);
-t_token					*ft_get_next_token(t_lexer *lexer);
+t_token					*ft_get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc);
 t_token					*ft_newtok(t_token *token);
 void					ft_freeee(char *temp2, char *exp);
 void					minishell(char *input, t_list **minienv);

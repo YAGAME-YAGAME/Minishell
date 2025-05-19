@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/10 11:45:33 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:29:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,17 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 	return (token);
 }
 
-void	ft_set_token_type(t_token *token, int op_len, char *op)
+void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc)
 {
 	if (op_len == 2)
 	{
 		if (op[0] == '>')
 			token->type = APPEND;
 		else
+		{
 			token->type = HEREDOC;
+			*heredoc = true;
+		}
 	}
 	else if (op[0] == '|')
 		token->type = PIPE;
@@ -77,7 +80,7 @@ void	ft_set_token_type(t_token *token, int op_len, char *op)
 	}
 }
 
-t_token	*ft_handle_operator(t_lexer *lexer)
+t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
 {
 	char	op[3];
 	int		op_len;
@@ -100,7 +103,7 @@ t_token	*ft_handle_operator(t_lexer *lexer)
 		return (free(token), NULL);
 	token->addspace = false;
 	ft_init_token_fields(token);
-	ft_set_token_type(token, op_len, op);
+	ft_set_token_type(token, op_len, op, heredoc);
 	lexer->pos += op_len;
 	return (token);
 }

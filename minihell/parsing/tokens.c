@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 12:26:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:34:13 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,18 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
-t_token	*ft_jointok(t_token *token, t_lexer **lexer)
+t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *heredoc)
 {
 	t_token	*new_token;
 	char	*value;
 
-	new_token = ft_get_next_token(*lexer);
+	if (*heredoc == false)
+		ft_expand_variables(&token, minienv);
+	new_token = ft_get_next_token(*lexer, minienv, heredoc);
 	if (!new_token)
 		return (NULL);
+	if (*heredoc == false)
+		ft_expand_variables(&new_token, minienv);
 	if (token->type != WORD)
 		new_token->type = token->type;
 	value = ft_strjoin(token->value, new_token->value);
@@ -70,7 +74,7 @@ bool	ft_tojoin(t_lexer *lexer)
 		&& !ft_isspecial(lexer->input[lexer->pos]));
 }
 
-t_token	*ft_get_next_token(t_lexer *lexer)
+t_token	*ft_get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc)
 {
 	char	current_char;
 	t_token	*token;
@@ -81,7 +85,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 		return (NULL);
 	current_char = lexer->input[lexer->pos];
 	if (ft_isspecial(current_char))
-		return (ft_handle_operator(lexer));
+		return (ft_handle_operator(lexer, heredoc));
 	else
 	{
 		if (current_char == '\'' || current_char == '"')
@@ -93,7 +97,7 @@ t_token	*ft_get_next_token(t_lexer *lexer)
 		else
 			token = ft_handle_word(lexer);
 		if (ft_tojoin(lexer))
-			token = ft_jointok(token, &lexer);
+			token = ft_jointok(token, &lexer, minienv, heredoc);
 		return (token);
 	}
 }
