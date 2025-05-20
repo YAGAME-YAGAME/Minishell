@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 22:04:55 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:52:41 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,39 +86,54 @@ char	*ft_handel_tilde(char *cmd, t_list *env)
 	return (tmp);
 }
 
-int    ft_cd(char **cmd, t_list **env)
+int	ft_get_target_path(char **cmd, char **path, char *old_path, t_list **env)
 {
-    char    *path;
-    char    *old_path;
-    char    *tmp;
+	char	*tmp;
 
-    path = NULL;
-    old_path = ft_getenv("PWD", *env);
-    if (size_dp(cmd) > 2)
-        return (free(old_path), write(2, "minishell :cd: too many arguments\n", 34), 1);
-    if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
-    {
-        path = ft_getenv("HOME", *env);
-        if (path == NULL)
-            return (free(old_path), write(2, "minishell :cd: HOME not set\n", 28), 1);
-    }
-    else if (ft_strcmp(cmd[1], "-") == 0)
-    {
-        path = ft_getenv("OLDPWD", *env);
-        if (path == NULL)
-            return (free(old_path), write(2, "minishell :cd: OLDPWD not set\n", 30), 1);
-    }
-    else
-    {
-        tmp = ft_handel_tilde(cmd[1], *env);
-        if (tmp == NULL)
-            return (free(old_path), write(2, "minishell :cd: HOME not set\n", 28), 1);
-        path = ft_strdup(tmp);
-        if (tmp != cmd[1])
-            free(tmp);
-    }
-    if (chdir(path) != 0)
-        return (free(path), perror(path), 1);
-    return (ft_update_path(*env, path, old_path), 0);
+	tmp = NULL;
+	if (cmd[1] == NULL || ft_strcmp(cmd[1], "~") == 0)
+	{
+		*path = ft_getenv("HOME", *env);
+		if (*path == NULL)
+			return (free(old_path), write(2, "minishell :cd: HOME not set\n",
+					28), 1);
+	}
+	else if (ft_strcmp(cmd[1], "-") == 0)
+	{
+		*path = ft_getenv("OLDPWD", *env);
+		if (*path == NULL)
+			return (free(old_path), write(2, "minishell :cd: OLDPWD not set\n",
+					30), 1);
+	}
+	else
+	{
+		tmp = ft_handel_tilde(cmd[1], *env);
+		if (tmp == NULL)
+			return (free(old_path), write(2, "minishell :cd: HOME not set\n",
+					28), 1);
+		*path = ft_strdup(tmp);
+		if (tmp != cmd[1])
+			free(tmp);
+	}
+	return (0);
 }
- 
+
+int	ft_cd(char **cmd, t_list **env)
+{
+	char *path;
+	char *old_path;
+
+	path = NULL;
+	old_path = ft_getenv("PWD", *env);
+	if (size_dp(cmd) > 2)
+		return (free(old_path), write(2, "minishell :cd: too many arguments\n",
+				34), 1);
+	if (ft_get_target_path(cmd, &path, old_path, env) != 0)
+		return (1);
+	if (path == NULL)
+		return (free(old_path), write(2, "minishell :cd: HOME not set\n", 28),
+			1);
+	if (chdir(path) != 0)
+		return (free(path), perror(path), 1);
+	return (ft_update_path(*env, path, old_path), 0);
+}

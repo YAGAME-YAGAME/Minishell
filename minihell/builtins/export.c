@@ -69,13 +69,14 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 		{
 			is_append = 1;
 			*key = ft_substr(cmd, 0, plus_pos - cmd);
-			*value = ft_substr(cmd, (plus_pos - cmd) + 2, ft_strlen(cmd) - (plus_pos - cmd) - 2);
+			*value = ft_substr(cmd, (plus_pos - cmd) + 2, ft_strlen(cmd)
+					- (plus_pos - cmd) - 2);
 		}
 		else
 		{
 			*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
-			*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1, ft_strlen(cmd)
-					- (ft_strchr(cmd, '=') - cmd));
+			*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1,
+					ft_strlen(cmd) - (ft_strchr(cmd, '=') - cmd));
 		}
 		if (!*key)
 		{
@@ -147,4 +148,3 @@ int	ft_export(char **cmd, t_list **env)
 	}
 	return (ret);
 }
-

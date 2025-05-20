@@ -106,11 +106,11 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
 	*value = NULL;
 }
 
-int ft_check_name(char *cmd)
+int	ft_check_name(char *cmd)
 {
-	while(*cmd && *cmd != '+')
+	while (*cmd && *cmd != '+')
 		cmd++;
-	while(*cmd && *cmd != '=')
+	while (*cmd && *cmd != '=')
 		cmd++;
 	if (*cmd == '=' && *(cmd - 1) != '+')
 		return (0);
