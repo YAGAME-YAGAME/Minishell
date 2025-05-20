@@ -25,8 +25,8 @@ void	ft_free_list_heredoc(t_list_heredoc *list)
 
 int	open_here_doc(t_redi_list *heredoc, int *fd_pipe, t_list *env)
 {
-	char *delimiter;
-	
+	char	*delimiter;
+
 	close(fd_pipe[0]);
 	delimiter = NULL;
 	setup_heredoc_signals();
@@ -37,14 +37,13 @@ int	open_here_doc(t_redi_list *heredoc, int *fd_pipe, t_list *env)
 	exit(0);
 }
 
-
 int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
 {
 	int	pid;
 	int	status;
-	int rd;
-	
-	if(pipe(fd_pipe) == -1)
+	int	rd;
+
+	if (pipe(fd_pipe) == -1)
 		ft_cmd_error(NULL, "pipe failure", 1);
 	status = 0;
 	if (in->type == HEREDOC)
@@ -59,12 +58,16 @@ int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
 			close(fd_pipe[1]);
 			waitpid(pid, &status, 0);
 			g_exit_status = WEXITSTATUS(status);
-			if(in->is_last)
+			if (in->is_last && g_exit_status == 0)
 			{
-				in->content = malloc(1000);
-				rd = read(fd_pipe[0], in->content, 10000);
+				if (in->content)
+					free(in->content);
+				in->content = malloc(10000);
+				rd = read(fd_pipe[0], in->content, 9999);
 				in->content[rd] = '\0';
 			}
+			else
+				free(in->content);
 			close(fd_pipe[0]);
 			restore_signals();
 		}
@@ -77,7 +80,7 @@ int	check_here_doc(t_cmdarg *shell, t_list *env)
 	t_cmdarg	*tmp;
 	t_redi_list	*in;
 	int			ret;
-	int fd_pipe[2];
+	int			fd_pipe[2];
 
 	tmp = shell;
 	ret = 0;

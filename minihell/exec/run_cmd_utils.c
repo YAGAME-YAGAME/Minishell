@@ -14,7 +14,7 @@
 
 void	handle_heredoc(t_redi_list *input)
 {
-	int fd[2];
+	int	fd[2];
 
 	pipe(fd);
 	write(fd[1], input->content, ft_strlen(input->content));

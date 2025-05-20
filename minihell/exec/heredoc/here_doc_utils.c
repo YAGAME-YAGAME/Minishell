@@ -47,10 +47,11 @@ void	init_redi_file(t_cmdarg *shell)
 	}
 }
 
-void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *env)
+void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc,
+		t_list *env)
 {
-	char *line;
-	
+	char	*line;
+
 	line = NULL;
 	while (1)
 	{
@@ -61,7 +62,7 @@ void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *e
 			write(1, "\n", 1);
 			break ;
 		}
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) - 1) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			line = NULL;
@@ -75,7 +76,7 @@ void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *e
 		free(line);
 		line = NULL;
 	}
-	if(heredoc->is_last)
+	if (heredoc->is_last)
 		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
 	close(fd_pipe[1]);
 }
