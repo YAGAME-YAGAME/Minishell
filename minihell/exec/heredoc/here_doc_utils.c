@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/20 16:27:46 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:14:16 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_int_list_heredoc(t_list_heredoc *list)
-{
-	list->line = NULL;
-	list->delimiter = NULL;
-	list->fd = -1;
-}
 
 void	init_redi_file(t_cmdarg *shell)
 {
@@ -47,27 +40,35 @@ void	init_redi_file(t_cmdarg *shell)
 	}
 }
 
-void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *env)
+int	handle_heredoc_break(char *line, char *delimiter)
 {
-	char *line;
-	
+	if (line == NULL)
+	{
+		write(1, "\n", 1);
+		return (1);
+	}
+	if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+	{
+		free(line);
+		line = NULL;
+		g_exit_status = 0;
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc,
+		t_list *env)
+{
+	char	*line;
+
 	line = NULL;
 	while (1)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
-		if (line == NULL)
-		{
-			write(1, "\n", 1);
+		if (handle_heredoc_break(line, delimiter))
 			break ;
-		}
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) - 1) == 0)
-		{
-			free(line);
-			line = NULL;
-			g_exit_status = 0;
-			break ;
-		}
 		if (heredoc->expand)
 			ft_expand_var_in_char(&line, env);
 		if (heredoc->is_last)
@@ -75,7 +76,7 @@ void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *e
 		free(line);
 		line = NULL;
 	}
-	if(heredoc->is_last)
+	if (heredoc->is_last)
 		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
 	close(fd_pipe[1]);
 }

@@ -77,14 +77,15 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	}
 	return (cmdarg_list);
 }
-void  	ft_print_content(t_cmdarg *shell)
+void	ft_print_content(t_cmdarg *shell)
 {
-	while(shell)
+	while (shell)
 	{
-		while(shell->input)
+		while (shell->input)
 		{
-			if(shell->input->type == HEREDOC)
-				printf("content of heredoc -- > [ %s ]\n", shell->input->content);
+			if (shell->input->type == HEREDOC)
+				printf("content of heredoc -- > [ %s ]\n",
+					shell->input->content);
 			shell->input = shell->input->next;
 		}
 		shell = shell->next;

@@ -17,10 +17,10 @@ int	ft_open_redi_builtin(char *file, int flag)
 	int	fd;
 
 	fd = 0;
-	if(file[0] == '\0')
+	if (file[0] == '\0')
 		return (ft_redi_error(file, "No such file or directory\n", 1), -1);
 	if (is_ambiguous(file) == true)
-		return(ft_redi_error(file, "ambiguous redirect\n", 1), -1);
+		return (ft_redi_error(file, "ambiguous redirect\n", 1), -1);
 	if (flag == 0)
 		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	else if (flag == 1)

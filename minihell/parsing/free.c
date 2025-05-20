@@ -73,6 +73,10 @@ void	ft_free_redi_list(t_redi_list *redi)
 	{
 		tmp = redi;
 		redi = redi->next;
+		if (tmp->content)
+			free(tmp->content);
+		if (tmp->file)
+			free(tmp->file);
 		free(tmp);
 	}
 }

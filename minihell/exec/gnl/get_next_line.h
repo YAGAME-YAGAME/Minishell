@@ -20,7 +20,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-
 char	*get_next_line(int fd);
 int		my_strchr(char *s, char c);
 char	*my_strdup(const char *s1);
