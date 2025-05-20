@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/19 20:31:40 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/20 04:12:23 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void					ft_free_list_heredoc(t_list_heredoc *list);
 void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
-void					ft_read_line(t_list_heredoc *p, t_redi_list *heredoc,
+void					ft_read_line(char *delimiter,int *fd_pipe, t_redi_list *heredoc,
 							t_list *env);
 void					init_redi_file(t_cmdarg *shell);
 void					ft_update_path(t_list *env, char *new_path,

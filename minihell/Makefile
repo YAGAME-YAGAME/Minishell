@@ -57,6 +57,7 @@ NAME = $(TARGET).a
 OBJS = $(SRCS:.c=.o)
 HEADER = $(TARGET).h
 LIBFT = ./libft/libft.a
+GET_NEXT_LINE = ./exec/gnl/get_next_line.h
 
 DEF_COLOR = \033[0;39m
 GRAY = \033[0;90m
@@ -86,7 +87,7 @@ $(NAME): $(OBJS)
 	@echo "$(BLUE)Archiving the Library $(NAME) ...$(DEF_COLOR)"
 	@ar rcs $(NAME) $^
 
-%.o: %.c $(HEADER)
+%.o: %.c $(HEADER) $(GET_NEXT_LINE)
 	@echo "$(BLUE)Compiling $< ...$(DEF_COLOR)"
 	@${CC} ${CFLAGS} -c $< -o $@
 
