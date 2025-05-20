@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 23:27:08 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/20 16:27:46 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,35 @@ void	init_redi_file(t_cmdarg *shell)
 	}
 }
 
-void	ft_read_line(t_list_heredoc *p, t_redi_list *heredoc, t_list *env)
+void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc, t_list *env)
 {
+	char *line;
+	
+	line = NULL;
 	while (1)
 	{
-		write(1, "here_doc >> ", 12);
-		p->line = get_next_line(0);
-		if (p->line == NULL)
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (line == NULL)
 		{
 			write(1, "\n", 1);
-			if (heredoc->is_last)
-				write(p->fd, p->line, ft_strlen(p->line));
 			break ;
 		}
-		if (ft_strncmp(p->line, p->delimiter, ft_strlen(p->delimiter)) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) - 1) == 0)
 		{
-			free(p->line);
-			p->line = NULL;
+			free(line);
+			line = NULL;
 			g_exit_status = 0;
 			break ;
 		}
 		if (heredoc->expand)
-			ft_expand_var_in_char(&p->line, env);
+			ft_expand_var_in_char(&line, env);
 		if (heredoc->is_last)
-			write(p->fd, p->line, ft_strlen(p->line));
-		free(p->line);
-		p->line = NULL;
+			heredoc->content = my_strjoin(heredoc->content, line);
+		free(line);
+		line = NULL;
 	}
+	if(heredoc->is_last)
+		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
+	close(fd_pipe[1]);
 }

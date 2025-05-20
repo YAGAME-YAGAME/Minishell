@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/18 01:52:23 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:17:24 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 void	handle_heredoc(t_redi_list *input)
 {
-	int	fd;
+	int fd[2];
 
-	(void)input;
-	fd = ft_open_file(HEREDOC_FILE, 1);
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		close(fd);
+	pipe(fd);
+	write(fd[1], input->content, ft_strlen(input->content));
+	close(fd[1]);
+	if (dup2(fd[0], STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure\n", 1);
-	}
-	close(fd);
+	close(fd[0]);
 }
 
 int	handel_append(t_redi_list *output)
