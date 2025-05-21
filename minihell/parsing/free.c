@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 10:02:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:58:02 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,6 @@ void	ft_free_redi_list(t_redi_list *redi)
 	{
 		tmp = redi;
 		redi = redi->next;
-		if (tmp->content)
-			free(tmp->content);
-		if (tmp->file)
-			free(tmp->file);
 		free(tmp);
 	}
 }

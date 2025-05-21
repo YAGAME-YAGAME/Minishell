@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/20 04:12:23 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/21 22:43:19 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_redi_list
 	bool				is_ambiguous;
 	bool				expand;
 	bool				variable;
+	int 				heredoc_fd;
 	struct s_redi_list	*next;
 }						t_redi_list;
 

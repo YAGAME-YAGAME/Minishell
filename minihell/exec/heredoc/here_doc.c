@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/20 21:08:22 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:12:54 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,13 @@ int	open_here_doc(t_redi_list *heredoc, int *fd_pipe, t_list *env)
 
 void	parent(int *fd_pipe, int pid, int *status, t_redi_list *in)
 {
-	int	rd;
-
 	close(fd_pipe[1]);
 	waitpid(pid, status, 0);
 	g_exit_status = WEXITSTATUS(*status);
-	if (in->is_last && g_exit_status == 0)
-	{
-		if (in->content)
-			free(in->content);
-		in->content = malloc(10000);
-		rd = read(fd_pipe[0], in->content, 9999);
-		in->content[rd] = '\0';
-	}
+	if (g_exit_status == 0 && in->is_last)
+		in->heredoc_fd = fd_pipe[0];
 	else
-		free(in->content);
-	close(fd_pipe[0]);
+		close(fd_pipe[0]);
 }
 
 int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)

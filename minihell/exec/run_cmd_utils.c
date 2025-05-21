@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/20 16:17:24 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/21 22:54:09 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 void	handle_heredoc(t_redi_list *input)
 {
-	int	fd[2];
-
-	pipe(fd);
-	write(fd[1], input->content, ft_strlen(input->content));
-	close(fd[1]);
-	if (dup2(fd[0], STDIN_FILENO) == -1)
+	
+	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure\n", 1);
-	close(fd[0]);
+	close(input->heredoc_fd);
 }
 
 int	handel_append(t_redi_list *output)

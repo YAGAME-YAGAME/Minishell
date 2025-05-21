@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/20 21:14:16 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:05:47 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,7 @@ void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc,
 	}
 	if (heredoc->is_last)
 		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
+	free(heredoc->content);
+	heredoc->content = NULL;
 	close(fd_pipe[1]);
 }

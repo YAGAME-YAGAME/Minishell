@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/20 16:31:11 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/22 00:14:47 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,25 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 }
 void	ft_print_content(t_cmdarg *shell)
 {
+	int rd;
+	char content[10000];
+	
 	while (shell)
 	{
 		while (shell->input)
 		{
 			if (shell->input->type == HEREDOC)
-				printf("content of heredoc -- > [ %s ]\n",
-					shell->input->content);
+				if(shell->input->is_last)
+				{
+					rd = read(shell->input->heredoc_fd, content, 100);
+					if (rd > 0)
+					{
+						content[rd] = '\0';
+						printf("pipe content: %s\n", content);
+					}
+					else
+						printf("Error reading from heredoc\n");
+				}
 			shell->input = shell->input->next;
 		}
 		shell = shell->next;
@@ -117,6 +129,10 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
+void ll(void)
+{
+	system("leaks -q minishell");
+}
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
@@ -124,6 +140,7 @@ int	main(int ac, char **av, char **env)
 	char	*cwd;
 
 	handle_signals();
+	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
