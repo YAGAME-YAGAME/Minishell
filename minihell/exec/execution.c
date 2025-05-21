@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 16:22:40 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:57:10 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void   ft_close_pipe(t_redi_list *input)
+{
+	while(input)
+	{
+		if (input->type == HEREDOC)
+			close(input->heredoc_fd);
+		input = input->next;
+	}
+}
 int	size_list(t_cmdarg *node)
 {
 	int	i;
@@ -50,6 +59,7 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 		close(pip_fd[1]);
 		*tmp_in = pip_fd[0];
 	}
+	ft_close_pipe(current_cmd->input);
 }
 
 void	ft_wait_children(int *status)
