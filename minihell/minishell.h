@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/21 22:43:19 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/22 01:43:46 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define PIPE_ERROR "syntax error near unexpected token `|'\n"
 # define SYNTAX_ERROR "syntax error near unexpected token `newline'\n"
 
+# define CD_HOME_ERR "minishell :cd: HOME not set\n"
+# define CD_OLDPWD_ERR "minishell :cd: OLDPWD not set\n"
 // Global variables
 extern int				g_exit_status;
 
@@ -110,7 +112,7 @@ typedef struct s_redi_list
 	bool				is_ambiguous;
 	bool				expand;
 	bool				variable;
-	int 				heredoc_fd;
+	int					heredoc_fd;
 	struct s_redi_list	*next;
 }						t_redi_list;
 
@@ -137,7 +139,8 @@ t_token					*ft_handle_operator(t_lexer *lexer, bool *heredoc);
 t_token					*ft_handle_quotes(t_lexer *lexer, char quote_char);
 t_token					*ft_strtok(char *input, t_list *minienv);
 t_lexer					*ft_lexer_init(char *input);
-t_token					*ft_get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc);
+t_token					*ft_get_next_token(t_lexer *lexer, t_list *minienv,
+							bool *heredoc);
 t_token					*ft_newtok(t_token *token);
 void					ft_freeee(char *temp2, char *exp);
 void					minishell(char *input, t_list **minienv);
@@ -197,6 +200,7 @@ bool					ft_pipeerrors(t_token *current);
 void					ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list);
 
 //--exec
+int						size_list(t_cmdarg *node);
 int						check_here_doc(t_cmdarg *shell, t_list *env);
 int						execution(t_cmdarg *shell, t_list *env);
 int						count(char *s, char p);
@@ -224,8 +228,13 @@ void					ft_free_list_heredoc(t_list_heredoc *list);
 void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
-void					ft_read_line(char *delimiter,int *fd_pipe, t_redi_list *heredoc,
-							t_list *env);
+void					ft_handle_append(t_list *dup_key, char **key,
+							char **value);
+int						ft_handle_plus(char *cmd, char **key, char **value);
+int						size_dp(char **c);
+t_list					*ft_find_node(t_list *env, char *key);
+void					ft_read_line(char *delimiter, int *fd_pipe,
+							t_redi_list *heredoc, t_list *env);
 void					init_redi_file(t_cmdarg *shell);
 void					ft_update_path(t_list *env, char *new_path,
 							char *old_path);
@@ -261,8 +270,9 @@ char					*check_full_path(char *p);
 void					handle_exec_error(char *cmd_path, char *cmd_name);
 void					ft_alloc_dup(t_list *dup_key, char **key, char **value,
 							char *cmd);
-void					ft_handle_append(t_list *dup_key, char **key, char **value);
-int 					ft_check_name(char *cmd);
+void					ft_handle_append(t_list *dup_key, char **key,
+							char **value);
+int						ft_check_name(char *cmd);
 
 // --signals
 void					handle_signals(void);

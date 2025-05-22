@@ -14,7 +14,6 @@
 
 void	handle_heredoc(t_redi_list *input)
 {
-	
 	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure\n", 1);
 	close(input->heredoc_fd);
