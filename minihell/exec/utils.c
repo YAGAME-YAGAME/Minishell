@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:58:34 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/09 09:53:50 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/22 00:47:29 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	size_list(t_cmdarg *node)
+{
+	int	i;
+
+	i = 0;
+	if (!node)
+		return (0);
+	while (node)
+	{
+		i++;
+		node = node->next;
+	}
+	return (i);
+}
 
 void	free_all(char **bf, int j)
 {

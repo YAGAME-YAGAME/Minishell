@@ -51,6 +51,8 @@ SRCS=	$(TARGET).c \
 	./builtins/handle_builtin_redi.c \
 	./builtins/handle_builtin_redi_utils.c \
 	./builtins/utils.c \
+	./builtins/cd_utils.c \
+	./builtins/export_utils_2.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

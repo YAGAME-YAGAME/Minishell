@@ -6,38 +6,11 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/20 21:52:41 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/22 01:12:17 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	size_dp(char **c)
-{
-	int	i;
-
-	i = 0;
-	while (*c)
-	{
-		c++;
-		i++;
-	}
-	return (i);
-}
-
-t_list	*ft_find_node(t_list *env, char *key)
-{
-	t_list	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->key, key) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
 
 void	ft_update_path(t_list *env, char *new_path, char *old_path)
 {
@@ -95,22 +68,19 @@ int	ft_get_target_path(char **cmd, char **path, char *old_path, t_list **env)
 	{
 		*path = ft_getenv("HOME", *env);
 		if (*path == NULL)
-			return (free(old_path), write(2, "minishell :cd: HOME not set\n",
-					28), 1);
+			return (free(old_path), write(2, CD_HOME_ERR, 28), 1);
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
 		*path = ft_getenv("OLDPWD", *env);
 		if (*path == NULL)
-			return (free(old_path), write(2, "minishell :cd: OLDPWD not set\n",
-					30), 1);
+			return (free(old_path), write(2, CD_OLDPWD_ERR, 30), 1);
 	}
 	else
 	{
 		tmp = ft_handel_tilde(cmd[1], *env);
 		if (tmp == NULL)
-			return (free(old_path), write(2, "minishell :cd: HOME not set\n",
-					28), 1);
+			return (free(old_path), write(2, CD_HOME_ERR, 28), 1);
 		*path = ft_strdup(tmp);
 		if (tmp != cmd[1])
 			free(tmp);
@@ -120,8 +90,8 @@ int	ft_get_target_path(char **cmd, char **path, char *old_path, t_list **env)
 
 int	ft_cd(char **cmd, t_list **env)
 {
-	char *path;
-	char *old_path;
+	char	*path;
+	char	*old_path;
 
 	path = NULL;
 	old_path = ft_getenv("PWD", *env);

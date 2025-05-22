@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 22:10:42 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/22 01:43:29 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,34 +57,13 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 {
 	t_list	*dup_key;
 	int		is_append;
-	char	*plus_pos;
 
 	dup_key = NULL;
 	is_append = 0;
-	plus_pos = NULL;
 	if (ft_strchr(cmd, '='))
-	{
-		plus_pos = ft_strchr(cmd, '+');
-		if (plus_pos && plus_pos + 1 && *(plus_pos + 1) == '=')
-		{
-			is_append = 1;
-			*key = ft_substr(cmd, 0, plus_pos - cmd);
-			*value = ft_substr(cmd, (plus_pos - cmd) + 2, ft_strlen(cmd)
-					- (plus_pos - cmd) - 2);
-		}
-		else
-		{
-			*key = ft_substr(cmd, 0, ft_strchr(cmd, '=') - cmd);
-			*value = ft_substr(cmd, ft_strchr(cmd, '=') - cmd + 1,
-					ft_strlen(cmd) - (ft_strchr(cmd, '=') - cmd));
-		}
-		if (!*key)
-		{
-			if (*value)
-				free(*value);
-			return ;
-		}
-	}
+		is_append = ft_handle_plus(cmd, key, value);
+	if (is_append == -1)
+		return ;
 	else
 	{
 		*key = ft_strdup(cmd);

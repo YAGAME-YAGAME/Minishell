@@ -3,37 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/21 22:57:10 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/22 00:50:19 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void   ft_close_pipe(t_redi_list *input)
+void	ft_close_pipe(t_redi_list *input)
 {
-	while(input)
+	while (input)
 	{
 		if (input->type == HEREDOC)
 			close(input->heredoc_fd);
 		input = input->next;
 	}
-}
-int	size_list(t_cmdarg *node)
-{
-	int	i;
-
-	i = 0;
-	if (!node)
-		return (0);
-	while (node)
-	{
-		i++;
-		node = node->next;
-	}
-	return (i);
 }
 
 int	create_pipe(int *pip)
