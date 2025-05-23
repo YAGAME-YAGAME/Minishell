@@ -6,11 +6,17 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/22 01:42:54 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/23 04:24:32 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_helper(char **key, char **value, char *cmd)
+{
+	*key = ft_strdup(cmd);
+	*value = NULL;
+}
 
 void	ft_handle_append(t_list *dup_key, char **key, char **value)
 {

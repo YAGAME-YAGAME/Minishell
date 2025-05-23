@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 18:31:21 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/23 06:24:20 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	ft_open_file(char *file, int flag)
 {
 	int	fd;
 
+	fd = 0;
 	if (flag == 0)
 		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	else if (flag == 1)
@@ -50,7 +51,14 @@ int	ft_open_file(char *file, int flag)
 	else
 		fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		ft_cmd_error(file, NULL, 1);
+	{
+		if (errno == ENOENT)
+			ft_cmd_error(file, "No such file or directory\n", 1);
+		else if (errno == EISDIR)
+			ft_redi_error(file, "Is a directory\n", 1);
+		else
+			ft_redi_error(file, "Permission denied\n", 1);
+	}
 	return (fd);
 }
 

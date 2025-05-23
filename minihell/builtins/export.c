@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/22 01:43:29 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/23 04:24:24 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,13 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 	dup_key = NULL;
 	is_append = 0;
 	if (ft_strchr(cmd, '='))
-		is_append = ft_handle_plus(cmd, key, value);
-	if (is_append == -1)
-		return ;
-	else
 	{
-		*key = ft_strdup(cmd);
-		*value = NULL;
+		is_append = ft_handle_plus(cmd, key, value);
+		if (is_append == -1)
+			return ;
 	}
+	else
+		ft_helper(key, value, cmd);
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
 	{
