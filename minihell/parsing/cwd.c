@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 11:43:49 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/23 03:40:07 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ char	*ft_getcwd(t_list *env)
 
 	cwd = ft_get_pwd(env);
 	if (cwd && ft_strncmp(cwd, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
-		prompt = ft_strjoin("[~", cwd + ft_strlen(getenv("HOME")));
+		prompt = ft_strjoin(GREEN"[~",cwd + ft_strlen(getenv("HOME")));
 	else
-		prompt = ft_strjoin("[", cwd);
+		prompt = ft_strjoin(GREEN"[", cwd);
 	free(cwd);
 	tmp = prompt;
-	prompt = ft_strjoin(prompt, "]\n$> ");
+	prompt = ft_strjoin(prompt, "]\n$> "RESET);
 	free(tmp);
 	return (prompt);
 }

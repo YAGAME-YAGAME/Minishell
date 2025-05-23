@@ -6,7 +6,7 @@
 /*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/22 01:43:46 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/23 04:24:51 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void					ft_free_list_heredoc(t_list_heredoc *list);
 void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
+void 					ft_helper(char **key, char **value, char *cmd);
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);
 int						ft_handle_plus(char *cmd, char **key, char **value);

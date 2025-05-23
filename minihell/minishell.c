@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/22 00:14:47 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/23 06:25:55 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,32 +77,7 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	}
 	return (cmdarg_list);
 }
-void	ft_print_content(t_cmdarg *shell)
-{
-	int rd;
-	char content[10000];
-	
-	while (shell)
-	{
-		while (shell->input)
-		{
-			if (shell->input->type == HEREDOC)
-				if(shell->input->is_last)
-				{
-					rd = read(shell->input->heredoc_fd, content, 100);
-					if (rd > 0)
-					{
-						content[rd] = '\0';
-						printf("pipe content: %s\n", content);
-					}
-					else
-						printf("Error reading from heredoc\n");
-				}
-			shell->input = shell->input->next;
-		}
-		shell = shell->next;
-	}
-}
+
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
@@ -121,7 +96,6 @@ void	minishell(char *input, t_list **minienv)
 	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	// ft_print_content(cmdarg_list);
 	if (check_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (!execution(cmdarg_list, *minienv))
@@ -129,7 +103,7 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
-void ll(void)
+void	ll(void)
 {
 	system("leaks -q minishell");
 }
@@ -137,10 +111,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
 	char	*input;
-	char	*cwd;
 
+	// char	*cwd;
 	handle_signals();
-	atexit(ll);
+	// atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
@@ -149,11 +123,11 @@ int	main(int ac, char **av, char **env)
 		minienv = ft_envinit(env);
 		while (1)
 		{
-			cwd = ft_getcwd(minienv);
-			input = readline(cwd);
+			// cwd = ft_getcwd(minienv);
+			input = readline(GREEN "minishell-1.0$ " RESET);
 			minishell(input, &minienv);
 			free(input);
-			free(cwd);
+			// free(cwd);
 		}
 	}
 	return (0);
