@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 13:25:18 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/24 22:30:23 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int ac, char **av, char **env)
 	char	*input;
 
 	handle_signals();
-	// atexit(ll);
+	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
