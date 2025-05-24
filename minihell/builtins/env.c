@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:35 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 14:51:03 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/24 13:58:26 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_env(t_list **env)
 			free(tmp->value);
 			tmp->value = ft_strdup("/usr/bin/env");
 		}
-		if (tmp->key && tmp->value && tmp->value[0] != '\0')
+		if (tmp->key && tmp->value)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}

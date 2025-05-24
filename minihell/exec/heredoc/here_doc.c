@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/22 00:12:54 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/24 13:11:53 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
 	status = 0;
 	if (in->type == HEREDOC)
 	{
+		setup_parent_heredoc_signals();
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), -1);

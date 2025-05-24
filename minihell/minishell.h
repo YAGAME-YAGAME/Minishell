@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/23 04:24:51 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:12:05 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,14 @@ void					handle_sigint(int sig);
 // Signal handling functions
 void					handle_sigint(int sig);
 void					handle_heredoc_sigint(int sig);
+void					handle_parent_sigint(int sig);
+void					handle_parent_heredoc_sigint(int sig);
 void					handle_signals(void);
 void					setup_heredoc_signals(void);
 void					restore_signals(void);
+void					setup_child_signals(void);
+void					setup_parent_waiting_signals(void);
+void					setup_parent_heredoc_signals(void);
 
 //--enums
 typedef enum e_token_type

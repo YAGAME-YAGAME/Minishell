@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 12:29:39 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/24 22:30:23 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,8 @@ int	main(int ac, char **av, char **env)
 	t_list	*minienv;
 	char	*input;
 
-	// char	*cwd;
 	handle_signals();
-	// atexit(ll);
+	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
@@ -123,11 +122,9 @@ int	main(int ac, char **av, char **env)
 		minienv = ft_envinit(env);
 		while (1)
 		{
-			// cwd = ft_getcwd(minienv);
 			input = readline(GREEN "minishell-1.0$ " RESET);
 			minishell(input, &minienv);
 			free(input);
-			// free(cwd);
 		}
 	}
 	return (0);

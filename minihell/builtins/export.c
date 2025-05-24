@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/23 04:24:24 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:06:55 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 			return ;
 	}
 	else
-		ft_helper(key, value, cmd);
+	{
+		*key = ft_strdup(cmd);
+		*value = NULL;
+	}
 	dup_key = check_dup_env(*key, *env);
 	if (dup_key)
 	{
@@ -80,25 +83,70 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 		ft_lstadd_back(env, ft_lstnew(*key, *value));
 }
 
+static int	print_invalid_identifier(char *cmd)
+{
+	write(2, "export: `", 9);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, "': not a valid identifier\n", 26);
+	return (1);
+}
+
+static int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+		
+	// First character must be letter or underscore (POSIX)
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
+	
+	// Rest can be alphanumeric or underscore
+	i = 1;
+	while (str[i] && str[i] != '=' && str[i] != '+')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	
+	// Handle += operator correctly
+	if (str[i] == '+')
+	{
+		if (!str[i + 1] || str[i + 1] != '=')
+			return (0);
+	}
+	
+	return (1);
+}
+
 int	check_error(char *cmd)
 {
+	char	*equals_pos;
+	char	*name_end;
+	char	*tmp;
+
 	if (!cmd || !*cmd)
 		return (write(2, "export: ` : not a valid identifier\n", 36), 1);
-	if (*cmd == '\0')
-		return (write(2, "export: `' : not a valid identifier\n", 36), 1);
 	if (*cmd == '=')
-		return (write(2, "export: `= : not a valid identifier\n", 36), 1);
-	if (!ft_strcmp(cmd, "$"))
-		return (write(2, "export: `$ : not a valid identifier\n", 36), 1);
-	if (cmd[0] == '+' || ft_check_name(cmd) == 0)
-		return (write(2, "export: `+ : not a valid identifier\n", 36), 1);
-	if (ft_isdigit(*cmd))
-	{
-		write(2, "export: `", 9);
-		write(2, cmd, ft_strlen(cmd));
-		write(2, "' : not a valid identifier\n", 27);
+		return (print_invalid_identifier("="));
+	
+	equals_pos = ft_strchr(cmd, '=');
+	name_end = equals_pos ? equals_pos : cmd + ft_strlen(cmd);
+	if (ft_strchr(cmd, '+'))
+		name_end = ft_strchr(cmd, '+');
+	
+	tmp = ft_substr(cmd, 0, name_end - cmd);
+	if (!tmp)
 		return (1);
+	
+	if (!is_valid_identifier(tmp))
+	{
+		free(tmp);
+		return (print_invalid_identifier(cmd));
 	}
+	free(tmp);
 	return (0);
 }
 
