@@ -76,7 +76,6 @@ void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	setup_child_signals();
-	
 	if (tmp_in != 0 && dup2(tmp_in, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure", 1);
 	if (current_cmd->next && dup2(p_fd[1], STDOUT_FILENO) == -1)

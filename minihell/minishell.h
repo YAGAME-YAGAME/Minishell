@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 13:12:05 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/24 22:45:04 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,7 @@ void					ft_alloc_dup(t_list *dup_key, char **key, char **value,
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);
 int						ft_check_name(char *cmd);
+int						print_invalid_identifier(char *cmd);
 
 // --signals
 void					handle_signals(void);
