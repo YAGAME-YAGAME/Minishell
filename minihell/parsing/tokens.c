@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/19 20:34:13 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/05/24 12:07:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,25 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
+t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
+{
+	char	*prefix;
+	char	*value;
+
+	if (ft_strlen(token->value) == 1)
+		return (ft_free_token(token), new_token);
+	else
+	{
+		prefix = ft_substr(token->value, 0, ft_strlen(token->value) - 1);
+		value = ft_strjoin(prefix, new_token->value);
+		free(prefix);
+		ft_free_token(token);
+		free(new_token->value);
+		new_token->value = value;
+		return (new_token);
+	}
+}
+
 t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *heredoc)
 {
 	t_token	*new_token;
@@ -59,6 +78,13 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 		return (NULL);
 	if (*heredoc == false)
 		ft_expand_variables(&new_token, minienv);
+
+	if (ft_strlen(token->value) > 0 && token->value[ft_strlen(token->value) - 1] == '$'
+		&& (new_token->type == DOUBLE_QUOTE || new_token->type == SINGLE_QUOTE))
+	{
+		return (ft_dollar_joining(token, new_token));
+	}
+
 	if (token->type != WORD)
 		new_token->type = token->type;
 	value = ft_strjoin(token->value, new_token->value);
