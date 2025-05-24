@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:35:04 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:11:46 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
+	setup_child_signals();
+	
 	if (tmp_in != 0 && dup2(tmp_in, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "dup2 failure", 1);
 	if (current_cmd->next && dup2(p_fd[1], STDOUT_FILENO) == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/23 06:25:55 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:25:18 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ int	main(int ac, char **av, char **env)
 	t_list	*minienv;
 	char	*input;
 
-	// char	*cwd;
 	handle_signals();
 	// atexit(ll);
 	(void)av;
@@ -123,11 +122,9 @@ int	main(int ac, char **av, char **env)
 		minienv = ft_envinit(env);
 		while (1)
 		{
-			// cwd = ft_getcwd(minienv);
 			input = readline(GREEN "minishell-1.0$ " RESET);
 			minishell(input, &minienv);
 			free(input);
-			// free(cwd);
 		}
 	}
 	return (0);

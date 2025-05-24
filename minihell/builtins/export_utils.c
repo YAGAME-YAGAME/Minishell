@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/22 01:35:58 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:06:54 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,26 @@ void	ft_swap_list(t_list *ptr1)
 
 void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 {
-	if (dup_key)
+	if (!dup_key || !key || !value)
+		return;
+
+	if (ft_strchr(cmd, '='))
 	{
-		if (ft_strchr(cmd, '=') && dup_key->value)
-		{
+		if (dup_key->value)
 			free(dup_key->value);
-			dup_key->value = *value;
-		}
-		if (ft_strchr(cmd, '='))
-			dup_key->value = *value;
+		dup_key->value = *value;
+		*value = NULL;
+	}
+	else if (*value)
+	{
+		free(*value);
+		*value = NULL;
+	}
+	
+	if (*key)
+	{
 		free(*key);
+		*key = NULL;
 	}
 }
 
