@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/24 12:50:49 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/26 09:18:28 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_close_pipe(t_redi_list *input)
 {
 	while (input)
 	{
-		if (input->type == HEREDOC)
+		if (input->type == HEREDOC && input->is_last)
 			close(input->heredoc_fd);
 		input = input->next;
 	}

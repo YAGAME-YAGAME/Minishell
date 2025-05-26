@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/24 13:11:46 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/25 10:42:16 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	if (cmd_path == NULL)
 	{
 		free(cmd_name);
-		ft_cmd_error(cmd_name, "command not found\n", 127);
+		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
 	}
 	if (ft_isdirectory(cmd_path))
 		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);

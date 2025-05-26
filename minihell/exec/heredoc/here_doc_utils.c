@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/22 00:05:47 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/26 09:19:52 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_redi_file(t_cmdarg *shell)
 			in->is_last = true;
 		else
 			in->is_last = false;
-		in->content = NULL;
+		in->heredoc_fd = -1;
 		in = in->next;
 	}
 	while (out)
@@ -35,7 +35,7 @@ void	init_redi_file(t_cmdarg *shell)
 		else
 			out->is_last = false;
 		out->tmp_fd = -1;
-		out->content = NULL;
+		out->heredoc_fd = -1;
 		out = out->next;
 	}
 }
