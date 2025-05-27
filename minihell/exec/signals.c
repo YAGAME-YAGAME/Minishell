@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 08:03:07 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/24 13:11:56 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/25 10:16:44 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void	handle_sigint(int sig)
 	g_exit_status = 1;
 }
 
-/* This handler is for when we're waiting for a child process */
+
 void	handle_parent_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	g_exit_status = 130; /* 128 + SIGINT (2) */
+	g_exit_status = 130;
 }
 
-/* This handler is for when we're waiting for a heredoc child process */
+
 void	handle_parent_heredoc_sigint(int sig)
 {
 	(void)sig;

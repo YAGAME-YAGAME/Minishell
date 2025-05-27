@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/24 14:06:52 by yagame           ###   ########.fr       */
+/*   Updated: 2025/05/24 22:47:14 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	print_invalid_identifier(char *cmd)
+{
+	write(2, "export: `", 9);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, "': not a valid identifier\n", 26);
+	return (1);
+}
 
 void	ft_helper(char **key, char **value, char *cmd)
 {
@@ -23,8 +31,7 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
 	char	*tmp;
 
 	if (!dup_key || !key || !value || !*value)
-		return;
-		
+		return ;
 	tmp = dup_key->value;
 	if (!tmp)
 		dup_key->value = ft_strdup(*value);
@@ -35,10 +42,6 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
 	}
 	free(*key);
 	free(*value);
-	*key = NULL;
-	*value = NULL;
-	free(*value);
-	free(*key);
 	*key = NULL;
 	*value = NULL;
 }

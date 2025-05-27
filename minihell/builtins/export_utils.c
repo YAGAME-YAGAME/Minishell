@@ -81,8 +81,7 @@ void	ft_swap_list(t_list *ptr1)
 void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 {
 	if (!dup_key || !key || !value)
-		return;
-
+		return ;
 	if (ft_strchr(cmd, '='))
 	{
 		if (dup_key->value)
@@ -95,7 +94,6 @@ void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 		free(*value);
 		*value = NULL;
 	}
-	
 	if (*key)
 	{
 		free(*key);
