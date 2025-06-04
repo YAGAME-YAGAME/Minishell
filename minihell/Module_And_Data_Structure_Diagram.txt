@@ -1,0 +1,371 @@
+@startuml MinishellModuleAndDataStructure
+
+!define STRUCT class
+!define MODULE package
+
+' Style definitions
+skinparam packageStyle rectangle
+skinparam classBackgroundColor LightBlue
+skinparam packageBackgroundColor LightGray
+
+' Global Variables
+class "Global Variables" as GlobalVars {
+  + g_exit_status : int
+}
+
+' Main Data Structures
+STRUCT t_token {
+  + type : t_token_type
+  + value : char*
+  + addspace : bool
+  + variable : bool
+  + current : t_token*
+  + next : t_token*
+  + prev : t_token*
+}
+
+STRUCT t_token_type <<enumeration>> {
+  WORD
+  PIPE
+  AND
+  OR
+  L_PARENTHESIS
+  R_PARENTHESIS
+  INPUT
+  OUTPUT
+  HEREDOC
+  APPEND
+  SINGLE_QUOTE
+  DOUBLE_QUOTE
+}
+
+STRUCT t_lexer {
+  + input : char*
+  + pos : int
+  + len : int
+}
+
+STRUCT t_redi_list {
+  + type : t_token_type
+  + file : char*
+  + content : char*
+  + is_last : bool
+  + tmp_fd : int
+  + is_ambiguous : bool
+  + expand : bool
+  + variable : bool
+  + heredoc_fd : int
+  + next : t_redi_list*
+}
+
+STRUCT t_cmdarg {
+  + cmd : char**
+  + cmdsize : int
+  + is_builtin : bool
+  + origin_stdout : int
+  + origin_stdin : int
+  + input : t_redi_list*
+  + output : t_redi_list*
+  + next : t_cmdarg*
+}
+
+STRUCT t_list {
+  + key : char*
+  + value : char*
+  + check : int
+  + prev : t_list*
+  + next : t_list*
+}
+
+STRUCT t_list_heredoc {
+  + delimiter : char*
+  + line : char*
+  + fd : int
+}
+
+' Core Files
+MODULE "Main Shell Core" as MainCore {
+  class minishell.c {
+    + main()
+    + minishell()
+    + ft_check_syntax()
+    + ft_parser()
+    --
+    Main entry point and command loop
+    Token syntax validation
+    Parse tokens into command structure
+  }
+
+  class minishell_utils.c {
+    + ft_cleaner()
+    + ft_redierrors()
+    + ft_pipeerrors()
+    --
+    Cleanup functions
+    Syntax error checking
+  }
+}
+
+' Parsing Module
+MODULE "Parsing Module" as ParsingMod {
+  class strtok.c {
+    + ft_strtok()
+    + ft_get_next_token()
+    + ft_handle_word()
+    + ft_handle_operator()
+    + ft_handle_quotes()
+    --
+    Main tokenization
+    Token creation
+    Handle different token types
+  }
+
+  class parser.c {
+    + ft_parse_word()
+    + ft_parse_redi()
+    + ft_get_next_node()
+    --
+    Parse tokens into commands
+    Handle redirections
+    Create command nodes
+  }
+
+  class varexp.c {
+    + ft_expand_variables()
+    + ft_expand_var_in_char()
+    + ft_getvar()
+    --
+    Variable expansion
+    Environment variable lookup
+  }
+
+  class heredoc_exp.c {
+    + ft_expand_inchar()
+    + ft_expand_exit_status_inchar()
+    --
+    Heredoc variable expansion
+    Exit status expansion
+  }
+
+  class env_init.c {
+    + ft_envinit()
+    + ft_parse_env_var()
+    --
+    Environment initialization
+    Parse environment variables
+  }
+
+  class cwd.c {
+    + ft_getcwd()
+    + ft_get_pwd()
+    --
+    Current directory handling
+    Prompt generation
+  }
+}
+
+' Execution Module
+MODULE "Execution Module" as ExecMod {
+  class execution.c {
+    + execution()
+    + ft_child()
+    + ft_parent()
+    + ft_wait_children()
+    + create_pipe()
+    --
+    Main execution orchestrator
+    Process management
+    Pipe handling
+  }
+
+  class run_cmd.c {
+    + ft_child()
+    + handle_execution()
+    + ft_is_builtin()
+    --
+    Child process execution
+    External command handling
+    Builtin detection in child
+  }
+
+  class run_cmd_utils.c {
+    + handle_heredoc()
+    + handle_input()
+    + handle_output()
+    + handel_append()
+    --
+    I/O redirection handling
+    File descriptor management
+  }
+
+  class get_cmd_path.c {
+    + check_exec()
+    + find_path()
+    --
+    Command path resolution
+    PATH environment lookup
+  }
+
+  class signals.c {
+    + handle_sigint()
+    + handle_parent_sigint()
+    + setup_child_signals()
+    + handle_signals()
+    --
+    Signal handling
+    Process signal management
+  }
+}
+
+' Heredoc Submodule
+MODULE "Heredoc Module" as HeredocMod {
+  class here_doc.c {
+    + check_here_doc()
+    + handel_heredoc()
+    + open_here_doc()
+    + parent()
+    --
+    Heredoc processing
+    Fork for heredoc input
+    Parent-child coordination
+  }
+
+  class here_doc_utils.c {
+    + init_redi_file()
+    + ft_read_line()
+    + handle_heredoc_break()
+    --
+    Heredoc utilities
+    Line reading
+    Delimiter checking
+  }
+}
+
+' Builtins Module
+MODULE "Builtins Module" as BuiltinsMod {
+  class builtin.c {
+    + is_builtin()
+    + run_built_in()
+    --
+    Builtin command detection
+    Builtin command execution
+  }
+
+  class handle_builtin_redi.c {
+    + check_builtin()
+    + open_builtin_redi()
+    + open_input()
+    + open_output()
+    --
+    Builtin-specific execution
+    Handle redirections for builtins
+  }
+
+  class echo.c {
+    + ft_echo()
+    --
+    Echo builtin implementation
+  }
+
+  class cd.c {
+    + ft_cd()
+    --
+    Change directory builtin
+  }
+
+  class export.c {
+    + ft_export()
+    --
+    Export builtin implementation
+  }
+
+  class env.c {
+    + ft_env()
+    --
+    Environment display builtin
+  }
+
+  class pwd.c {
+    + ft_pwd()
+    --
+    Print working directory builtin
+  }
+
+  class unset.c {
+    + ft_unset()
+    --
+    Unset environment variable builtin
+  }
+
+  class exit.c {
+    + ft_exit()
+    --
+    Exit builtin implementation
+  }
+}
+
+' Utility Modules
+MODULE "Libft Utilities" as LibftMod {
+  class libft {
+    + ft_strlen()
+    + ft_strdup()
+    + ft_strjoin()
+    + ft_split()
+    + ft_strcmp()
+    + ft_lstnew()
+    + ft_lstadd_back()
+    --
+    String manipulation
+    Memory management
+    Linked list operations
+  }
+}
+
+MODULE "GNL Module" as GNLMod {
+  class gnl.c {
+    + get_next_line()
+    --
+    Read lines from file descriptor
+    Used for heredoc input
+  }
+}
+
+' Relationships
+t_token ||--|| t_token_type : uses
+t_cmdarg ||--o{ t_redi_list : contains
+t_redi_list ||--|| t_token_type : type
+t_lexer --> t_token : creates
+
+MainCore --> ParsingMod : uses
+MainCore --> ExecMod : uses
+MainCore --> BuiltinsMod : uses
+MainCore --> GlobalVars : updates
+
+ParsingMod --> t_token : creates/manipulates
+ParsingMod --> t_cmdarg : creates
+ParsingMod --> t_list : uses
+ParsingMod --> LibftMod : uses
+
+ExecMod --> t_cmdarg : executes
+ExecMod --> HeredocMod : uses
+ExecMod --> GlobalVars : updates
+ExecMod --> LibftMod : uses
+ExecMod --> GNLMod : uses
+
+HeredocMod --> t_list_heredoc : uses
+HeredocMod --> t_redi_list : processes
+HeredocMod --> GNLMod : uses
+
+BuiltinsMod --> t_list : modifies
+BuiltinsMod --> t_cmdarg : uses
+BuiltinsMod --> GlobalVars : updates
+
+note right of GlobalVars : "Global exit status\nshared across all modules"
+
+note bottom of t_cmdarg : "Main command structure\ncontains parsed command and redirections"
+
+note bottom of t_token : "Tokenization structure\ndoubly-linked list for navigation"
+
+note bottom of t_list : "Environment variables\ndoubly-linked list structure"
+
+@enduml

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 12:07:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/04 22:12:31 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 	if (*heredoc == false)
 		ft_expand_variables(&token, minienv);
 	new_token = ft_get_next_token(*lexer, minienv, heredoc);
-	if (!new_token)
-		return (NULL);
+	if (!new_token && g_exit_status == 258)
+		return (ft_free_token(token), NULL);
 	if (*heredoc == false)
 		ft_expand_variables(&new_token, minienv);
 

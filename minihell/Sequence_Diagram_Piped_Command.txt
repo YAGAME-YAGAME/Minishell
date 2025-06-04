@@ -1,0 +1,133 @@
+@startuml MinishellPipedCommandSequence
+
+!define KERNEL participant
+!define SHELL participant
+!define PARSER participant
+!define EXECUTOR participant
+!define CHILD1 participant
+!define CHILD2 participant
+
+participant "Main Shell" as SHELL
+participant "Parser" as PARSER
+participant "Executor" as EXECUTOR
+participant "Child Process 1\n(ls -l)" as CHILD1
+participant "Child Process 2\n(grep .c)" as CHILD2
+participant "Kernel" as KERNEL
+
+SHELL -> SHELL: readline("ls -l | grep .c")
+note right: User input: "ls -l | grep .c"
+
+SHELL -> PARSER: ft_strtok(input)
+PARSER -> PARSER: Tokenize input
+note right: Create tokens:\n[WORD:"ls"], [WORD:"-l"], [PIPE:"|"], [WORD:"grep"], [WORD:".c"]
+
+PARSER -> SHELL: return token_list
+
+SHELL -> SHELL: ft_check_syntax(token_list)
+note right: Validate pipe syntax
+
+SHELL -> PARSER: ft_parser(token_list, env)
+PARSER -> PARSER: Create command nodes
+note right: cmdarg1: ["ls", "-l"]\ncmdarg2: ["grep", ".c"]
+
+PARSER -> SHELL: return cmdarg_list
+
+SHELL -> SHELL: check_here_doc(cmdarg_list)
+note right: No heredocs to process
+
+SHELL -> EXECUTOR: execution(cmdarg_list, env)
+
+EXECUTOR -> EXECUTOR: Initialize tmp_in = 0
+note right: Start pipeline execution
+
+' First Command Processing
+EXECUTOR -> KERNEL: pipe(pip_fd)
+KERNEL -> EXECUTOR: return pipe file descriptors
+note right: pip_fd[0] = read end\npip_fd[1] = write end
+
+EXECUTOR -> KERNEL: fork()
+KERNEL -> EXECUTOR: return pid1
+KERNEL -> CHILD1: create child process
+
+' Child 1 Setup
+CHILD1 -> KERNEL: setup_child_signals()
+note right: Setup signal handlers for child
+
+CHILD1 -> KERNEL: dup2(pip_fd[1], STDOUT_FILENO)
+note right: Redirect stdout to pipe write end
+
+CHILD1 -> KERNEL: close(pip_fd[1])
+CHILD1 -> KERNEL: close(pip_fd[0])
+
+CHILD1 -> CHILD1: handle_input(NULL)
+CHILD1 -> CHILD1: handle_output(NULL)
+note right: No redirections for this command
+
+CHILD1 -> CHILD1: check_exec("ls")
+note right: Find command in PATH
+
+CHILD1 -> CHILD1: get_env(env)
+note right: Convert environment to char**
+
+CHILD1 -> KERNEL: execve("/bin/ls", ["ls", "-l"], envp)
+note right: Replace process image
+
+' Parent Processing for Child 1
+EXECUTOR -> KERNEL: close(pip_fd[1])
+note right: Close write end in parent
+
+EXECUTOR -> EXECUTOR: tmp_in = pip_fd[0]
+note right: Save read end for next command
+
+' Second Command Processing
+EXECUTOR -> KERNEL: fork()
+KERNEL -> EXECUTOR: return pid2
+KERNEL -> CHILD2: create child process
+
+' Child 2 Setup
+CHILD2 -> KERNEL: setup_child_signals()
+
+CHILD2 -> KERNEL: dup2(tmp_in, STDIN_FILENO)
+note right: Redirect stdin from pipe read end
+
+CHILD2 -> KERNEL: close(tmp_in)
+
+CHILD2 -> CHILD2: handle_input(NULL)
+CHILD2 -> CHILD2: handle_output(NULL)
+
+CHILD2 -> CHILD2: check_exec("grep")
+CHILD2 -> CHILD2: get_env(env)
+
+CHILD2 -> KERNEL: execve("/bin/grep", ["grep", ".c"], envp)
+
+' Parent Wait Processing
+EXECUTOR -> KERNEL: close(tmp_in)
+note right: Close read end in parent
+
+EXECUTOR -> EXECUTOR: setup_parent_waiting_signals()
+
+EXECUTOR -> KERNEL: wait(&status)
+note right: Wait for child processes
+
+KERNEL -> EXECUTOR: Child 1 exit status
+KERNEL -> EXECUTOR: Child 2 exit status
+
+EXECUTOR -> EXECUTOR: ft_wait_children()
+note right: Process exit statuses\nUpdate g_exit_status
+
+EXECUTOR -> EXECUTOR: restore_signals()
+
+EXECUTOR -> SHELL: return success
+
+SHELL -> SHELL: ft_cleaner(token_list, cmdarg_list)
+note right: Free allocated memory
+
+note over SHELL, KERNEL: Command execution complete\nOutput displayed to terminal
+
+note right of CHILD1: Process 1 execution:\n1. Read directory\n2. Format output\n3. Write to pipe
+
+note right of CHILD2: Process 2 execution:\n1. Read from pipe\n2. Filter lines containing ".c"\n3. Write to stdout
+
+note over EXECUTOR: Pipeline coordination:\n- Create pipe before fork\n- Setup I/O redirection in children\n- Manage file descriptors in parent\n- Wait for all processes to complete
+
+@enduml
