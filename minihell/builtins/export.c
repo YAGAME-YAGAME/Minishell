@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/24 22:53:27 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:31:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	check_error(char *cmd)
 		name_end = cmd + ft_strlen(cmd);
 	else
 		name_end = equals_pos;
-	// name_end = equals_pos ? equals_pos : cmd + ft_strlen(cmd);
 	if (ft_strchr(cmd, '+'))
 		name_end = ft_strchr(cmd, '+');
 	tmp = ft_substr(cmd, 0, name_end - cmd);

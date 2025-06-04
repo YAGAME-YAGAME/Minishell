@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/26 09:17:40 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	ft_free_list_heredoc(t_list_heredoc *list)
-{
-	if (list->line)
-		free(list->line);
-	if (list->delimiter)
-		free(list->delimiter);
-	if (list->fd != -1)
-		close(list->fd);
-	free(list);
-}
 
 int	open_here_doc(t_redi_list *heredoc, int *fd_pipe, t_list *env)
 {

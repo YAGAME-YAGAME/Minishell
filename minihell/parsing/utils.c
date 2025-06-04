@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:10:47 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/04 19:53:31 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:30:22 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_is_duplicated(t_lexer *lexer, char op[3])
 	return ((op[0] == '>' && lexer->pos + 1 < lexer->len
 			&& lexer->input[lexer->pos + 1] == '>') || (op[0] == '<'
 			&& lexer->pos + 1 < lexer->len && lexer->input[lexer->pos
-			+ 1] == '<'));
+				+ 1] == '<'));
 }
 
 ssize_t	ft_dollar_pos(char *str)

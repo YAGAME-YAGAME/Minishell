@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/24 22:47:14 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:06:46 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_handle_plus(char *cmd, char **key, char **value)
 	is_append = 0;
 	plus_pos = ft_strchr(cmd, '+');
 	equals_pos = ft_strchr(cmd, '=');
-	if (plus_pos && plus_pos + 1 && *(plus_pos + 1) == '=')
+	if (plus_pos && *(plus_pos + 1) == '=')
 	{
 		is_append = 1;
 		*key = ft_substr(cmd, 0, plus_pos - cmd);

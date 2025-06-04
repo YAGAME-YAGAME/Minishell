@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 22:45:04 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ typedef struct s_cmdarg
 t_list					*ft_envinit(char **env);
 int						ft_parse_env_var(char *env_var, char **key,
 							char **value);
-char					*ft_getcwd(t_list *env);
 void					ft_init_token_fields(t_token *token);
 t_token					*ft_handle_word(t_lexer *lexer);
 t_token					*ft_handle_operator(t_lexer *lexer, bool *heredoc);
@@ -147,7 +146,6 @@ t_lexer					*ft_lexer_init(char *input);
 t_token					*ft_get_next_token(t_lexer *lexer, t_list *minienv,
 							bool *heredoc);
 t_token					*ft_newtok(t_token *token);
-void					ft_freeee(char *temp2, char *exp);
 void					minishell(char *input, t_list **minienv);
 int						ft_toksize(t_token *lst);
 void					ft_tokadd_back(t_token **token_list, t_token *token);
@@ -156,10 +154,8 @@ int						ft_isspecial(char c);
 int						ft_isspace(char c);
 bool					ft_is_duplicated(t_lexer *lexer, char op[3]);
 
-void					ft_print_env(t_list *minienv);
 void					ft_print_tokenlist(t_token *token_list);
 char					*ft_printtype(t_token_type type);
-void					ft_printredi(t_redi_list *redi);
 void					ft_printcmd_list(t_cmdarg *cmdarg_list);
 
 void					ft_free_tokenlist(t_token *token_list);
@@ -210,7 +206,6 @@ int						check_here_doc(t_cmdarg *shell, t_list *env);
 int						execution(t_cmdarg *shell, t_list *env);
 int						count(char *s, char p);
 void					free_all(char **bf, int j);
-void					ft_error(char *message);
 char					**parsing_split(char *s, char p);
 char					*find_path(t_list *path);
 char					*check_exec(char *p, t_list *env);
@@ -229,11 +224,10 @@ void					handle_input(t_redi_list *input);
 void					handle_output(t_redi_list *output);
 int						handel_append(t_redi_list *output);
 void					handle_heredoc(t_redi_list *input);
-void					ft_free_list_heredoc(t_list_heredoc *list);
 void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
-void 					ft_helper(char **key, char **value, char *cmd);
+void					ft_helper(char **key, char **value, char *cmd);
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);
 int						ft_handle_plus(char *cmd, char **key, char **value);
@@ -278,10 +272,10 @@ void					ft_alloc_dup(t_list *dup_key, char **key, char **value,
 							char *cmd);
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);
-int						ft_check_name(char *cmd);
 int						print_invalid_identifier(char *cmd);
 
-// --signals
 void					handle_signals(void);
+void					finish_exec(void);
+void					ft_wait_children(int *status);
 
 #endif

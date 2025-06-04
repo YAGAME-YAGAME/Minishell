@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/24 14:06:54 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,4 @@ void	ft_alloc_dup(t_list *dup_key, char **key, char **value, char *cmd)
 		free(*key);
 		*key = NULL;
 	}
-}
-
-int	ft_check_name(char *cmd)
-{
-	while (*cmd && *cmd != '+')
-		cmd++;
-	while (*cmd && *cmd != '=')
-		cmd++;
-	if (*cmd == '=' && *(cmd - 1) != '+')
-		return (0);
-	return (1);
 }

@@ -6,30 +6,11 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/04 22:12:31 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:20:24 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_tokadd_back(t_token **token_list, t_token *token)
-{
-	t_token	*tmp;
-
-	if (!token_list || !token)
-		return ;
-	if (*token_list == NULL)
-	{
-		*token_list = token;
-		return ;
-	}
-	tmp = *token_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = token;
-	token->prev = tmp;
-	token->next = NULL;
-}
 
 t_token	*ft_newtok(t_token *token)
 {
@@ -66,7 +47,8 @@ t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
 	}
 }
 
-t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *heredoc)
+t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv,
+		bool *heredoc)
 {
 	t_token	*new_token;
 	char	*value;
@@ -78,13 +60,12 @@ t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 		return (ft_free_token(token), NULL);
 	if (*heredoc == false)
 		ft_expand_variables(&new_token, minienv);
-
-	if (ft_strlen(token->value) > 0 && token->value[ft_strlen(token->value) - 1] == '$'
+	if (ft_strlen(token->value) > 0
+		&& token->value[ft_strlen(token->value) - 1] == '$'
 		&& (new_token->type == DOUBLE_QUOTE || new_token->type == SINGLE_QUOTE))
 	{
 		return (ft_dollar_joining(token, new_token));
 	}
-
 	if (token->type != WORD)
 		new_token->type = token->type;
 	value = ft_strjoin(token->value, new_token->value);

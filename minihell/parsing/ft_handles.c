@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/04 22:05:33 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:18:09 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,13 @@ void	ft_init_token_fields(t_token *token)
 	token->prev = NULL;
 }
 
-bool	isoperator(char c)
-{
-	if (c == '|' || c == '<' || c == '>')
-		return (true);
-	return (false);
-}
-
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 {
 	int		start;
 	char	*content;
 	t_token	*token;
 
-	lexer->pos++;
-	start = lexer->pos;
+	start = ++lexer->pos;
 	while (lexer->pos < lexer->len && lexer->input[lexer->pos] != quote_char)
 		lexer->pos++;
 	if (lexer->pos >= lexer->len)

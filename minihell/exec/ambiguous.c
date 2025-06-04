@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambiguous.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:34:26 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 19:19:46 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:14:35 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,13 @@ bool	is_ambiguous(char *file)
 	if (*tmp == ' ')
 		return (true);
 	return (false);
+}
+
+void	finish_exec(void)
+{
+	int	status;
+
+	setup_parent_waiting_signals();
+	ft_wait_children(&status);
+	restore_signals();
 }

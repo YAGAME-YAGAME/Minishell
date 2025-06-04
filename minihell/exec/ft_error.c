@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/24 06:05:06 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ void	ft_cmd_error(char *cmd_name, char *error, int status)
 	}
 	write(2, error, ft_strlen(error));
 	exit(status);
-}
-
-void	ft_error(char *message)
-{
-	perror(message);
-	exit(EXIT_FAILURE);
 }
 
 int	ft_open_file(char *file, int flag)

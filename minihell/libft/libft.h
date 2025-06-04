@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:35:29 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/24 14:46:12 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
 size_t				ft_strlen(const char *s);
-void				*ft_memset(void *b, int c, size_t len);
 int					ft_atoi(const char *str);
 char				*ft_strdup(const char *s1);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -29,10 +28,6 @@ char				*ft_strchr(const char *s, int c);
 // Additional functions
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char *s1, char *s2);
-char				*ft_strtrim(char const *s1, char const *set);
-char				**ft_split(const char *s, char *c);
-size_t				countwords(const char *s, char *c);
-char				**freeall(char **p, size_t x);
 char				*ft_itoa(int n);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);

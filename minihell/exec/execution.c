@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/26 09:18:28 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:14:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	execution(t_cmdarg *shell, t_list *env)
 	t_cmdarg	*current_cmd;
 	int			pip_fd[2];
 	pid_t		pid;
-	int			status;
 	int			tmp_in;
 
 	tmp_in = 0;
@@ -91,8 +90,6 @@ int	execution(t_cmdarg *shell, t_list *env)
 			ft_parent(&tmp_in, pip_fd, current_cmd);
 		current_cmd = current_cmd->next;
 	}
-	setup_parent_waiting_signals();
-	ft_wait_children(&status);
-	restore_signals();
+	finish_exec();
 	return (1);
 }

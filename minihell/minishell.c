@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/26 09:41:33 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/04 23:53:16 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,14 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
+char	**freeall(char **p, size_t x)
+{
+	while (x > 0)
+		free(p[--x]);
+	free(p);
+	return (NULL);
+}
+
 t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
@@ -89,11 +97,9 @@ void	minishell(char *input, t_list **minienv)
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input, *minienv);
-	// ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = ft_parser(token_list, *minienv);
-	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (check_builtin(cmdarg_list, minienv) == 1)
@@ -103,17 +109,12 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
-void	ll(void)
-{
-	system("leaks -q minishell");
-}
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;
 	char	*input;
 
 	handle_signals();
-	atexit(ll);
 	(void)av;
 	if (ac != 1)
 		return (printf(YELLOW "\nError: No arguments expected\n" RESET), 1);
@@ -129,3 +130,11 @@ int	main(int ac, char **av, char **env)
 	}
 	return (0);
 }
+
+// void	ll(void)
+// {
+// 	system("leaks -q minishell");
+// }
+// atexit(ll);
+// ft_printcmd_list(cmdarg_list);
+// ft_print_tokenlist(token_list);

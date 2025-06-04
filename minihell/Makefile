@@ -3,9 +3,9 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 MINIFLAGS = -lreadline
 
-READLINE = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
-MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+# READLINE = $(shell brew --prefix readline)
+# CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
+# MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 
 SRCS=	$(TARGET).c \
 	minishell_utils.c \
@@ -36,6 +36,7 @@ SRCS=	$(TARGET).c \
 	./exec/gnl/gnl.c \
 	./exec/gnl/gnl_utils.c \
 	./exec/signals.c \
+	./exec/signals_2.c \
 	./exec/get_cmd_path.c \
 	./exec/ambiguous.c \
 	./exec/run_cmd_utils_2.c \
@@ -50,7 +51,6 @@ SRCS=	$(TARGET).c \
 	./builtins/unset.c \
 	./builtins/handle_builtin_redi.c \
 	./builtins/handle_builtin_redi_utils.c \
-	./builtins/utils.c \
 	./builtins/cd_utils.c \
 	./builtins/export_utils_2.c \
 
