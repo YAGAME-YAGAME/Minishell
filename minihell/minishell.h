@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 02:01:24 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:35:28 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,9 @@ void					handle_heredoc(t_redi_list *input);
 void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
+t_list					*ft_copy_list(t_list *env);
+void					alloc_key_value(char *cmd, char **key, char **value,
+							char *equals_pos);
 void					ft_helper(char **key, char **value, char *cmd);
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);

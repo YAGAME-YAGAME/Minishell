@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 08:03:07 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:26:42 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:15:06 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	handle_sigint(int sig)
 void	handle_parent_sigint(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
 	g_exit_status = 130;
 }
 

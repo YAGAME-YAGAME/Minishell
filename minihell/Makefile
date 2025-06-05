@@ -3,9 +3,9 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
 MINIFLAGS = -lreadline
 
-# READLINE = $(shell brew --prefix readline)
-# CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
-# MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
+READLINE = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(READLINE)/include
+MINIFLAGS =  -lreadline -L$(READLINE)/lib -g -Wl,-no_pie
 
 SRCS=	$(TARGET).c \
 	minishell_utils.c \
@@ -47,12 +47,13 @@ SRCS=	$(TARGET).c \
 	./builtins/exit.c \
 	./builtins/export.c \
 	./builtins/export_utils.c \
+	./builtins/export_utils_2.c \
+	./builtins/utils.c \
 	./builtins/pwd.c \
 	./builtins/unset.c \
 	./builtins/handle_builtin_redi.c \
 	./builtins/handle_builtin_redi_utils.c \
 	./builtins/cd_utils.c \
-	./builtins/export_utils_2.c \
 
 RM = rm -rf
 NAME = $(TARGET).a

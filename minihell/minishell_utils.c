@@ -45,7 +45,8 @@ bool	ft_pipeerrors(t_token *current)
 /*
  * Performs cleanup by freeing memory allocated for token and command lists.
  * This utility function ensures proper memory deallocation when the shell
- * processing is complete or encounters an error that requires early termination.
+
+	* processing is complete or encounters an error that requires early termination.
  *
  * @param token_list: Linked list of tokens to be freed
  * @param cmdarg_list: Linked list of command argument structures to be freed
