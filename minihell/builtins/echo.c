@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:08:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/04/29 14:46:45 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Validates that a string contains only 'n' characters after "-".
+ * Used to verify that echo -n flags contain only 'n' characters,
+ * ensuring proper parsing of the no-newline option.
+ *
+ * @param str: String to validate (should start with "-n")
+ * @return: 1 if string contains only 'n' after "-", 0 otherwise
+ */
 int	only_n(char *str)
 {
 	int	i;
@@ -26,6 +34,17 @@ int	only_n(char *str)
 	return (1);
 }
 
+/*
+ * Joins command arguments into a single string with spaces.
+ * Concatenates all arguments starting from the specified index,
+ * inserting spaces between arguments to form a complete output string
+ * for the echo command.
+ *
+ * @param cmd: Array of command arguments
+ * @param i: Starting index for joining arguments
+ * @return: Joined string containing all arguments separated by spaces
+ * Side effects: Allocates memory for result string
+ */
 char	*ft_join_arg(char **cmd, int i)
 {
 	char	*tmp;
@@ -48,6 +67,15 @@ char	*ft_join_arg(char **cmd, int i)
 	return (hold);
 }
 
+/*
+ * Outputs the echo string with or without a trailing newline.
+ * Prints the given string to stdout, adding a newline unless
+ * the -n flag is specified, which suppresses the newline.
+ *
+ * @param tmp: String to output
+ * @param n_flag: If non-zero, suppresses trailing newline
+ * Side effects: Writes to stdout
+ */
 void	ft_print_echo(char *tmp, int n_flag)
 {
 	if (!n_flag)
@@ -56,6 +84,17 @@ void	ft_print_echo(char *tmp, int n_flag)
 		ft_putstr_fd(tmp, 1);
 }
 
+/*
+ * Implements the echo builtin command.
+ * Outputs the specified arguments to stdout, supporting the -n option
+ * to suppress the trailing newline. Handles multiple -n flags and
+ * validates flag format (only 'n' characters allowed after '-n').
+ *
+ * @param cmd: Array of command arguments (cmd[0] is "echo")
+ * @param shell: Command argument structure (unused)
+ * @return: Always returns 0 (success)
+ * Side effects: Writes to stdout, allocates/frees memory for string operations
+ */
 int	ft_echo(char **cmd, t_cmdarg *shell)
 {
 	int		i;

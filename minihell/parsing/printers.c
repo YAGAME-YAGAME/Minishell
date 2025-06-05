@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 02:56:56 by abenajib         ###   ########.fr       */
+/*   Created: 2024/10/17 21:50:27 by abenajib          #+#    #+#             */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Converts token type enumeration to human-readable string.
+ * Maps token type enum values to descriptive string representations
+ * for debugging and visualization purposes. Helps identify what
+ * type of token is being processed in the shell pipeline.
+ *
+ * @param type: Token type enumeration value
+ * @return: String representation of the token type
+ */
 char	*ft_printtype(t_token_type type)
 {
 	if (type == WORD)
@@ -33,6 +42,15 @@ char	*ft_printtype(t_token_type type)
 	return ("UNKNOWN");
 }
 
+/*
+ * Prints a complete token list for debugging purposes.
+ * Displays all tokens in the list showing both their values
+ * and types in a formatted output. Useful for debugging the
+ * tokenization process and understanding the parsed structure.
+ *
+ * @param token_list: Head of the token linked list to display
+ * Side effects: Prints formatted token information to stdout
+ */
 void	ft_print_tokenlist(t_token *token_list)
 {
 	t_token	*tmp;
@@ -57,6 +75,15 @@ void	ft_print_tokenlist(t_token *token_list)
 	printf("---------------------------------\n");
 }
 
+/*
+ * Prints redirection list information for debugging.
+ * Displays redirection details including type, filename, and
+ * variable flag for each redirection in the list. Helps debug
+ * redirection parsing and processing.
+ *
+ * @param redi: Head of the redirection linked list to display
+ * Side effects: Prints redirection details to stdout
+ */
 void	ft_printredi(t_redi_list *redi)
 {
 	t_redi_list	*tmp;
@@ -70,6 +97,15 @@ void	ft_printredi(t_redi_list *redi)
 	}
 }
 
+/*
+ * Prints complete command list structure for debugging.
+ * Displays all commands in the pipeline with their arguments
+ * and associated redirections. Provides comprehensive view of
+ * the parsed command structure for debugging purposes.
+ *
+ * @param cmdarg_list: Head of the command argument linked list
+ * Side effects: Prints formatted command structure to stdout
+ */
 void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 {
 	t_cmdarg	*tmp;

@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   varexp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:34:36 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/04 23:29:29 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Expands special variables like exit status ($?) and process ID ($$).
+ * Handles the expansion of '$?' to the last exit status and '$$' to the
+ * current process ID. Replaces the variable in the token value and marks
+ * the token as containing an expanded variable.
+ *
+ * @param token: Pointer to token containing the variable to expand
+ * Side effects: Modifies token value, sets variable flag, allocates/frees memory
+ */
 void	ft_expand_exit_status(t_token **token)
 {
 	ssize_t	dollar_pos;
@@ -38,6 +47,17 @@ void	ft_expand_exit_status(t_token **token)
 	free(temp2);
 }
 
+/*
+ * Performs normal environment variable expansion for a token.
+ * Handles the expansion of regular environment variables by looking up
+ * their values and replacing them in the token. Manages string reconstruction
+ * around the variable position.
+ *
+ * @param token: Pointer to token containing the variable to expand
+ * @param minienv: Environment variables list for lookup
+ * @param dpos: Position of the dollar sign in the token value
+ * Side effects: Modifies token value, sets variable flag, allocates/frees memory
+ */
 void	ft_expander_norm(t_token **token, t_list *minienv, ssize_t dpos)
 {
 	char	*exp;
@@ -54,6 +74,16 @@ void	ft_expander_norm(t_token **token, t_list *minienv, ssize_t dpos)
 	free(exp);
 }
 
+/*
+ * Expands all environment variables found in a token.
+ * Main variable expansion function that processes a token and replaces
+ * all expandable variables with their values. Skips expansion for single-quoted
+ * tokens and handles both special variables and regular environment variables.
+ *
+ * @param token: Pointer to token to process for variable expansion
+ * @param minienv: Environment variables list for variable lookup
+ * Side effects: Modifies token value and variable flag, allocates/frees memory
+ */
 void	ft_expand_variables(t_token **token, t_list *minienv)
 {
 	ssize_t	dpos;
@@ -74,6 +104,16 @@ void	ft_expand_variables(t_token **token, t_list *minienv)
 	}
 }
 
+/*
+ * Retrieves the value of an environment variable by name.
+ * Searches through the environment linked list for a variable with
+ * the specified key and returns a duplicate of its value if found.
+ *
+ * @param var: Name of the environment variable to look up
+ * @param minienv: Environment variables linked list
+ * @return: Duplicated string value of the variable, NULL if not found
+ * Side effects: Allocates memory for returned string
+ */
 char	*ft_getenv(char *var, t_list *minienv)
 {
 	t_list	*tmp;
@@ -90,6 +130,16 @@ char	*ft_getenv(char *var, t_list *minienv)
 	return (NULL);
 }
 
+/*
+ * Retrieves an environment variable value or returns empty string.
+ * Wrapper function around ft_getenv that ensures a non-null return value.
+ * If the variable is not found, returns an empty string instead of NULL.
+ *
+ * @param var: Name of the environment variable to look up
+ * @param minienv: Environment variables linked list
+ * @return: Variable value or empty string, never NULL
+ * Side effects: Allocates memory for returned string
+ */
 char	*ft_getvar(char *var, t_list *minienv)
 {
 	char	*value;

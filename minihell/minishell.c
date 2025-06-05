@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 02:57:46 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 int			g_exit_status = 0;
 
+/*
+ * Calculates the number of tokens in a linked list of tokens.
+ * Traverses the token list from the given starting node to the end,
+ * counting each token encountered.
+ *
+ * @param lst: Pointer to the first token in the linked list
+ * @return: Number of tokens in the list, 0 if list is NULL
+ */
 int	ft_toksize(t_token *lst)
 {
 	t_token	*p;
@@ -31,6 +39,15 @@ int	ft_toksize(t_token *lst)
 	return (len);
 }
 
+/*
+ * Validates the syntax of a tokenized command line input.
+ * Checks for common shell syntax errors including misplaced pipes,
+ * redirection operators without files, and single redirection tokens.
+ * Sets global exit status to 258 on syntax errors and prints appropriate error messages.
+ *
+ * @param token_list: Pointer to the first token in the command line
+ * @return: 0 if syntax is valid, -1 if syntax errors are found
+ */
 int	ft_check_syntax(t_token *token_list)
 {
 	t_token	*current;
@@ -49,6 +66,16 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
+/*
+ * Parses a list of tokens into a structured command argument list.
+ * Expands environment variables in tokens (except heredoc delimiters),
+ * then converts the flat token list into a linked list of command nodes
+ * where each node represents a complete command with its arguments and redirections.
+ *
+ * @param token_list: Linked list of tokens from lexical analysis
+ * @param minienv: Environment variables list for variable expansion
+ * @return: Linked list of command argument structures, NULL if no tokens
+ */
 t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
@@ -104,6 +131,18 @@ void	minishell(char *input, t_list **minienv)
 	ft_cleaner(token_list, cmdarg_list);
 }
 
+/*
+ * Entry point of the minishell program.
+ * Initializes signal handlers, validates command line arguments, sets up the environment,
+ * and enters the main interactive loop where it continuously reads user input
+ * and processes commands until the program is terminated.
+ *
+ * @param ac: Argument count (must be 1, no arguments expected)
+ * @param av: Argument vector (unused)
+ * @param env: System environment variables array
+ * @return: 0 on normal termination, 1 if incorrect arguments provided
+ * Side effects: Enters infinite loop, handles signals, manages readline
+ */
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;

@@ -6,12 +6,20 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/07 17:45:40 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Validates if a string contains only numeric characters.
+ * Allows for leading '+' or '-' sign followed by digits.
+ * Used to validate exit status arguments to ensure they are numeric.
+ *
+ * @param str: String to validate for numeric content
+ * @return: 1 if string is numeric, 0 if contains non-numeric characters
+ */
 int	is_digit(char *str)
 {
 	int	i;
@@ -28,6 +36,17 @@ int	is_digit(char *str)
 	return (1);
 }
 
+/*
+ * Implements the exit builtin command functionality.
+ * Terminates the shell with specified exit status or current g_exit_status.
+ * Handles argument validation, error reporting for invalid arguments,
+ * and proper cleanup of environment resources before exiting.
+ *
+ * @param cmd: Array of command arguments (cmd[0] is "exit", cmd[1] is optional status)
+ * @param env: Environment variables linked list to cleanup
+ * @return: Does not return (calls exit()), or returns error status on failure
+ * Side effects: Terminates program, frees environment memory, prints error messages
+ */
 int	ft_exit(char **cmd, t_list **env)
 {
 	int	status;

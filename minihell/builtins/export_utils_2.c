@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 00:06:46 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Prints error message for invalid export variable identifiers.
+ * Formats and displays standardized error message when export is called
+ * with invalid variable names that don't conform to shell identifier rules.
+ *
+ * @param cmd: Invalid identifier string to include in error message
+ * @return: Always returns 1 (error status)
+ * Side effects: Writes error message to stderr
+ */
 int	print_invalid_identifier(char *cmd)
 {
 	write(2, "export: `", 9);
@@ -20,12 +29,33 @@ int	print_invalid_identifier(char *cmd)
 	return (1);
 }
 
+/*
+ * Helper function for export variable declarations without assignments.
+ * Sets up key-value pair when export command contains only a variable name
+ * without an '=' assignment. Creates the key string and sets value to NULL.
+ *
+ * @param key: Pointer to store the variable key
+ * @param value: Pointer to store NULL value
+ * @param cmd: Command string containing the variable name
+ * Side effects: Allocates memory for key string
+ */
 void	ft_helper(char **key, char **value, char *cmd)
 {
 	*key = ft_strdup(cmd);
 	*value = NULL;
 }
 
+/*
+ * Handles append operations for environment variables (VAR+=value).
+ * Concatenates new value to existing environment variable value.
+ * If the variable has no existing value, sets it to the new value.
+ * Properly manages memory allocation and deallocation.
+ *
+ * @param dup_key: Existing environment node to append to
+ * @param key: Pointer to key string (will be freed)
+ * @param value: Pointer to value string to append (will be freed)
+ * Side effects: Modifies environment node value, frees input strings
+ */
 void	ft_handle_append(t_list *dup_key, char **key, char **value)
 {
 	char	*tmp;
@@ -46,6 +76,16 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
 	*value = NULL;
 }
 
+/*
+ * Removes leading and trailing whitespace from a string.
+ * Creates a new string with whitespace trimmed from both ends.
+ * Frees the original string and returns the trimmed copy.
+ * Handles empty strings and null input gracefully.
+ *
+ * @param str: String to trim (will be freed)
+ * @return: New trimmed string, empty string on error
+ * Side effects: Frees input string, allocates new string
+ */
 static char	*trim_spaces(char *str)
 {
 	char	*start;
@@ -73,6 +113,18 @@ static char	*trim_spaces(char *str)
 	return (result);
 }
 
+/*
+ * Parses export command arguments to extract key-value pairs.
+ * Handles both regular assignments (VAR=value) and append operations (VAR+=value).
+ * Extracts variable name and value from command string, handling proper
+ * parsing of different assignment formats and whitespace trimming.
+ *
+ * @param cmd: Export command argument string
+ * @param key: Pointer to store extracted variable key
+ * @param value: Pointer to store extracted value
+ * @return: 1 if append operation, 0 if regular assignment, -1 on error
+ * Side effects: Allocates memory for key and value strings
+ */
 int	ft_handle_plus(char *cmd, char **key, char **value)
 {
 	int		is_append;

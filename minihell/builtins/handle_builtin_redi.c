@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 20:29:48 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Opens a file for append redirection in builtin command context.
+ * Handles the append redirection (>>) for builtin commands by opening
+ * the target file in append mode and redirecting stdout if this is
+ * the last output redirection in the chain.
+ *
+ * @param output: Output redirection structure for append operation
+ * @return: 1 on success, 0 on failure
+ * Side effects: Opens file, may redirect stdout, closes file descriptors
+ */
 int	open_append(t_redi_list *output)
 {
 	output->tmp_fd = ft_open_redi_builtin(output->file, 2);
@@ -27,6 +37,16 @@ int	open_append(t_redi_list *output)
 	return (1);
 }
 
+/*
+ * Processes all output redirections for builtin commands.
+ * Iterates through the output redirection list and handles both
+ * normal output redirection (>) and append redirection (>>).
+ * Only the last redirection in the chain actually affects stdout.
+ *
+ * @param output: Head of output redirection linked list
+ * @return: 1 on success, -1 on failure
+ * Side effects: Opens files, may redirect stdout, manages file descriptors
+ */
 int	open_output(t_redi_list *output)
 {
 	while (output)
@@ -51,6 +71,16 @@ int	open_output(t_redi_list *output)
 	return (1);
 }
 
+/*
+ * Processes all input redirections for builtin commands.
+ * Validates input redirections by attempting to open input files
+ * and cleans up heredoc content. Does not actually redirect stdin
+ * for builtins as most don't read from stdin.
+ *
+ * @param input: Head of input redirection linked list
+ * @return: 1 on success, -1 on failure
+ * Side effects: Opens/closes files, frees heredoc content
+ */
 int	open_input(t_redi_list *input)
 {
 	int	in_fd;
@@ -71,6 +101,16 @@ int	open_input(t_redi_list *input)
 	return (1);
 }
 
+/*
+ * Sets up redirections for builtin command execution.
+ * Saves original stdin/stdout file descriptors and processes both
+ * input and output redirections for builtin commands. Builtin commands
+ * need special redirection handling since they run in the parent process.
+ *
+ * @param cmdarg_list: Command structure containing redirection information
+ * @return: 0 on success, 1 on failure
+ * Side effects: Saves original descriptors, processes redirections, sets exit status
+ */
 int	open_builtin_redi(t_cmdarg *cmdarg_list)
 {
 	t_redi_list	*input;
@@ -91,6 +131,17 @@ int	open_builtin_redi(t_cmdarg *cmdarg_list)
 	return (0);
 }
 
+/*
+ * Checks if command is a builtin and handles its execution with redirections.
+ * Determines if the command is a builtin, and if it's the only command
+ * in the pipeline, handles its redirections and execution. Builtin commands
+ * run in the parent process and need special redirection management.
+ *
+ * @param cmdarg_list: Command argument structure to check and execute
+ * @param minienv: Environment variables for builtin execution
+ * @return: 1 if builtin was executed, 0 if not a builtin or multiple commands
+ * Side effects: May execute builtin, handle redirections, restore stdout
+ */
 int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 {
 	int	check;

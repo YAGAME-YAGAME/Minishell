@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/04 23:20:24 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Creates a new token by copying data from an existing token.
+ * Allocates memory for a new token structure and duplicates the type,
+ * value, and spacing information from the source token. Initializes
+ * pointers and variable flag for the new token.
+ *
+ * @param token: Source token to copy from
+ * @return: Pointer to newly created token, NULL if allocation fails
+ * Side effects: Allocates memory for new token and duplicates value string
+ */
 t_token	*ft_newtok(t_token *token)
 {
 	t_token	*new_token;
@@ -28,6 +38,17 @@ t_token	*ft_newtok(t_token *token)
 	return (new_token);
 }
 
+/*
+ * Handles joining tokens when a dollar sign precedes a quoted string.
+ * Special case handler for variable expansion where a token ending with '$'
+ * is followed by a quoted token. Either removes the single '$' or joins
+ * the prefix before '$' with the new token's value.
+ *
+ * @param token: Token ending with '$' to be processed
+ * @param new_token: Following quoted token to be joined
+ * @return: Modified new_token with joined content, original token is freed
+ * Side effects: Frees original token, modifies new_token's value
+ */
 t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
 {
 	char	*prefix;
@@ -47,6 +68,19 @@ t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
 	}
 }
 
+/*
+ * Joins adjacent tokens into a single token when appropriate.
+ * Handles token concatenation for cases where multiple tokens should be
+ * treated as one word, including variable expansion and special dollar-quote
+ * combinations. Manages type inheritance and value concatenation.
+ *
+ * @param token: First token to be joined
+ * @param lexer: Pointer to lexer structure for getting next token
+ * @param minienv: Environment variables for expansion
+ * @param heredoc: Pointer to heredoc context flag
+ * @return: Joined token with concatenated values, NULL on error
+ * Side effects: Frees original tokens, may modify global exit status
+ */
 t_token	*ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv,
 		bool *heredoc)
 {
@@ -81,6 +115,18 @@ bool	ft_tojoin(t_lexer *lexer)
 		&& !ft_isspecial(lexer->input[lexer->pos]));
 }
 
+/*
+ * Extracts the next token from the input stream.
+ * Main tokenization function that identifies and creates tokens based on
+ * the current character: handles whitespace skipping, special operators,
+ * quoted strings, and regular words. Manages token joining for compound tokens.
+ *
+ * @param lexer: Lexer structure containing input string and current position
+ * @param minienv: Environment variables list for potential expansion
+ * @param heredoc: Pointer to heredoc context flag for proper parsing
+ * @return: Next token from input stream, NULL if end of input or error
+ * Side effects: Advances lexer position, may modify heredoc flag
+ */
 t_token	*ft_get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc)
 {
 	char	current_char;

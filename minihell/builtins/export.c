@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/04 23:31:32 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Creates a complete copy of an environment variable linked list.
+ * Duplicates all nodes with their key-value pairs to create an independent copy
+ * that can be modified without affecting the original environment list.
+ * Used primarily for sorting environment variables for display.
+ *
+ * @param env: Source environment linked list to copy
+ * @return: New linked list copy, NULL if source is NULL or memory allocation fails
+ * Side effects: Allocates memory for new list nodes and strings
+ */
 t_list	*ft_copy_list(t_list *env)
 {
 	t_list	*new_list;
@@ -39,6 +49,16 @@ t_list	*ft_copy_list(t_list *env)
 	return (new_list);
 }
 
+/*
+ * Searches for an existing environment variable by key name.
+ * Performs case-sensitive string comparison to find matching environment
+ * variable in the linked list. Used to check for duplicate keys before
+ * adding new variables or when updating existing ones.
+ *
+ * @param key: Environment variable name to search for
+ * @param env: Environment variables linked list to search in
+ * @return: Pointer to matching list node, NULL if not found
+ */
 t_list	*check_dup_env(char *key, t_list *env)
 {
 	t_list	*tmp;
@@ -53,6 +73,18 @@ t_list	*check_dup_env(char *key, t_list *env)
 	return (NULL);
 }
 
+/*
+ * Allocates and processes key-value pairs for export command arguments.
+ * Handles parsing of export arguments including append operations (VAR+=value)
+ * and regular assignments (VAR=value). Manages duplicate key detection and
+ * either updates existing variables or creates new ones.
+ *
+ * @param cmd: Export command argument string (e.g., "VAR=value" or "VAR+=append")
+ * @param key: Pointer to store extracted variable key
+ * @param value: Pointer to store extracted variable value
+ * @param env: Environment variables linked list to modify
+ * Side effects: May modify environment list, allocates memory for key/value
+ */
 void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 {
 	t_list	*dup_key;
@@ -80,6 +112,15 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 		ft_lstadd_back(env, ft_lstnew(*key, *value));
 }
 
+/*
+ * Validates shell variable identifier names according to shell naming rules.
+ * Checks that variable names start with letter or underscore, contain only
+ * alphanumeric characters and underscores, and handles append operator validation.
+ * Ensures compliance with POSIX shell variable naming conventions.
+ *
+ * @param str: Variable identifier string to validate
+ * @return: 1 if valid identifier, 0 if invalid
+ */
 static int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -103,6 +144,16 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
+/*
+ * Validates export command arguments and reports syntax errors.
+ * Checks for proper variable identifier format, handles special cases like
+ * empty arguments and invalid characters. Extracts variable name portion
+ * for validation regardless of assignment or append operations.
+ *
+ * @param cmd: Export command argument to validate
+ * @return: 0 if valid, 1 if error (with error message printed)
+ * Side effects: Writes error messages to stderr, allocates temporary memory
+ */
 int	check_error(char *cmd)
 {
 	char	*equals_pos;
@@ -132,6 +183,17 @@ int	check_error(char *cmd)
 	return (0);
 }
 
+/*
+ * Implements the export builtin command functionality.
+ * Handles environment variable creation, modification, and display operations.
+ * When called without arguments, displays all environment variables in sorted order.
+ * With arguments, processes each as a variable assignment or declaration.
+ *
+ * @param cmd: Array of command arguments (cmd[0] is "export")
+ * @param env: Pointer to environment variables linked list
+ * @return: 0 on success, 1 on error
+ * Side effects: May modify environment list, prints to stdout/stderr
+ */
 int	ft_export(char **cmd, t_list **env)
 {
 	char	*key;

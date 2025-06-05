@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   env_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 13:00:14 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/22 21:04:18 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/**
- * Parse an environment variable string into key and value
- * @param env_var The environment variable string (e.g., "KEY=value")
- * @param key Pointer to store the extracted key
- * @param value Pointer to store the extracted value
- * @return 1 on success, 0 if the string doesn't contain '='
+/*
+ * Parses an environment variable string into separate key and value components.
+ * Splits an environment variable string at the '=' character to extract
+ * the variable name (key) and its value. Allocates memory for both
+ * components and handles error cases where no '=' is found.
+ *
+ * @param env_var: Environment variable string in "KEY=value" format
+ * @param key: Pointer to store the extracted variable name
+ * @param value: Pointer to store the extracted variable value
+ * @return: 1 on successful parsing, 0 if no '=' found or allocation fails
+ * Side effects: Allocates memory for key and value, frees on error
  */
 int	ft_parse_env_var(char *env_var, char **key, char **value)
 {

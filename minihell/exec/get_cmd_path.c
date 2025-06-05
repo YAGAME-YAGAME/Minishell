@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/18 01:48:00 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Frees a linked list of environment variables.
+ * Iterates through the list, freeing each node's key, value, and the node itself.
+ * Sets the list pointer to NULL after cleanup. Used for memory management
+ * of dynamically allocated environment lists.
+ *
+ * @param list: Pointer to the head of the linked list to free
+ * Side effects: Frees all allocated memory, modifies list pointer
+ */
 void	ft_free_list(t_list **list)
 {
 	t_list	*current;
@@ -33,6 +42,15 @@ void	ft_free_list(t_list **list)
 	*list = NULL;
 }
 
+/*
+ * Searches for the PATH environment variable in the environment list.
+ * Iterates through the environment linked list to find the node with
+ * key "PATH" and returns its value. Used for command path resolution
+ * when executing external programs.
+ *
+ * @param path: Environment variables linked list
+ * @return: PATH value string if found, NULL if not found
+ */
 char	*find_path(t_list *path)
 {
 	t_list	*tmp;
@@ -47,6 +65,17 @@ char	*find_path(t_list *path)
 	return (NULL);
 }
 
+/*
+ * Searches for an executable command in PATH directories.
+ * Iterates through PATH directories, constructs full paths by joining
+ * directory with command name, and tests each for executable access.
+ * Returns the first valid executable path found.
+ *
+ * @param full_path: Pointer to store the found executable path
+ * @param path_cmd: Array of PATH directory strings
+ * @param p: Command name to search for
+ * Side effects: Allocates memory for path construction, modifies full_path pointer
+ */
 void	ft_get_path(char **full_path, char **path_cmd, char *p)
 {
 	char	*tmp;
@@ -72,6 +101,16 @@ void	ft_get_path(char **full_path, char **path_cmd, char *p)
 	}
 }
 
+/*
+ * Attempts to find command in current working directory.
+ * Constructs a path by joining the current working directory with
+ * the command name and checks if it's executable. Used when command
+ * doesn't contain path separators but might be in current directory.
+ *
+ * @param p: Command name to search for in current directory
+ * @return: Full path to executable if found and accessible, NULL otherwise
+ * Side effects: Allocates memory for path construction, calls getcwd()
+ */
 char	*ft_join_with_path(char *p)
 {
 	char	*path;
@@ -97,6 +136,17 @@ char	*ft_join_with_path(char *p)
 	return (NULL);
 }
 
+/*
+ * Resolves command name to full executable path.
+ * Main command resolution function that handles different path cases:
+ * absolute/relative paths, current directory search, and PATH variable search.
+ * Implements the shell's command lookup algorithm.
+ *
+ * @param p: Command name or path to resolve
+ * @param env: Environment variables list for PATH lookup
+ * @return: Full path to executable if found, NULL if not found
+ * Side effects: Allocates memory for path strings, performs file system access
+ */
 char	*check_exec(char *p, t_list *env)
 {
 	char	*full_path;

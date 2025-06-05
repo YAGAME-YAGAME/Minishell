@@ -3,19 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 02:54:43 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/**
+/*
  * Ensures the command array in the node has enough capacity.
  * If the needed capacity exceeds the current, attempts to resize the array.
- * On failure, prints an error and sets the global exit status.
+ * On failure, prints an error message and sets the global exit status to indicate failure.
+ *
+ * @param node: Pointer to command argument node containing the command array
+ * @param needed_capacity: Required capacity for the command array
+ * Side effects: May resize command array, prints error on failure, modifies global exit status
  */
 static void	ft_extend_cmd_array_if_needed(t_cmdarg **node, int needed_capacity)
 {
@@ -29,9 +33,15 @@ static void	ft_extend_cmd_array_if_needed(t_cmdarg **node, int needed_capacity)
 	}
 }
 
-/**
+/*
  * Joins the first split word to the last command argument if required,
  * otherwise adds the first split word as a new argument.
+ * Handles the special case where tokens should be concatenated without spaces.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param split_words: Array of words from splitting operation
+ * @param first_word_joins: Boolean indicating if first word should join previous argument
+ * Side effects: Modifies command array, allocates/frees memory for string operations
  */
 static void	ft_join_or_add_first_word(t_cmdarg **node, char **split_words, bool first_word_joins)
 {
@@ -47,9 +57,15 @@ static void	ft_join_or_add_first_word(t_cmdarg **node, char **split_words, bool 
 		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[0]);
 }
 
-/**
+/*
  * Adds all split words to the command array in the node.
  * Handles joining the first word if necessary and ensures enough capacity.
+ * Manages the complete process of integrating split words into the command structure.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param split_words: Array of words to add to command
+ * @param first_word_joins: Boolean indicating if first word should join previous argument
+ * Side effects: Modifies command array size and capacity, allocates memory for duplicated strings
  */
 static void	ft_add_split_words(t_cmdarg **node, char **split_words, bool first_word_joins)
 {
@@ -70,8 +86,13 @@ static void	ft_add_split_words(t_cmdarg **node, char **split_words, bool first_w
 		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[i++]);
 }
 
-/**
+/*
  * Frees a NULL-terminated array of strings.
+ * Iterates through the array, freeing each string and then the array itself.
+ * Safely handles NULL arrays.
+ *
+ * @param split_words: Array of strings to free, may be NULL
+ * Side effects: Deallocates memory for all strings and the array
  */
 static void	ft_free_split_words(char **split_words)
 {
@@ -85,9 +106,15 @@ static void	ft_free_split_words(char **split_words)
 	free(split_words);
 }
 
-/**
+/*
  * Handles a word that may expand into multiple words (e.g., variable expansion).
- * Splits the value, joins or adds words as needed, and frees resources.
+ * Splits the value by whitespace, then adds each resulting word to the command array.
+ * Manages token concatenation based on spacing rules and cleans up resources.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param token_list: Token list containing current parsing context
+ * @param val: String value to split and process
+ * Side effects: Modifies command array, allocates/frees memory, may set global exit status on error
  */
 static void	ft_handle_split_word(t_cmdarg **node, t_token *token_list, char *val)
 {
@@ -109,9 +136,13 @@ static void	ft_handle_split_word(t_cmdarg **node, t_token *token_list, char *val
 	free(val);
 }
 
-/**
+/*
  * Ensures there is enough space in the command array for a new word.
- * Resizes the array if necessary. Returns 1 on success, 0 on failure.
+ * Resizes the array if necessary to accommodate additional commands.
+ *
+ * @param node: Pointer to command argument node containing the command array
+ * @return: 1 on success, 0 on failure
+ * Side effects: May resize command array, sets global exit status on failure
  */
 static int	ft_extend_cmd_for_word(t_cmdarg **node)
 {
@@ -127,9 +158,15 @@ static int	ft_extend_cmd_for_word(t_cmdarg **node)
 	return (1);
 }
 
-/**
+/*
  * Adds a word to the command array, or joins it to the previous word
  * depending on the addspace property of the previous token.
+ * Handles token concatenation logic for building complete command arguments.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param token_list: Token list containing spacing context information
+ * @param val: String value to add or join to command array
+ * Side effects: Modifies command array, allocates/frees memory for string operations
  */
 static void	ft_add_or_join_word(t_cmdarg **node, t_token *token_list, char *val)
 {
@@ -151,10 +188,15 @@ static void	ft_add_or_join_word(t_cmdarg **node, t_token *token_list, char *val)
 	}
 }
 
-/**
+/*
  * Parses a word token and adds it to the command array in the node.
- * Handles variable expansion and splitting if necessary.
- * Returns NULL on error or after successful processing.
+ * Handles variable expansion and splitting if necessary, managing both
+ * simple words and complex expansions that result in multiple arguments.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param token_list: Token list containing current token being processed
+ * @return: Always returns NULL after processing
+ * Side effects: Modifies command array, handles memory allocation, may set global exit status
  */
 void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 {
@@ -179,6 +221,15 @@ void	*ft_parse_word(t_cmdarg **node, t_token *token_list)
 	return (NULL);
 }
 
+/*
+ * Parses redirection tokens and adds them to the appropriate redirection list.
+ * Handles both input redirections (< and <<) and output redirections (> and >>).
+ * Creates redirection list entries and advances the token pointer to the filename.
+ *
+ * @param node: Pointer to command argument node to modify
+ * @param token_list: Token list containing redirection tokens
+ * Side effects: Modifies input/output redirection lists, advances current token pointer
+ */
 void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 {
 	if (token_list->current->type == INPUT

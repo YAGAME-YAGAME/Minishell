@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:35 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/24 13:58:26 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Implements the env builtin command functionality.
+ * Displays all environment variables in the format "KEY=VALUE".
+ * Handles special case for the '_' variable by setting it to "/usr/bin/env"
+ * when displaying. Provides a way to view the current shell environment.
+ *
+ * @param env: Pointer to environment variables linked list
+ * @return: 1 on success or error (sets g_exit_status appropriately)
+ * Side effects: Prints environment variables to stdout, may modify '_' variable value
+ */
 int	ft_env(t_list **env)
 {
 	t_list	*tmp;

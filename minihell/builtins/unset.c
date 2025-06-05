@@ -6,12 +6,23 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/09 14:17:45 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Removes a specific node from the environment variables linked list.
+ * Handles proper unlinking of doubly-linked list node by updating
+ * previous and next node pointers. Frees all allocated memory including
+ * key, value strings and the node structure itself.
+ *
+ * @param env_list: Pointer to the head of environment list
+ * @param node: List node to remove and free
+ * @return: Always returns 1 (success indicator)
+ * Side effects: Modifies linked list structure, frees memory
+ */
 int	remove_env_node(t_list **env_list, t_list *node)
 {
 	if (!node)
@@ -30,6 +41,16 @@ int	remove_env_node(t_list **env_list, t_list *node)
 	return (1);
 }
 
+/*
+ * Initializes a minimal environment when none exists.
+ * Creates essential shell environment variables including PWD (current working
+ * directory), OLDPWD, SHLVL (shell level), and _ (last command). Used when
+ * shell starts with empty environment or as fallback initialization.
+ *
+ * @param env: Pointer to environment variables linked list (should be empty)
+ * @return: 1 if environment was initialized, 0 if environment already exists
+ * Side effects: Allocates memory for environment nodes, calls getcwd()
+ */
 int	ft_set_env(t_list **env)
 {
 	char	*cwd;
@@ -51,6 +72,17 @@ int	ft_set_env(t_list **env)
 	return (0);
 }
 
+/*
+ * Implements the unset builtin command functionality.
+ * Removes specified environment variables from the shell's environment.
+ * Iterates through all provided variable names and removes matching entries
+ * from the environment list. Protects special variables like '_' from removal.
+ *
+ * @param cmd: Array of variable names to unset (cmd[0] is "unset")
+ * @param env: Pointer to environment variables linked list
+ * @return: Always returns 1 (success indicator)
+ * Side effects: Modifies environment list by removing specified variables
+ */
 int	ft_unset(char **cmd, t_list **env)
 {
 	t_list	*tmp;

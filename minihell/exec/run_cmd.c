@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/05/25 10:42:16 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
+ * Checks if a given path points to a directory.
+ * Uses stat system call to determine if the path exists and represents
+ * a directory. Only checks paths that contain forward slashes and are
+ * not empty or null.
+ *
+ * @param path: File path string to check
+ * @return: true if path is a directory, false otherwise
+ */
 bool	ft_isdirectory(char *path)
 {
 	struct stat	sb;
@@ -30,6 +39,16 @@ void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd)
 	ft_cmd_error(current_cmd->cmd[0], "is a directory\n", 126);
 }
 
+/*
+ * Handles the execution of external commands.
+ * Manages the complete process of executing non-builtin commands including
+ * path resolution, directory checking, environment preparation, and final
+ * execution via execve. Handles various error conditions and cleanup.
+ *
+ * @param current_cmd: Command structure containing command and arguments
+ * @param env: Environment variables list
+ * Side effects: May exit process, allocates/frees memory, executes command
+ */
 void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 {
 	char	*cmd_path;
@@ -57,6 +76,16 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 		ft_free_and_error(&cmd_path, &cmd_name, envp);
 }
 
+/*
+ * Executes builtin commands in child processes.
+ * Checks if the current command is a builtin and executes it if so.
+ * Handles the exit status and terminates the child process after
+ * builtin execution with the appropriate exit code.
+ *
+ * @param current_cmd: Command structure to check and execute
+ * @param env: Pointer to environment variables list
+ * Side effects: May exit process with global exit status
+ */
 void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 {
 	char	**cmd;
@@ -73,6 +102,18 @@ void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
 	}
 }
 
+/*
+ * Main function for child process execution in pipeline.
+ * Sets up the child process environment including signal handling,
+ * file descriptor duplication for pipes, redirection handling,
+ * and final command execution (either builtin or external).
+ *
+ * @param current_cmd: Command structure to execute
+ * @param env: Environment variables list
+ * @param tmp_in: Input file descriptor from previous command in pipeline
+ * @param p_fd: Pipe file descriptors for output to next command
+ * Side effects: Modifies file descriptors, handles redirections, executes command
+ */
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	setup_child_signals();
