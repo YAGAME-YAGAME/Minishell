@@ -42,6 +42,6 @@ t_list	*ft_copy_list(t_list *env)
 void	alloc_key_value(char *cmd, char **key, char **value, char *equals_pos)
 {
 	*key = ft_substr(cmd, 0, equals_pos - cmd);
-	*value = ft_substr(cmd, equals_pos - cmd + 1, ft_strlen(cmd)
-		- (equals_pos - cmd));
+	*value = ft_substr(cmd, equals_pos - cmd + 1, ft_strlen(cmd) - (equals_pos
+				- cmd));
 }

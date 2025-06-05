@@ -230,7 +230,8 @@ void					ft_int_list_heredoc(t_list_heredoc *list);
 
 //--builtins
 t_list					*ft_copy_list(t_list *env);
-void					alloc_key_value(char *cmd, char **key, char **value, char *equals_pos);
+void					alloc_key_value(char *cmd, char **key, char **value,
+							char *equals_pos);
 void					ft_helper(char **key, char **value, char *cmd);
 void					ft_handle_append(t_list *dup_key, char **key,
 							char **value);

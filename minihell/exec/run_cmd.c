@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 04:26:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:10:17 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	if (current_cmd->cmd[0])
 		cmd_name = ft_strdup(current_cmd->cmd[0]);
 	cmd_path = check_exec(current_cmd->cmd[0], env);
-	if (cmd_path == NULL)
+	if (cmd_path == NULL || !cmd_name[0])
 	{
 		free(cmd_name);
 		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);

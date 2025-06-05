@@ -87,32 +87,32 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
  * Side effects: Frees input string, allocates new string
  */
 
- /*
+/*
 static char	*trim_spaces(char *str)
 {
-	char	*start;
-	char	*end;
-	char	*result;
+   char	*start;
+   char	*end;
+   char	*result;
 
-	if (!str)
+   if (!str)
 		return (NULL);
-	if (!*str)
-	{
+   if (!*str)
+   {
 		result = ft_strdup("");
 		free(str);
 		return (result);
-	}
-	start = str;
-	while (*start && (*start == ' ' || *start == '\t'))
+   }
+   start = str;
+   while (*start && (*start == ' ' || *start == '\t'))
 		start++;
-	end = str + ft_strlen(str) - 1;
-	while (end >= start && (*end == ' ' || *end == '\t'))
+   end = str + ft_strlen(str) - 1;
+   while (end >= start && (*end == ' ' || *end == '\t'))
 		end--;
-	result = ft_substr(start, 0, end - start + 1);
-	free(str);
-	if (!result)
+   result = ft_substr(start, 0, end - start + 1);
+   free(str);
+   if (!result)
 		return (ft_strdup(""));
-	return (result);
+   return (result);
 }
 */
 
