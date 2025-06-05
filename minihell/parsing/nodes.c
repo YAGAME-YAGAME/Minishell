@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:33:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:27:01 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,6 @@ t_cmdarg	*ft_init_node(void)
 	node->cmdsize = 0;
 	node->cmd_capacity = 0;
 	return (node);
-}
-
-/*
- * Determines if a token represents a command or argument.
- * Checks if the token type is one that can be part of a command:
- * regular words, or content from single or double quotes.
- *
- * @param current: Token to examine
- * @return: true if token is a command/argument type, false otherwise
- */
-bool	ft_is_cmd(t_token *current)
-{
-	return (current->type == WORD || current->type == DOUBLE_QUOTE
-		|| current->type == SINGLE_QUOTE);
 }
 
 /*

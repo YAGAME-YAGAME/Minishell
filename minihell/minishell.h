@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 13:35:28 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/05 18:32:51 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,14 @@ void					finish_exec(void);
 void					ft_wait_children(int *status);
 
 void					ft_printredi(t_redi_list *redi);
+void					ft_extend_cmd_array_if_needed(t_cmdarg **node,
+							int needed_capacity);
+void					ft_join_or_add_first_word(t_cmdarg **node,
+							char **split_words, bool first_word_joins);
+void					ft_add_split_words(t_cmdarg **node, char **split_words,
+							bool first_word_joins);
+void					ft_free_split_words(char **split_words);
+void					ft_handle_split_word(t_cmdarg **node,
+							t_token *token_list, char *val);
 
 #endif

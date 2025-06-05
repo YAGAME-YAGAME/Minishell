@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 18:27:13 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ void	ft_expand_var_in_char(char **value, t_list *minienv)
 		free(temp2);
 		dollar_pos = ft_dollar_pos(*value);
 	}
+}
+
+/*
+ * Determines if a token represents a command or argument.
+ * Checks if the token type is one that can be part of a command:
+ * regular words, or content from single or double quotes.
+ *
+ * @param current: Token to examine
+ * @return: true if token is a command/argument type, false otherwise
+ */
+bool	ft_is_cmd(t_token *current)
+{
+	return (current->type == WORD || current->type == DOUBLE_QUOTE
+		|| current->type == SINGLE_QUOTE);
 }
