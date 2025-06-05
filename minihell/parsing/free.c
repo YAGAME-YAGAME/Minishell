@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:29:24 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:41:33 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	ft_free_token(t_token *token)
  * @param token: Token structure to free, may be NULL
  * Side effects: Deallocates memory for token and its value string
  */
+
+ /*
 void	ft_free_token(t_token *token)
 {
 	if (token)
@@ -78,7 +80,9 @@ void	ft_free_token(t_token *token)
 		free(token);
 	}
 }
+*/
 
+/*
 void	ft_free_node(t_cmdarg *node)
 {
 	int	i;
@@ -97,6 +101,7 @@ void	ft_free_node(t_cmdarg *node)
 		free(node);
 	}
 }
+*/
 
 /*
  * Frees a single command argument node and all its resources.

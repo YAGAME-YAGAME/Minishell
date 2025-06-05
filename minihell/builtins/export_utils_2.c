@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 04:34:37 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:42:14 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
  * @return: New trimmed string, empty string on error
  * Side effects: Frees input string, allocates new string
  */
+
+ /*
 static char	*trim_spaces(char *str)
 {
 	char	*start;
@@ -112,6 +114,7 @@ static char	*trim_spaces(char *str)
 		return (ft_strdup(""));
 	return (result);
 }
+*/
 
 /*
  * Parses export command arguments to extract key-value pairs.
@@ -126,6 +129,7 @@ static char	*trim_spaces(char *str)
  * @return: 1 if append operation, 0 if regular assignment, -1 on error
  * Side effects: Allocates memory for key and value strings
  */
+
 int	ft_handle_plus(char *cmd, char **key, char **value)
 {
 	int		is_append;
@@ -143,13 +147,7 @@ int	ft_handle_plus(char *cmd, char **key, char **value)
 					- cmd) - 2);
 	}
 	else if (equals_pos)
-	{
-		*key = ft_substr(cmd, 0, equals_pos - cmd);
-		*value = ft_substr(cmd, equals_pos - cmd + 1, ft_strlen(cmd)
-				- (equals_pos - cmd));
-	}
-	if (*value)
-		*value = trim_spaces(*value);
+		alloc_key_value(cmd, key, value, equals_pos);
 	if (!*key)
 	{
 		if (*value)

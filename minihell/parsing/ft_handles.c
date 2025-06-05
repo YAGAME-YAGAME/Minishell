@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handles.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:29:15 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:40:37 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc)
 			token->type = INPUT;
 	}
 }
-
+/*
 t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
 {
 	char	op[3];
@@ -132,6 +132,7 @@ t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
 	lexer->pos += op_len;
 	return (token);
 }
+*/
 
 /*
  * Handles parsing of shell operator characters.
