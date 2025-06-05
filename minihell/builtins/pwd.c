@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:09:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 20:06:40 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@
  */
 int	ft_pwd(t_list **env)
 {
-	char	cwd[1024];
+	char	*cwd;
 
-	(void)env;
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	cwd = ft_getenv("PWD", *env);
+	if (cwd != NULL)
+	{
 		printf("%s\n", cwd);
+		free(cwd);
+	}
 	else
 		perror("pwd");
 	return (1);

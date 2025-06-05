@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 16:41:30 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:04:05 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	minishell(char *input, t_list **minienv)
  * @return: 0 on normal termination, 1 if incorrect arguments provided
  * Side effects: Enters infinite loop, handles signals, manages readline
  */
+
 int	main(int ac, char **av, char **env)
 {
 	t_list	*minienv;

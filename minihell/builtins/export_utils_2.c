@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 13:42:14 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/05 20:08:38 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,46 +75,6 @@ void	ft_handle_append(t_list *dup_key, char **key, char **value)
 	*key = NULL;
 	*value = NULL;
 }
-
-/*
- * Removes leading and trailing whitespace from a string.
- * Creates a new string with whitespace trimmed from both ends.
- * Frees the original string and returns the trimmed copy.
- * Handles empty strings and null input gracefully.
- *
- * @param str: String to trim (will be freed)
- * @return: New trimmed string, empty string on error
- * Side effects: Frees input string, allocates new string
- */
-
-/*
-static char	*trim_spaces(char *str)
-{
-   char	*start;
-   char	*end;
-   char	*result;
-
-   if (!str)
-		return (NULL);
-   if (!*str)
-   {
-		result = ft_strdup("");
-		free(str);
-		return (result);
-   }
-   start = str;
-   while (*start && (*start == ' ' || *start == '\t'))
-		start++;
-   end = str + ft_strlen(str) - 1;
-   while (end >= start && (*end == ' ' || *end == '\t'))
-		end--;
-   result = ft_substr(start, 0, end - start + 1);
-   free(str);
-   if (!result)
-		return (ft_strdup(""));
-   return (result);
-}
-*/
 
 /*
  * Parses export command arguments to extract key-value pairs.
