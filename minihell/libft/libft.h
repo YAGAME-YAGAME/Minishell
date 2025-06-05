@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:35:29 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 01:02:17 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ char				*ft_strdup(const char *s1);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strchr(const char *s, int c);
+size_t				countwords(const char *s, char *c);
+char				**freeall(char **p, size_t x);
+char				**ft_split(const char *s, char *c);
+
 // Additional functions
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char *s1, char *s2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/05/09 13:41:00 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 02:01:24 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 	if (!new)
 		return (NULL);
 	new->cmdsize = node->cmdsize;
-	new->cmd = malloc(sizeof(char *) * (node->cmdsize + 1));
+	new->cmd_capacity = node->cmd_capacity;
+	new->cmd = malloc(sizeof(char *) * (node->cmd_capacity + 1));
 	if (!new->cmd)
 		return (free(new), NULL);
 	i = 0;
@@ -69,6 +70,7 @@ t_cmdarg	*ft_init_node(void)
 	node->output = NULL;
 	node->cmd = NULL;
 	node->cmdsize = 0;
+	node->cmd_capacity = 0;
 	return (node);
 }
 
@@ -81,13 +83,16 @@ bool	ft_is_cmd(t_token *current)
 t_cmdarg	*ft_get_next_node(t_token *token_list)
 {
 	t_cmdarg	*node;
+	int			initial_capacity;
 
 	if (!token_list || !token_list->current)
 		return (NULL);
 	node = ft_init_node();
-	node->cmd = malloc(sizeof(char *) * (ft_toksize(token_list) + 1));
+	initial_capacity = ft_toksize(token_list);
+	node->cmd = malloc(sizeof(char *) * (initial_capacity + 1));
 	if (!node->cmd)
 		return (free(node), NULL);
+	node->cmd_capacity = initial_capacity;
 	if (token_list->current->type == PIPE)
 		token_list->current = token_list->current->next;
 	if (!token_list->current)
@@ -102,4 +107,31 @@ t_cmdarg	*ft_get_next_node(t_token *token_list)
 	}
 	node->cmd[node->cmdsize] = NULL;
 	return (node);
+}
+
+bool	ft_resize_cmd_array(t_cmdarg **node, int new_capacity)
+{
+	char	**new_cmd;
+	int		i;
+
+	if (new_capacity <= (*node)->cmd_capacity)
+		return (true);
+	new_cmd = malloc(sizeof(char *) * (new_capacity + 1));
+	if (!new_cmd)
+		return (false);
+	i = 0;
+	while (i < (*node)->cmdsize)
+	{
+		new_cmd[i] = (*node)->cmd[i];
+		i++;
+	}
+	while (i <= new_capacity)
+	{
+		new_cmd[i] = NULL;
+		i++;
+	}
+	free((*node)->cmd);
+	(*node)->cmd = new_cmd;
+	(*node)->cmd_capacity = new_capacity;
+	return (true);
 }

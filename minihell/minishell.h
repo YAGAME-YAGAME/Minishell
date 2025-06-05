@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 00:01:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:01:24 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_cmdarg
 {
 	char				**cmd;
 	int					cmdsize;
+	int					cmd_capacity;
 	bool				is_builtin;
 	int					origin_stdout;
 	int					origin_stdin;
@@ -164,6 +165,7 @@ bool					ft_isredi(t_token *token);
 bool					ft_is_cmd(t_token *current);
 void					*ft_parse_word(t_cmdarg **node, t_token *token_list);
 t_cmdarg				*ft_get_next_node(t_token *token_list);
+bool					ft_resize_cmd_array(t_cmdarg **node, int new_capacity);
 
 t_cmdarg				*ft_newnode(t_cmdarg *node);
 t_cmdarg				*ft_init_node(void);
@@ -277,5 +279,7 @@ int						print_invalid_identifier(char *cmd);
 void					handle_signals(void);
 void					finish_exec(void);
 void					ft_wait_children(int *status);
+
+void					ft_printredi(t_redi_list *redi);
 
 #endif
