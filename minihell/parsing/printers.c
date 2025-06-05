@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:04:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 00:45:03 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:56:56 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_printredi(t_redi_list *redi)
 void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 {
 	t_cmdarg	*tmp;
+	int			i;
 
 	tmp = cmdarg_list;
 	printf("\nCMD Parser:\n");
@@ -80,7 +81,8 @@ void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 	{
 		printf("-------------------------------------\n");
 		printf("Command:\n");
-		for (int i = 0; i < tmp->cmdsize; i++)
+		i = -1;
+		while (++i < tmp->cmdsize)
 			printf("[%s]\n", tmp->cmd[i]);
 		printf("\n");
 		printf("Redirections:\n");

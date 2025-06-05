@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/05/22 01:12:17 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:37:51 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ int	ft_cd(char **cmd, t_list **env)
 		return (free(old_path), write(2, "minishell :cd: HOME not set\n", 28),
 			1);
 	if (chdir(path) != 0)
-		return (free(path), perror(path), 1);
+		return (perror(path), free(path), 1);
 	return (ft_update_path(*env, path, old_path), 0);
 }

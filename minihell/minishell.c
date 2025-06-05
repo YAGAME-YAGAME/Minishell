@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 02:07:41 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:57:46 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,17 @@ void	minishell(char *input, t_list **minienv)
 	t_cmdarg	*cmdarg_list;
 
 	if (input == NULL)
+	{
 		ft_cmd_error(NULL, RED "[EOF]\n" RESET, 0);
+		return ;
+	}
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
 	token_list = ft_strtok(input, *minienv);
-	// ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = ft_parser(token_list, *minienv);
-	// ft_printcmd_list(cmdarg_list);
 	if (!check_here_doc(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (check_builtin(cmdarg_list, minienv) == 1)
@@ -130,3 +131,5 @@ int	main(int ac, char **av, char **env)
 // 	system("leaks -q minishell");
 // }
 // atexit(ll);
+// ft_print_tokenlist(token_list);
+// ft_printcmd_list(cmdarg_list);

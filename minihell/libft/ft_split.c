@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 20:49:38 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 01:00:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 02:57:31 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	countwords(const char *s, char *c)
 	while (s[i])
 	{
 		if (ft_strchr(c, s[i]) == NULL && (i == 0 || ft_strchr(c, s[i
-			- 1]) != NULL))
+						- 1]) != NULL))
 		{
 			count++;
 		}
