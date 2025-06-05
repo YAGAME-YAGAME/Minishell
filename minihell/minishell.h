@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 20:03:52 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 22:06:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,5 +293,7 @@ void					ft_add_split_words(t_cmdarg **node, char **split_words,
 void					ft_free_split_words(char **split_words);
 void					ft_handle_split_word(t_cmdarg **node,
 							t_token *token_list, char *val);
+int						ft_skip_chars(char *input, int i);
+bool					ft_check_quotes(char *input);
 
 #endif

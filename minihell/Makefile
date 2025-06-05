@@ -21,6 +21,7 @@ SRCS=	$(TARGET).c 							\
 	./parsing/printers.c 						\
 	./parsing/parser.c 							\
 	./parsing/varexp.c 							\
+	./parsing/unclosed_quotes.c					\
 	./parsing/nodes.c 							\
 	./parsing/expanding_utils.c 				\
 	./parsing/heredoc_exp.c 					\
