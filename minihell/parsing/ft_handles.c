@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:29:15 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:35:05 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,34 +103,6 @@ void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc)
 		else
 			token->type = INPUT;
 	}
-}
-
-t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
-{
-	char	op[3];
-	int		op_len;
-	t_token	*token;
-
-	op[0] = lexer->input[lexer->pos];
-	op[1] = '\0';
-	op_len = 1;
-	if (ft_is_duplicated(lexer, op))
-	{
-		op[1] = lexer->input[lexer->pos + 1];
-		op[2] = '\0';
-		op_len = 2;
-	}
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->value = ft_strdup(op);
-	if (!token->value)
-		return (free(token), NULL);
-	token->addspace = false;
-	ft_init_token_fields(token);
-	ft_set_token_type(token, op_len, op, heredoc);
-	lexer->pos += op_len;
-	return (token);
 }
 
 /*

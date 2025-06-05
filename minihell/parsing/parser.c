@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:32:37 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:00:35 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,22 @@ static void	ft_add_split_words(t_cmdarg **node, char **split_words,
 	int		words_count;
 	int		needed_capacity;
 
+	if (!split_words || !split_words[0])
+		return ;
 	words_count = 0;
 	while (split_words[words_count])
 		words_count++;
 	needed_capacity = (*node)->cmdsize + words_count;
-	if (!first_word_joins)
-		needed_capacity++;
+	if (first_word_joins && (*node)->cmdsize > 0)
+		needed_capacity--;
 	ft_extend_cmd_array_if_needed(node, needed_capacity);
 	ft_join_or_add_first_word(node, split_words, first_word_joins);
 	i = 1;
 	while (split_words[i])
-		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[i++]);
+	{
+		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[i]);
+		i++;
+	}
 }
 
 /*
@@ -133,6 +138,11 @@ static void	ft_handle_split_word(t_cmdarg **node, t_token *token_list,
 	char	**split_words;
 	bool	should_join;
 
+	if (!val || !*val)
+	{
+		free(val);
+		return ;
+	}
 	split_words = ft_split(val, " \t");
 	if (!split_words)
 	{
@@ -141,6 +151,8 @@ static void	ft_handle_split_word(t_cmdarg **node, t_token *token_list,
 		g_exit_status = 1;
 		return ;
 	}
+	if (!split_words[0])
+		return (ft_free_split_words(split_words), free(val));
 	should_join = (token_list->current->prev != NULL
 			&& token_list->current->prev->addspace == false);
 	ft_add_split_words(node, split_words, should_join);

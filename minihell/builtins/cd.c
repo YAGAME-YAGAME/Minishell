@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:12:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:36:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:17:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,12 @@ int	ft_cd(char **cmd, t_list **env)
 		return (free(old_path), write(2, "minishell :cd: too many arguments\n",
 				34), 1);
 	if (ft_get_target_path(cmd, &path, old_path, env) != 0)
-		return (1);
+		return (free(path), 1);
 	if (path == NULL)
 		return (free(old_path), write(2, "minishell :cd: HOME not set\n", 28),
 			1);
 	if (chdir(path) != 0)
-		return (perror(path), free(path), 1);
-	return (ft_update_path(*env, path, old_path), 0);
+		return (perror(path), free(path), free(old_path), 1);
+	ft_update_path(*env, path, old_path);
+	return (0);
 }

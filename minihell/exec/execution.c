@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 04:28:38 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:36:25 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,6 @@ int	create_pipe(int *pip)
 	return (1);
 }
 
-void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
-{
-	if (*tmp_in != 0)
-		close(*tmp_in);
-	if (current_cmd->next)
-	{
-		close(pip_fd[1]);
-		*tmp_in = pip_fd[0];
-	}
-	ft_close_pipe(current_cmd->input);
-}
-
 /*
  * Handles parent process responsibilities in pipeline execution.
  * Manages file descriptor cleanup for the parent process, including
@@ -87,25 +75,6 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
 		*tmp_in = pip_fd[0];
 	}
 	ft_close_pipe(current_cmd->input);
-}
-
-void	ft_wait_children(int *status)
-{
-	int	last_status;
-
-	last_status = 0;
-	while (wait(status) > 0)
-	{
-		if (WIFEXITED(*status))
-			last_status = WEXITSTATUS(*status);
-		else if (WIFSIGNALED(*status))
-		{
-			if (WTERMSIG(*status) == SIGPIPE)
-				continue ;
-			last_status = 128 + WTERMSIG(*status);
-		}
-	}
-	g_exit_status = last_status;
 }
 
 /*

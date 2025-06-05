@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:29:24 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:35:48 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,6 @@ void	ft_free_tokenlist(t_token *token_list)
 	}
 }
 
-void	ft_free_token(t_token *token)
-{
-	if (token)
-	{
-		free(token->value);
-		free(token);
-	}
-}
-
 /*
  * Frees a single token structure and its value.
  * Safely deallocates memory for a single token, including its
@@ -76,25 +67,6 @@ void	ft_free_token(t_token *token)
 	{
 		free(token->value);
 		free(token);
-	}
-}
-
-void	ft_free_node(t_cmdarg *node)
-{
-	int	i;
-
-	i = 0;
-	if (node)
-	{
-		if (node->cmd)
-		{
-			while (i < node->cmdsize)
-				free(node->cmd[i++]);
-			free(node->cmd);
-		}
-		ft_free_redi_list(node->input);
-		ft_free_redi_list(node->output);
-		free(node);
 	}
 }
 
@@ -126,6 +98,15 @@ void	ft_free_node(t_cmdarg *node)
 	}
 }
 
+/*
+ * Frees a linked list of redirection structures.
+ * Iterates through the redirection list, freeing each redirection
+ * node. Note: this function only frees the structure, not the
+ * file or content strings which may be shared or managed elsewhere.
+ *
+ * @param redi: Head of the redirection linked list to free
+ * Side effects: Deallocates memory for redirection list structures
+ */
 void	ft_free_redi_list(t_redi_list *redi)
 {
 	t_redi_list	*tmp;
@@ -137,13 +118,3 @@ void	ft_free_redi_list(t_redi_list *redi)
 		free(tmp);
 	}
 }
-
-/*
- * Frees a linked list of redirection structures.
- * Iterates through the redirection list, freeing each redirection
- * node. Note: this function only frees the structure, not the
- * file or content strings which may be shared or managed elsewhere.
- *
- * @param redi: Head of the redirection linked list to free
- * Side effects: Deallocates memory for redirection list structures
- */
