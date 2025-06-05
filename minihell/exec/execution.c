@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/04 23:14:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 04:28:38 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * Iterates through input redirection list and closes any heredoc
  * file descriptors that are marked as the last (final) redirection
  * to clean up resources after command execution.
- * 
+ *
  * @param input: Linked list of input redirections to process
  * Side effects: Closes file descriptors marked as last heredoc
  */
@@ -35,7 +35,7 @@ void	ft_close_pipe(t_redi_list *input)
  * Creates a pipe for inter-process communication.
  * Attempts to create a pipe using the pipe system call and handles
  * errors by setting the global exit status and printing error messages.
- * 
+ *
  * @param pip: Array to store the read and write file descriptors
  * @return: 1 on success, 0 on failure
  * Side effects: Sets global exit status on error, prints error message
@@ -71,7 +71,7 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
  * Manages file descriptor cleanup for the parent process, including
  * closing previous input pipes and setting up the next input for
  * the pipeline. Also cleans up heredoc file descriptors.
- * 
+ *
  * @param tmp_in: Pointer to temporary input file descriptor
  * @param pip_fd: Current pipe file descriptors
  * @param current_cmd: Current command being processed
@@ -113,7 +113,7 @@ void	ft_wait_children(int *status)
  * Collects exit status from all child processes, handling both normal
  * termination and signal termination. Sets the global exit status to
  * the exit status of the last process in the pipeline.
- * 
+ *
  * @param status: Pointer to integer for storing wait status
  * Side effects: Modifies global exit status, waits for child processes
  */
@@ -141,11 +141,12 @@ void	ft_wait_children(int *status)
  * Main execution function that creates child processes for each command
  * in the pipeline, sets up pipes between them, and coordinates the
  * execution. Handles process creation, pipe management, and cleanup.
- * 
+ *
  * @param shell: Linked list of commands to execute in pipeline
  * @param env: Environment variables for command execution
  * @return: 1 on successful setup, 0 on failure
- * Side effects: Creates child processes, sets up pipes, modifies global exit status
+ * Side effects: Creates child processes, sets up pipes,
+ * modifies global exit status
  */
 int	execution(t_cmdarg *shell, t_list *env)
 {

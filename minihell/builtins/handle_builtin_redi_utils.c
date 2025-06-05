@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:17:54 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:38:04 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_open_redi_builtin(char *file, int flag)
  * previous state. Closes the saved descriptors after restoration.
  *
  * @param shell: Command structure containing saved file descriptors
- * Side effects: Restores file descriptors, closes saved descriptors, prints errors
+ * Side effects: Restores file descriptors, closes saved descriptors,
+ * prints errors
  */
 void	ft_reset_std(t_cmdarg *shell)
 {

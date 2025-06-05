@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:33:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new)
  * Sets up a clean command argument structure with null pointers,
  * zero sizes, and default boolean values for a new command.
  *
- * @return: Pointer to initialized command argument node, NULL on allocation failure
+ * @return: Pointer to initialized command argument node,
+ * NULL on allocation failure
  * Side effects: Allocates memory for new node structure
  */
 t_cmdarg	*ft_init_node(void)
@@ -122,7 +123,8 @@ bool	ft_is_cmd(t_token *current)
  *
  * @param token_list: Token list with current position tracking
  * @return: Complete command argument node, NULL if no more commands or error
- * Side effects: Advances token list current pointer, allocates memory for command structure
+ * Side effects: Advances token list current pointer,
+ * allocates memory for command structure
  */
 t_cmdarg	*ft_get_next_node(t_token *token_list)
 {

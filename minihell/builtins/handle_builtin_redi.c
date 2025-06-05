@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:33:49 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int	open_input(t_redi_list *input)
  *
  * @param cmdarg_list: Command structure containing redirection information
  * @return: 0 on success, 1 on failure
- * Side effects: Saves original descriptors, processes redirections, sets exit status
+ * Side effects: Saves original descriptors, processes redirections,
+ * sets exit status
  */
 int	open_builtin_redi(t_cmdarg *cmdarg_list)
 {

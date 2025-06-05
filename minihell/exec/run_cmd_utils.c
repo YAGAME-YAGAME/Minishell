@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:27:16 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
  * that was previously processed and stored in a temporary file.
  *
  * @param input: Input redirection node containing heredoc file descriptor
- * Side effects: Modifies stdin file descriptor, closes heredoc fd, may exit on error
+ * Side effects: Modifies stdin file descriptor, closes heredoc fd, may exit
+ * on error
  */
 void	handle_heredoc(t_redi_list *input)
 {
@@ -36,7 +37,8 @@ void	handle_heredoc(t_redi_list *input)
  *
  * @param output: Output redirection node for append operation
  * @return: Always returns 1 (success indicator)
- * Side effects: Opens file, modifies stdout if last redirection, may exit on error
+ * Side effects: Opens file, modifies stdout if last redirection,
+ * may exit on error
  */
 int	handel_append(t_redi_list *output)
 {
@@ -65,7 +67,8 @@ int	handel_append(t_redi_list *output)
  * in the list actually redirects stdout, earlier ones just open/close files.
  *
  * @param output: Head of output redirection linked list
- * Side effects: Opens files, may modify stdout, closes file descriptors, may exit on error
+ * Side effects: Opens files, may modify stdout, closes file descriptors,
+ * may exit on error
  */
 void	handle_output(t_redi_list *output)
 {
@@ -102,7 +105,8 @@ void	handle_output(t_redi_list *output)
  * in the list actually redirects stdin, earlier ones just open/close files.
  *
  * @param input: Head of input redirection linked list
- * Side effects: Opens files, may modify stdin, closes file descriptors, may exit on error
+ * Side effects: Opens files, may modify stdin, closes file descriptors,
+ * may exit on error
  */
 void	handle_input(t_redi_list *input)
 {

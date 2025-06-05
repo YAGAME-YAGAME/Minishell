@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:26:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
  * @param env: Environment variables list
  * @param tmp_in: Input file descriptor from previous command in pipeline
  * @param p_fd: Pipe file descriptors for output to next command
- * Side effects: Modifies file descriptors, handles redirections, executes command
+ * Side effects: Modifies file descriptors, handles redirections,
+ * executes command
  */
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {

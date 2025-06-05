@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:55:23 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:35:08 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Prints environment variables in export format.
  * Displays each environment variable in the "declare -x" format used by
  * the export builtin. Handles variables with null values by omitting the
- * assignment, and properly quotes values containing spaces or special characters.
+ * assignment, and properly quotes values containing spaces or special chars.
  *
  * @param head: Environment variables linked list to print
  * Side effects: Prints formatted environment variables to stdout
@@ -49,7 +49,8 @@ void	ft_print_export_env(t_list *head)
  * command is called without arguments to show all variables.
  *
  * @param env: Pointer to environment variables linked list
- * Side effects: Prints sorted environment to stdout, allocates/frees temporary list
+ * Side effects: Prints sorted environment to stdout,
+ * allocates/frees temporary list
  */
 void	ft_print_sorted_env(t_list **env)
 {

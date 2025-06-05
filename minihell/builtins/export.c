@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:13:19 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:37:52 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 /*
  * Creates a complete copy of an environment variable linked list.
- * Duplicates all nodes with their key-value pairs to create an independent copy
+ * Duplicates all nodes with their key-val pairs to create an independent cpy
  * that can be modified without affecting the original environment list.
  * Used primarily for sorting environment variables for display.
  *
  * @param env: Source environment linked list to copy
- * @return: New linked list copy, NULL if source is NULL or memory allocation fails
+ * @return: New linked list copy, NULL if source is NULL or memory alloc fails
  * Side effects: Allocates memory for new list nodes and strings
  */
 t_list	*ft_copy_list(t_list *env)
@@ -79,7 +79,8 @@ t_list	*check_dup_env(char *key, t_list *env)
  * and regular assignments (VAR=value). Manages duplicate key detection and
  * either updates existing variables or creates new ones.
  *
- * @param cmd: Export command argument string (e.g., "VAR=value" or "VAR+=append")
+ * @param cmd: Export command argument string
+ * (e.g., "VAR=value" or "VAR+=append")
  * @param key: Pointer to store extracted variable key
  * @param value: Pointer to store extracted variable value
  * @param env: Environment variables linked list to modify
@@ -115,7 +116,8 @@ void	ft_alloc_key_value(char *cmd, char **key, char **value, t_list **env)
 /*
  * Validates shell variable identifier names according to shell naming rules.
  * Checks that variable names start with letter or underscore, contain only
- * alphanumeric characters and underscores, and handles append operator validation.
+ * alphanumeric characters and underscores,
+ * and handles append operator validation.
  * Ensures compliance with POSIX shell variable naming conventions.
  *
  * @param str: Variable identifier string to validate
@@ -186,7 +188,8 @@ int	check_error(char *cmd)
 /*
  * Implements the export builtin command functionality.
  * Handles environment variable creation, modification, and display operations.
- * When called without arguments, displays all environment variables in sorted order.
+ * When called without arguments,
+ * displays all environment variables in sorted order.
  * With arguments, processes each as a variable assignment or declaration.
  *
  * @param cmd: Array of command arguments (cmd[0] is "export")

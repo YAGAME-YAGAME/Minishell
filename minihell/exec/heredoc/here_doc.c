@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:26:04 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	parent(int *fd_pipe, int pid, int *status, t_redi_list *in)
  * @param fd_pipe: Pipe file descriptors for heredoc communication
  * @param env: Environment variables for expansion in heredoc content
  * @return: 1 on success, -1 on failure
- * Side effects: Creates child process, sets up signals, modifies global exit status
+ * Side effects: Creates child process, sets up signals, modifies global
+ * exit status
  */
 int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
 {
@@ -107,7 +108,8 @@ int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
  * @param shell: Linked list of commands containing heredoc redirections
  * @param env: Environment variables for heredoc content expansion
  * @return: 1 on success, 0 on failure or interruption
- * Side effects: Modifies redirection structures, processes user input, sets global exit status
+ * Side effects: Modifies redirection structures, processes user input,
+ * sets global exit status
  */
 int	check_here_doc(t_cmdarg *shell, t_list *env)
 {

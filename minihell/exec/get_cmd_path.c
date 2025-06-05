@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:28:16 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /*
  * Frees a linked list of environment variables.
- * Iterates through the list, freeing each node's key, value, and the node itself.
+ * Iterates through the list, freeing each node's key, value,
+ * and the node itself.
  * Sets the list pointer to NULL after cleanup. Used for memory management
  * of dynamically allocated environment lists.
  *
@@ -74,7 +75,8 @@ char	*find_path(t_list *path)
  * @param full_path: Pointer to store the found executable path
  * @param path_cmd: Array of PATH directory strings
  * @param p: Command name to search for
- * Side effects: Allocates memory for path construction, modifies full_path pointer
+ * Side effects: Allocates memory for path construction,
+ * modifies full_path pointer
  */
 void	ft_get_path(char **full_path, char **path_cmd, char *p)
 {

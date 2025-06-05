@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:25:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	handle_heredoc_break(char *line, char *delimiter)
  * @param fd_pipe: Pipe file descriptors for writing collected input
  * @param heredoc: Redirection structure containing heredoc metadata
  * @param env: Environment variables for variable expansion
- * Side effects: Reads from stdin, writes to pipe, accumulates content, manages memory
+ * Side effects: Reads from stdin, writes to pipe, accumulates content,
+ * manages memory
  */
 void	ft_read_line(char *delimiter, int *fd_pipe, t_redi_list *heredoc,
 		t_list *env)

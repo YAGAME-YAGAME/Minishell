@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:38:41 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	ft_toksize(t_token *lst)
  * Validates the syntax of a tokenized command line input.
  * Checks for common shell syntax errors including misplaced pipes,
  * redirection operators without files, and single redirection tokens.
- * Sets global exit status to 258 on syntax errors and prints appropriate error messages.
+ * Sets global exit status to 258 on syntax errors and
+ * prints appropriate error messages.
  *
  * @param token_list: Pointer to the first token in the command line
  * @return: 0 if syntax is valid, -1 if syntax errors are found
@@ -70,7 +71,8 @@ int	ft_check_syntax(t_token *token_list)
  * Parses a list of tokens into a structured command argument list.
  * Expands environment variables in tokens (except heredoc delimiters),
  * then converts the flat token list into a linked list of command nodes
- * where each node represents a complete command with its arguments and redirections.
+ * where each node represents a complete command with its arguments and
+ * redirections.
  *
  * @param token_list: Linked list of tokens from lexical analysis
  * @param minienv: Environment variables list for variable expansion
@@ -133,7 +135,8 @@ void	minishell(char *input, t_list **minienv)
 
 /*
  * Entry point of the minishell program.
- * Initializes signal handlers, validates command line arguments, sets up the environment,
+ * Initializes signal handlers, validates command line arguments,
+ * sets up the environment,
  * and enters the main interactive loop where it continuously reads user input
  * and processes commands until the program is terminated.
  *

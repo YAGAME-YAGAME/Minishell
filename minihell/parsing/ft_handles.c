@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:13:37 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/04 23:18:09 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/05 04:29:15 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Initializes the structural fields of a token to default values.
  * Sets up pointer fields and boolean flags for a newly created token,
  * preparing it for use in the token linked list structure.
- * 
+ *
  * @param token: Token structure to initialize
  * Side effects: Modifies token's variable, current, next, and prev fields
  */
@@ -33,11 +33,12 @@ void	ft_init_token_fields(t_token *token)
  * Extracts content between matching quotes (single or double), creating
  * appropriate token types. Handles unclosed quote errors and manages
  * spacing information for proper token concatenation.
- * 
+ *
  * @param lexer: Lexer structure containing input and current position
  * @param quote_char: The quote character (''' or '"') to match
  * @return: Token containing quoted content, NULL on error or unclosed quote
- * Side effects: Advances lexer position, prints error on unclosed quotes, sets exit status
+ * Side effects: Advances lexer position, prints error on unclosed quotes,
+ * sets exit status
  */
 t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
 {
@@ -73,11 +74,12 @@ t_token	*ft_handle_quotes(t_lexer *lexer, char quote_char)
  * Determines the correct token type based on operator length and character:
  * handles single operators (|, <, >) and double operators (<<, >>).
  * Updates heredoc context when encountering heredoc operator.
- * 
+ *
  * @param token: Token structure to set the type for
  * @param op_len: Length of the operator (1 or 2 characters)
  * @param op: Operator string being processed
- * @param heredoc: Pointer to heredoc context flag, set to true for heredoc operator
+ * @param heredoc: Pointer to heredoc context flag,
+ * set to true for heredoc operator
  * Side effects: Modifies token type and may set heredoc flag
  */
 void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc)
@@ -136,7 +138,7 @@ t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
  * Identifies and creates tokens for shell operators including pipes and
  * redirection operators. Supports both single and double character operators
  * (like >> for append and << for heredoc).
- * 
+ *
  * @param lexer: Lexer structure containing input and current position
  * @param heredoc: Pointer to heredoc context flag for state management
  * @return: Token representing the parsed operator, NULL on allocation failure
@@ -175,7 +177,7 @@ t_token	*ft_handle_operator(t_lexer *lexer, bool *heredoc)
  * Extracts sequences of characters that form command names, arguments,
  * or file names. Stops at whitespace, special operators, or quote characters.
  * Manages spacing information for proper token handling.
- * 
+ *
  * @param lexer: Lexer structure containing input and current position
  * @return: Token containing the parsed word, NULL on allocation failure
  * Side effects: Advances lexer position to end of word

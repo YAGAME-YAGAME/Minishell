@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strtok.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 16:08:28 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:32:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ t_lexer	*ft_lexer_init(char *input)
  * Continues tokenizing until all input is processed or an error occurs.
  *
  * @param input: Raw command line string to tokenize
- * @param minienv: Environment variables list for potential variable expansion during tokenization
+ * @param minienv: Environment variables list for potential variable
+ * expansion during tokenization
  * @return: Linked list of tokens, NULL if input is NULL
- * Side effects: Allocates memory for tokens and lexer, frees temporary structures
+ * Side effects: Allocates memory for tokens and lexer,
+ * frees temporary structures
  */
 t_token	*ft_strtok(char *input, t_list *minienv)
 {

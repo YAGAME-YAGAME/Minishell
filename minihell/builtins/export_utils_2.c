@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 01:34:46 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:34:37 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ static char	*trim_spaces(char *str)
 
 /*
  * Parses export command arguments to extract key-value pairs.
- * Handles both regular assignments (VAR=value) and append operations (VAR+=value).
+ * Handles both regular assignments (VAR=value) and
+ * append operations (VAR+=value).
  * Extracts variable name and value from command string, handling proper
  * parsing of different assignment formats and whitespace trimming.
  *

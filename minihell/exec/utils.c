@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:58:34 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:27:48 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env)
  * the "KEY=VALUE" format expected by external programs.
  *
  * @param env: Environment variables linked list
- * @return: Null-terminated array of environment strings, NULL on allocation failure
+ * @return: Null-terminated array of env strings, NULL on alloc failure
  * Side effects: Allocates memory for string array and individual strings
  */
 char	**get_env(t_list *env)

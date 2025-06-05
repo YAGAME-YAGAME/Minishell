@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:34:22 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ bool	ft_redierrors(t_token *current)
 
 /*
  * Checks for pipe syntax errors in the token stream.
- * Identifies invalid pipe usage including pipes at the beginning or end of input,
+ * Identifies invalid pipe usage including pipes
+ * at the beginning or end of input,
  * consecutive pipes, or pipes following redirection operators.
  *
  * @param current: Current token being examined

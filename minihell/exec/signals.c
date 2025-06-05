@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 08:03:07 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:26:42 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
  * Sets the global exit status to 1 to indicate interruption.
  *
  * @param sig: Signal number (unused)
- * Side effects: Writes newline, clears readline buffer, redisplays prompt, sets exit status
+ * Side effects: Writes newline, clears readline buffer, redisplays prompt,
+ * sets exit status
  */
 void	handle_sigint(int sig)
 {

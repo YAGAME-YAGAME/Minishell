@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:26:53 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	ft_cmd_error(char *cmd_name, char *error, int status)
  * @param file: Filename to open
  * @param flag: Opening mode (0=truncate, 1=read, 2=append)
  * @return: File descriptor on success, -1 on failure (with error reported)
- * Side effects: Opens file, may write error messages, sets g_exit_status on error
+ * Side effects: Opens file, may write error messages, sets g_exit_status
+ * on error
  */
 int	ft_open_file(char *file, int flag)
 {

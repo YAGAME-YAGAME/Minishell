@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambiguous.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:34:26 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/05 04:26:18 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
  * Returns true for empty/null strings and strings containing spaces.
  *
  * @param file: Filename string to check for ambiguity
- * @return: true if filename is ambiguous (empty or contains spaces), false otherwise
+ * @return: true if filename is ambiguous (empty or contains spaces), false
+ * otherwise
  */
 bool	is_ambiguous(char *file)
 {
