@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 22:06:58 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:05:21 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_cmdarg
 	bool				is_builtin;
 	int					origin_stdout;
 	int					origin_stdin;
+	t_redi_list			*redirections;
 	t_redi_list			*input;
 	t_redi_list			*output;
 	struct s_cmdarg		*next;

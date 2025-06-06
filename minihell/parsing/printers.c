@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 21:50:27 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/06 19:13:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,16 @@ void	ft_printcmd_list(t_cmdarg *cmdarg_list)
 		printf("Command:\n");
 		i = -1;
 		while (++i < tmp->cmdsize)
-			printf("[%s]\n", tmp->cmd[i]);
+		{
+			if (tmp->cmd[i])
+				printf("[%s]\n", tmp->cmd[i]);
+			else
+				printf("[NULL]\n");
+		}
 		printf("\n");
 		printf("Redirections:\n");
-		if (tmp->input)
-			ft_printredi(tmp->input);
-		if (tmp->output)
-			ft_printredi(tmp->output);
+		if (tmp->redirections)
+			ft_printredi(tmp->redirections);
 		tmp = tmp->next;
 		printf("-------------------------------------\n\n");
 	}

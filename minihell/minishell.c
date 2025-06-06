@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 22:05:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:07:44 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,15 +123,18 @@ void	minishell(char *input, t_list **minienv)
 	if (!ft_check_quotes(input))
 		return ;
 	token_list = ft_strtok(input, *minienv);
+	ft_print_tokenlist(token_list);
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = ft_parser(token_list, *minienv);
-	if (!check_here_doc(cmdarg_list, *minienv))
-		return (ft_cleaner(token_list, cmdarg_list));
-	if (check_builtin(cmdarg_list, minienv) == 1)
-		return (ft_cleaner(token_list, cmdarg_list));
-	if (!execution(cmdarg_list, *minienv))
-		return (ft_cleaner(token_list, cmdarg_list));
+	ft_printcmd_list(cmdarg_list);
+
+	// if (!check_here_doc(cmdarg_list, *minienv))
+	// 	return (ft_cleaner(token_list, cmdarg_list));
+	// if (check_builtin(cmdarg_list, minienv) == 1)
+	// 	return (ft_cleaner(token_list, cmdarg_list));
+	// if (!execution(cmdarg_list, *minienv))
+	// 	return (ft_cleaner(token_list, cmdarg_list));
 	ft_cleaner(token_list, cmdarg_list);
 }
 
@@ -176,5 +179,3 @@ int	main(int ac, char **av, char **env)
 // 	system("leaks -q minishell");
 // }
 // atexit(ll);
-// ft_print_tokenlist(token_list);
-// ft_printcmd_list(cmdarg_list);

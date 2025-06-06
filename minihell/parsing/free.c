@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:00:00 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 19:07:35 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:31:33 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	ft_free_node(t_cmdarg *node)
 				free(node->cmd[i++]);
 			free(node->cmd);
 		}
+		ft_free_redi_list(node->redirections);
 		ft_free_redi_list(node->input);
 		ft_free_redi_list(node->output);
 		free(node);

@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:06:22 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 18:27:01 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:31:33 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 	}
 	new->cmd[i] = NULL;
 	new->is_builtin = node->is_builtin;
+	new->redirections = node->redirections;
 	new->input = node->input;
 	new->output = node->output;
 	new->next = NULL;
@@ -92,6 +93,7 @@ t_cmdarg	*ft_init_node(void)
 	if (!node)
 		return (NULL);
 	node->input = NULL;
+	node->redirections = NULL;
 	node->is_builtin = false;
 	node->next = NULL;
 	node->output = NULL;
