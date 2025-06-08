@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/08 01:51:06 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/08 17:02:11 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,34 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	}
 	return (cmdarg_list);
 }
+void  	ft_print_redi(t_cmdarg *cmdarg_list)
+{
+	t_redi_list	*redi;
 
+	if (!cmdarg_list)
+		return ;
+	while (cmdarg_list)
+	{
+		redi = cmdarg_list->redirections;
+		while (redi)
+		{
+			if (redi->type == INPUT || redi->type == HEREDOC)
+			{
+				printf("Input type: %u\n", redi->type);
+				printf("Input file : %s\n", redi->file);
+				printf("Input is last: %d\n", redi->is_last);
+			}
+			else if (redi->type == OUTPUT || redi->type == APPEND)
+			{
+				printf("output type: %u\n", redi->type);
+				printf("output file : %s\n", redi->file);
+				printf("output is last: %d\n", redi->is_last);
+			}
+			redi = redi->next;
+		}
+		cmdarg_list = cmdarg_list->next;
+	}
+}
 
 void	minishell(char *input, t_list **minienv)
 {
@@ -136,6 +163,7 @@ void	minishell(char *input, t_list **minienv)
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
+	// printf(RED"here\n"RESET);
 	ft_cleaner(token_list, cmdarg_list);
 }
 

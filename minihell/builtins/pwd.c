@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:09:04 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 20:06:40 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:21:41 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ int	ft_pwd(t_list **env)
 	}
 	else
 		perror("pwd");
-	return (1);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 04:27:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:34:16 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
  */
 void	handle_heredoc(t_redi_list *input)
 {
+	// printf("heredoc_fd ----> [ %d ]\n", input->heredoc_fd);
 	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
-		ft_cmd_error(NULL, "dup2 failure\n", 1);
+		ft_cmd_error(NULL, "----------- dup2 failure\n", 1);
 	close(input->heredoc_fd);
 }
 
@@ -73,29 +74,27 @@ int	handel_append(t_redi_list *output)
 void	handle_output(t_redi_list *output)
 {
 	int	out_fd;
-
-	while (output)
+	
+	if (output->type == OUTPUT)
 	{
-		if (output->type == OUTPUT)
+		if (output->variable)
+			if (is_ambiguous(output->file) == true)
+				ft_cmd_error(output->file, "ambiguous redirect\n", 1);
+		out_fd = ft_open_file(output->file, 0);
+		if (output->is_last)
 		{
-			if (output->variable)
-				if (is_ambiguous(output->file) == true)
-					ft_cmd_error(output->file, "ambiguous redirect\n", 1);
-			out_fd = ft_open_file(output->file, 0);
-			if (output->is_last)
+			if (dup2(out_fd, STDOUT_FILENO) == -1)
 			{
-				if (dup2(out_fd, STDOUT_FILENO) == -1)
-				{
-					close(out_fd);
-					ft_cmd_error(NULL, "dup2 failure\n", 1);
-				}
+				close(out_fd);
+				ft_cmd_error(NULL, "dup2 failure\n", 1);
 			}
-			close(out_fd);
 		}
-		if (output->type == APPEND)
-			handel_append(output);
-		output = output->next;
+		close(out_fd);
 	}
+	if (output->type == APPEND)
+		handel_append(output);
+	output = output->next;
+	
 }
 
 /*
@@ -112,26 +111,27 @@ void	handle_input(t_redi_list *input)
 {
 	int	in_fd;
 
-	while (input)
+	
+	if (input->type == INPUT)
 	{
-		if (input->type == INPUT)
+		if (input->variable)
+			if (is_ambiguous(input->file) == true)
+				ft_cmd_error(input->file, "ambiguous redirect\n", 1);
+		in_fd = ft_open_file(input->file, 1);
+		if (input->is_last)
 		{
-			if (input->variable)
-				if (is_ambiguous(input->file) == true)
-					ft_cmd_error(input->file, "ambiguous redirect\n", 1);
-			in_fd = ft_open_file(input->file, 1);
-			if (input->is_last)
+			if (dup2(in_fd, STDIN_FILENO) == -1)
 			{
-				if (dup2(in_fd, STDIN_FILENO) == -1)
-				{
-					close(in_fd);
-					ft_cmd_error(NULL, "dup2 failure\n", 1);
-				}
+				close(in_fd);
+				ft_cmd_error(NULL, "dup2 failure\n", 1);
 			}
-			close(in_fd);
 		}
-		if (input->type == HEREDOC && input->is_last)
-			handle_heredoc(input);
-		input = input->next;
+		close(in_fd);
 	}
+	if (input->type == HEREDOC && input->is_last == true)
+	{
+		printf(RED"open if heredoc is last"RESET);	
+		handle_heredoc(input);
+	}
+	input = input->next;
 }

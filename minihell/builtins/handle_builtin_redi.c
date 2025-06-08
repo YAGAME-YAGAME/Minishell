@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/08 01:42:54 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/08 17:46:09 by otzarwal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,22 @@ int	open_append(t_redi_list *output)
  */
 int	open_output(t_redi_list *output)
 {
-	while (output)
+	if (output->type == OUTPUT)
 	{
-		if (output->type == OUTPUT)
+		output->tmp_fd = ft_open_redi_builtin(output->file, 0);
+		if (output->tmp_fd == -1)
+			return (-1);
+		if (output->is_last)
 		{
-			output->tmp_fd = ft_open_redi_builtin(output->file, 0);
-			if (output->tmp_fd == -1)
-				return (-1);
-			if (output->is_last)
-			{
-				dup2(output->tmp_fd, STDOUT_FILENO);
-				close(output->tmp_fd);
-			}
+			dup2(output->tmp_fd, STDOUT_FILENO);
 			close(output->tmp_fd);
 		}
-		if (output->type == APPEND)
-			if (!open_append(output))
-				return (-1);
-		output = output->next;
+		close(output->tmp_fd);
 	}
+	if (output->type == APPEND)
+		if (!open_append(output))
+			return (-1);
+	output = output->next;
 	return (1);
 }
 
@@ -85,19 +82,17 @@ int	open_input(t_redi_list *input)
 {
 	int	in_fd;
 
-	while (input)
+	if (input->type == INPUT)
 	{
-		if (input->type == INPUT)
-		{
-			in_fd = ft_open_redi_builtin(input->file, 1);
-			if (in_fd == -1)
-				return (-1);
-			close(in_fd);
-		}
-		if (input->type == HEREDOC && input->content)
-			free(input->content);
-		input = input->next;
+		in_fd = ft_open_redi_builtin(input->file, 1);
+		if (in_fd == -1)
+			return (-1);
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
 	}
+	// if (input->type == HEREDOC && input->content)
+	// 	free(input->content);
+	input = input->next;
 	return (1);
 }
 
@@ -178,8 +173,11 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 		if (cmdarg_list->redirections)
 		{
 			if (open_builtin_redi(cmdarg_list) == 1)
+			{
+				if (cmdarg_list->redirections)
+					ft_reset_std(cmdarg_list);
 				return (1);
-			
+			}
 		}
 		if (run_built_in(cmdarg_list, minienv) == 1)
 		{
