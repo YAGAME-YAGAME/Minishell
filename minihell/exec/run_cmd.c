@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 15:10:17 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:44:58 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,29 @@ void	ft_is_builtin(t_cmdarg *current_cmd, t_list **env)
  * Side effects: Modifies file descriptors, handles redirections,
  * executes command
  */
+
+void handle_redirections(t_cmdarg *current_cmd)
+{
+	
+	t_cmdarg	*tmp;
+	t_redi_list *redi_list;
+	tmp = current_cmd;
+	while(tmp)
+	{
+		redi_list = tmp->redirections;
+		while(redi_list)
+		{
+
+			if(redi_list->type == INPUT || redi_list->type == HEREDOC)
+				handle_input(redi_list);
+				
+			if(redi_list->type == OUTPUT || redi_list->type == APPEND)
+				handle_output(redi_list);
+			redi_list = redi_list->next;
+		}
+		tmp = tmp->next;
+	}
+}
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 {
 	setup_child_signals();
@@ -129,8 +152,8 @@ void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
 		close(p_fd[1]);
 		close(p_fd[0]);
 	}
-	handle_input(current_cmd->input);
-	handle_output(current_cmd->output);
+
+	handle_redirections(current_cmd);
 	ft_is_builtin(current_cmd, &env);
 	handle_execution(current_cmd, env);
 }

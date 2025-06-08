@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 16:44:46 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:47:17 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,7 @@
  * @param input: Linked list of input redirections to process
  * Side effects: Closes file descriptors marked as last heredoc
  */
-void	ft_close_pipe(t_redi_list *input)
-{
-	while (input)
-	{
-		if (input->type == HEREDOC && input->is_last)
-			close(input->heredoc_fd);
-		input = input->next;
-	}
-}
+
 
 /*
  * Creates a pipe for inter-process communication.

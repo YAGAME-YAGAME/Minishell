@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 04:34:22 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:51:35 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,24 @@ bool	ft_redierrors(t_token *current)
 {
 	return (ft_isredi(current) && (current->next == NULL
 			|| ft_isredi(current->next)));
+}
+
+/*
+ * Closes any open heredoc file descriptors in the redirection list.
+ *
+ * @param redi: Head of the redirection list
+ */
+void ft_close_pipe(t_redi_list *redi)
+{
+	while (redi)
+	{
+		if(redi->heredoc_fd != -1)
+		{
+			close(redi->heredoc_fd);
+			redi->heredoc_fd = -1;
+		}
+		redi = redi->next;
+	}
 }
 
 /*
@@ -45,15 +63,25 @@ bool	ft_pipeerrors(t_token *current)
 /*
  * Performs cleanup by freeing memory allocated for token and command lists.
  * This utility function ensures proper memory deallocation when the shell
-
-	* processing is complete or encounters an error that requires early termination.
+ * processing is complete or encounters an error that requires early termination.
+ * Also closes any open heredoc file descriptors to prevent file descriptor leaks.
  *
  * @param token_list: Linked list of tokens to be freed
  * @param cmdarg_list: Linked list of command argument structures to be freed
- * Side effects: Deallocates memory for both data structures
+ * Side effects: Deallocates memory for both data structures, closes heredoc FDs
  */
 void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 {
+	t_cmdarg	*tmp;
+
+	//Close any open heredoc file descriptors before freeing memory
+	tmp = cmdarg_list;
+	while (tmp)
+	{
+		if (tmp->redirections)
+			ft_close_pipe(tmp->redirections);
+		tmp = tmp->next;
+	}
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
 }

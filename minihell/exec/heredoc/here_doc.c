@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:26:04 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:40:51 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,25 +74,27 @@ void	parent(int *fd_pipe, int pid, int *status, t_redi_list *in)
  * Side effects: Creates child process, sets up signals, modifies global
  * exit status
  */
-int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
+int	handel_heredoc(t_redi_list *redi, int *fd_pipe, t_list *env)
 {
 	int	pid;
 	int	status;
 
-	if (pipe(fd_pipe) == -1)
-		ft_cmd_error(NULL, "pipe failure", 1);
+	if(redi == NULL)
+		return (1);
 	status = 0;
-	if (in->type == HEREDOC)
+	if (redi->type == HEREDOC)
 	{
+		if (pipe(fd_pipe) == -1)
+			ft_cmd_error(NULL, "pipe failure", 1);
 		setup_parent_heredoc_signals();
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), -1);
 		if (pid == 0)
-			open_here_doc(in, fd_pipe, env);
+			open_here_doc(redi, fd_pipe, env);
 		else
 		{
-			parent(fd_pipe, pid, &status, in);
+			parent(fd_pipe, pid, &status, redi);
 			restore_signals();
 		}
 	}
@@ -114,22 +116,25 @@ int	handel_heredoc(t_redi_list *in, int *fd_pipe, t_list *env)
 int	check_here_doc(t_cmdarg *shell, t_list *env)
 {
 	t_cmdarg	*tmp;
-	t_redi_list	*in;
+	t_redi_list	*redi;
 	int			fd_pipe[2];
 
 	tmp = shell;
 	g_exit_status = 0;
+	if (!tmp)
+		return (1);
 	while (tmp)
 	{
 		init_redi_file(tmp);
-		in = tmp->input;
+		
+		redi = tmp->redirections;
 		tmp->origin_stdin = -1;
 		tmp->origin_stdout = -1;
-		while (in)
+		while (redi)
 		{
-			if (handel_heredoc(in, fd_pipe, env) == -1 || g_exit_status == 1)
+			if (handel_heredoc(redi, fd_pipe, env) == -1 || g_exit_status == 1)
 				return (0);
-			in = in->next;
+			redi = redi->next;
 		}
 		tmp = tmp->next;
 	}

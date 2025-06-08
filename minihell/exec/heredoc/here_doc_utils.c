@@ -3,14 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:25:27 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:41:10 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static t_redi_list	*get_last_input(t_redi_list *redi)
+{
+	t_redi_list	*last;
+	t_redi_list	*tmp;
+
+	last = NULL;
+	tmp = redi;
+	while(tmp)
+	{
+		tmp->tmp_fd = -1;
+		tmp->is_last = false;
+		tmp->heredoc_fd = -1;
+		tmp->content = NULL;
+		if (tmp->type == INPUT || tmp->type == HEREDOC)
+			last = tmp;
+		
+		tmp = tmp->next;
+	}
+	return (last);
+}
+static t_redi_list	*get_last_output(t_redi_list *redi)
+{
+	t_redi_list	*last;
+
+	last = NULL;
+	while (redi)
+	{
+		redi->tmp_fd = -1;
+		redi->is_last = false;
+		redi->heredoc_fd = -1;
+		redi->content = NULL;
+		if(redi->type == OUTPUT || redi->type == APPEND)
+			last = redi;
+		redi = redi->next;
+	}
+	return (last);
+}
 
 /*
  * Initializes redirection file metadata for input and output redirections.
@@ -24,29 +62,26 @@
  */
 void	init_redi_file(t_cmdarg *shell)
 {
-	t_redi_list	*in;
-	t_redi_list	*out;
+	// t_redi_list	*redi;
+	t_redi_list	*last_input;
+	t_redi_list	*last_output;
+	t_cmdarg	*tmp;
 
-	in = shell->input;
-	out = shell->output;
-	while (in)
+	tmp = shell;
+	last_input = NULL;
+	last_output = NULL;
+	if (!tmp)
+		return ;
+	while (tmp)
 	{
-		if (in->next == NULL)
-			in->is_last = true;
-		else
-			in->is_last = false;
-		in->heredoc_fd = -1;
-		in = in->next;
-	}
-	while (out)
-	{
-		if (out->next == NULL)
-			out->is_last = true;
-		else
-			out->is_last = false;
-		out->tmp_fd = -1;
-		out->heredoc_fd = -1;
-		out = out->next;
+		
+		last_input = get_last_input(tmp->redirections);
+		last_output = get_last_output(tmp->redirections);
+		if(last_input)
+			last_input->is_last = true;
+		if(last_output)
+			last_output->is_last = true;
+		tmp = tmp->next;
 	}
 }
 

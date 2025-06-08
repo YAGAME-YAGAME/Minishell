@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:33:49 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/08 01:42:54 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,30 @@ int	open_input(t_redi_list *input)
 	return (1);
 }
 
+int open_redirections(t_redi_list *redirections)
+{
+	t_redi_list *redi;
+
+	redi = redirections;
+	if (redi == NULL)
+		return (1);
+	while(redi)
+	{
+		if (redi->type == INPUT)
+		{
+			if (open_input(redi) == -1)
+				return (-1);
+		}
+		if (redi->type == OUTPUT || redi->type == APPEND)
+		{
+			if (open_output(redi) == -1)
+				return (-1);
+		}
+		redi = redi->next;
+	}
+	return (1);
+}
+
 /*
  * Sets up redirections for builtin command execution.
  * Saves original stdin/stdout file descriptors and processes both
@@ -114,20 +138,16 @@ int	open_input(t_redi_list *input)
  */
 int	open_builtin_redi(t_cmdarg *cmdarg_list)
 {
-	t_redi_list	*input;
-	t_redi_list	*output;
-
+	if (cmdarg_list == NULL || cmdarg_list->redirections == NULL)
+		return (1);
 	cmdarg_list->origin_stdin = dup(STDIN_FILENO);
 	if (cmdarg_list->origin_stdin == -1)
 		return (perror("dup"), g_exit_status = 1, 1);
 	cmdarg_list->origin_stdout = dup(STDOUT_FILENO);
 	if (cmdarg_list->origin_stdout == -1)
 		return (perror("dup"), g_exit_status = 1, 1);
-	input = cmdarg_list->input;
-	output = cmdarg_list->output;
-	if (open_input(input) == -1)
-		return (1);
-	if (open_output(output) == -1)
+	
+	if (open_redirections(cmdarg_list->redirections) == -1)
 		return (1);
 	return (0);
 }
@@ -154,12 +174,16 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 	check = is_builtin(cmdarg_list->cmd[0]);
 	if (size_list(cmdarg_list) == 1 && !check)
 	{
-		if (cmdarg_list->input || cmdarg_list->output)
+
+		if (cmdarg_list->redirections)
+		{
 			if (open_builtin_redi(cmdarg_list) == 1)
 				return (1);
+			
+		}
 		if (run_built_in(cmdarg_list, minienv) == 1)
 		{
-			if (cmdarg_list->output)
+			if (cmdarg_list->redirections)
 				ft_reset_std(cmdarg_list);
 			return (1);
 		}
