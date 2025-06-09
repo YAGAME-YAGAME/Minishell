@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 15:05:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:58:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,6 @@ void	minishell(char *input, t_list **minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	if (input != NULL)
-		if (!ft_check_invalid_token(input))
-			return ;
 	if (!ft_check_quotes(input))
 		return ;
 	token_list = ft_strtok(input, *minienv);
