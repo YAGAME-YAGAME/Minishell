@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:28:16 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:24:28 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,19 +161,19 @@ char	*check_exec(char *p, t_list *env)
 	full_path = check_full_path(p);
 	if (full_path)
 		return (full_path);
+	path = find_path(env);
+	if (path)
+	{
+		path_cmd = parsing_split(path, ':');
+		if (!path_cmd)
+			return (NULL);
+		ft_get_path(&full_path, path_cmd, p);
+		free_dp(path_cmd);
+		if (full_path)
+			return (full_path);
+	}
 	dir_path = ft_join_with_path(p);
 	if (dir_path)
 		return (dir_path);
-	free(dir_path);
-	path = find_path(env);
-	if (!path)
-		return (NULL);
-	path_cmd = parsing_split(path, ':');
-	if (!path_cmd)
-		return (NULL);
-	ft_get_path(&full_path, path_cmd, p);
-	free_dp(path_cmd);
-	if (!full_path)
-		return (NULL);
-	return (full_path);
+	return (NULL);
 }
