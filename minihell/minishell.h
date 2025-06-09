@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 14:51:39 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:43:46 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,5 +278,9 @@ int			ft_skip_chars(char *input, int i);
 bool		ft_check_quotes(char *input);
 void		ft_free_isdir(char **cmd_path, char **cmd_name,
 				t_cmdarg *current_cmd);
+int			open_redirections(t_redi_list *redirections);
+bool		dontexpand_heredoc_del(t_token *tmp);
+int			open_output(t_redi_list *output);
+int			open_input(t_redi_list *input);
 
 #endif

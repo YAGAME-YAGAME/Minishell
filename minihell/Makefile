@@ -99,7 +99,6 @@ $(NAME): $(OBJS)
 $(LIBFT):
 	@echo "$(BLUE)Compiling the Library LIBFT ...$(DEF_COLOR)"
 	@make -C ./libft
-	@sleep 1
 
 clean:
 	@echo "$(MAGENTA)Cleaning minishell objects ...$(DEF_COLOR)"

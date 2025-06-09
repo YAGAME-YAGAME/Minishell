@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:17:54 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/09 14:51:11 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:42:30 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,34 @@ void	ft_redi_error(char *file, char *msg, int err)
 	}
 	write(2, msg, ft_strlen(msg));
 	g_exit_status = err;
+}
+
+int	open_redirections(t_redi_list *redirections)
+{
+	t_redi_list	*redi;
+
+	redi = redirections;
+	if (redi == NULL)
+		return (1);
+	while (redi)
+	{
+		if (redi->type == INPUT)
+		{
+			if (open_input(redi) == -1)
+				return (-1);
+		}
+		if (redi->type == OUTPUT || redi->type == APPEND)
+		{
+			if (open_output(redi) == -1)
+				return (-1);
+		}
+		redi = redi->next;
+	}
+	return (1);
+}
+
+bool	dontexpand_heredoc_del(t_token *tmp)
+{
+	return ((tmp->type == WORD || tmp->type == DOUBLE_QUOTE)
+		&& tmp->prev && tmp->prev->type == HEREDOC);
 }

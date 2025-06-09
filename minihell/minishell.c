@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 15:58:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:42:26 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ int	ft_check_syntax(t_token *token_list)
 		current = current->next;
 	}
 	return (0);
-}
-
-bool	dontexpand_heredoc_del(t_token *tmp)
-{
-	return ((tmp->type == WORD || tmp->type == DOUBLE_QUOTE)
-		&& tmp->prev && tmp->prev->type == HEREDOC);
 }
 
 /*
@@ -179,6 +173,7 @@ int	main(int ac, char **av, char **env)
 // 	system("leaks -q minishell");
 // }
 // atexit(ll);
+//
 // void	ft_print_redi(t_cmdarg *cmdarg_list)
 // {
 // 	t_redi_list	*redi;

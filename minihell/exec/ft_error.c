@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:52:05 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/05 04:26:53 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:34:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	ft_open_file(char *file, int flag)
 		if (errno == ENOENT)
 			ft_cmd_error(file, "No such file or directory\n", 1);
 		else if (errno == EISDIR)
-			ft_redi_error(file, "Is a directory\n", 1);
+			ft_cmd_error(file, "Is a directory\n", 1);
 		else
-			ft_redi_error(file, "Permission denied\n", 1);
+			ft_cmd_error(file, "Permission denied\n", 1);
 	}
 	return (fd);
 }

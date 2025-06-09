@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/09 14:41:10 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:34:59 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,10 @@ void	handle_output(t_redi_list *output)
 			if (is_ambiguous(output->file) == true)
 				ft_cmd_error(output->file, "ambiguous redirect\n", 1);
 		out_fd = ft_open_file(output->file, 0);
-		if (output->is_last)
+		if (dup2(out_fd, STDOUT_FILENO) == -1)
 		{
-			if (dup2(out_fd, STDOUT_FILENO) == -1)
-			{
-				close(out_fd);
-				ft_cmd_error(NULL, "dup2 failure\n", 1);
-			}
+			close(out_fd);
+			ft_cmd_error(NULL, "dup2 failure\n", 1);
 		}
 		close(out_fd);
 	}
@@ -115,13 +112,10 @@ void	handle_input(t_redi_list *input)
 			if (is_ambiguous(input->file) == true)
 				ft_cmd_error(input->file, "ambiguous redirect\n", 1);
 		in_fd = ft_open_file(input->file, 1);
-		if (input->is_last)
+		if (dup2(in_fd, STDIN_FILENO) == -1)
 		{
-			if (dup2(in_fd, STDIN_FILENO) == -1)
-			{
-				close(in_fd);
-				ft_cmd_error(NULL, "dup2 failure\n", 1);
-			}
+			close(in_fd);
+			ft_cmd_error(NULL, "dup2 failure\n", 1);
 		}
 		close(in_fd);
 	}
