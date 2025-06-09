@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/08 18:34:16 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/09 02:16:26 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void	handle_input(t_redi_list *input)
 	}
 	if (input->type == HEREDOC && input->is_last == true)
 	{
-		printf(RED"open if heredoc is last"RESET);	
 		handle_heredoc(input);
 	}
 	input = input->next;
