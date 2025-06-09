@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:35:23 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:44:26 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int	ft_exit(char **cmd, t_list **env)
 		if (is_digit(cmd[1]) == 0)
 		{
 			g_exit_status = 255;
-			return (write(2, EXIT_ERROR, 32), g_exit_status);
+			write(2, EXIT_ERROR, 32);
+			ft_lstclear(env, free);
+			exit(g_exit_status);
 		}
 		status = ft_atoi(cmd[1]);
 		if (status < 0)

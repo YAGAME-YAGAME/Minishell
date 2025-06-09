@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/09 18:24:28 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:44:57 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char	*ft_join_with_path(char *p)
  * @return: Full path to executable if found, NULL if not found
  * Side effects: Allocates memory for path strings, performs file system access
  */
-char	*check_exec(char *p, t_list *env)
+char	*check_exec(char *p, t_list *env, int *no_file)
 {
 	char	*full_path;
 	char	*path;
@@ -172,6 +172,8 @@ char	*check_exec(char *p, t_list *env)
 		if (full_path)
 			return (full_path);
 	}
+	else
+		*no_file = 1;
 	dir_path = ft_join_with_path(p);
 	if (dir_path)
 		return (dir_path);

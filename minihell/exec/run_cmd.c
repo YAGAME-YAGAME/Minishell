@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/09 19:47:34 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:45:27 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,23 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	char	*cmd_path;
 	char	**envp;
 	char	*cmd_name;
+	int		no_file;
 
 	envp = NULL;
 	cmd_name = NULL;
+	no_file = 0;
 	if (current_cmd == NULL || current_cmd->cmd[0] == NULL)
 		exit(0);
 	if (current_cmd->cmd[0])
 		cmd_name = ft_strdup(current_cmd->cmd[0]);
-	cmd_path = check_exec(current_cmd->cmd[0], env);
+	cmd_path = check_exec(current_cmd->cmd[0], env, &no_file);
 	if (cmd_path == NULL || !cmd_name[0])
 	{
 		free(cmd_name);
-		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
+		if (no_file == 1)
+			ft_cmd_error(current_cmd->cmd[0], "No such file or directory\n", 127);
+		else
+			ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
 	}
 	if (ft_isdirectory(cmd_path))
 		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);

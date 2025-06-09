@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 18:43:46 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:46:29 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ int			count(char *s, char p);
 void		free_all(char **bf, int j);
 char		**parsing_split(char *s, char p);
 char		*find_path(t_list *path);
-char		*check_exec(char *p, t_list *env);
+char		*check_exec(char *p, t_list *env, int *no_file);
 void		ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 				int *p_fd);
 char		**get_env(t_list *env);
