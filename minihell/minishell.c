@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/08 17:02:11 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/09 01:09:21 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,9 @@ int	main(int ac, char **av, char **env)
 		while (1)
 		{
 			input = readline(GREEN "minishell-1.0$ " RESET);
+			if(input != NULL)
+				if(!ft_check_invalid_token(input))
+					continue;
 			minishell(input, &minienv);
 			free(input);
 		}

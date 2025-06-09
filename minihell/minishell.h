@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/08 01:40:03 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/09 00:57:48 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,8 @@ void					handle_input(t_redi_list *input);
 void					handle_output(t_redi_list *output);
 int						handel_append(t_redi_list *output);
 void					handle_heredoc(t_redi_list *input);
-void					ft_int_list_heredoc(t_list_heredoc *list);
+// void					ft_int_list_heredoc(t_list_heredoc *list);
+int 					ft_check_invalid_token(char *input);
 
 //--builtins
 t_list					*ft_copy_list(t_list *env);

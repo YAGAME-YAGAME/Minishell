@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/08 01:51:35 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/09 01:05:18 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,16 @@ void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 	}
 	ft_free_tokenlist(token_list);
 	ft_free_cmdlist(cmdarg_list);
+}
+
+int ft_check_invalid_token(char *input)
+{
+	if(ft_strchr(input, '(') || ft_strchr(input, ')') 
+		|| ft_strchr(input, '&') || ft_strchr(input, '*'))
+	{
+		printf(RED "Error: some tokens are not allowed\n" RESET);
+		g_exit_status = 999;
+		return (0);
+	}		
+	return (1);
 }
