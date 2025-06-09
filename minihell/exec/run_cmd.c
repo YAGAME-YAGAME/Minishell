@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/09 14:40:25 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:47:34 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,19 +115,16 @@ void	handle_redirections(t_cmdarg *current_cmd)
 	t_redi_list	*redi_list;
 
 	tmp = current_cmd;
-	while (tmp)
+	redi_list = tmp->redirections;
+	while (redi_list)
 	{
-		redi_list = tmp->redirections;
-		while (redi_list)
-		{
-			if (redi_list->type == INPUT || redi_list->type == HEREDOC)
-				handle_input(redi_list);
-			if (redi_list->type == OUTPUT || redi_list->type == APPEND)
-				handle_output(redi_list);
-			redi_list = redi_list->next;
-		}
-		tmp = tmp->next;
+		if (redi_list->type == INPUT || redi_list->type == HEREDOC)
+			handle_input(redi_list);
+		if (redi_list->type == OUTPUT || redi_list->type == APPEND)
+			handle_output(redi_list);
+		redi_list = redi_list->next;
 	}
+	tmp = tmp->next;
 }
 
 void	ft_child(t_cmdarg *current_cmd, t_list *env, int tmp_in, int *p_fd)
