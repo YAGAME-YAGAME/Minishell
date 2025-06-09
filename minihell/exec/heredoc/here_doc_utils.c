@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 10:31:06 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/08 15:28:14 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:33:56 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_redi_list	*get_last_input(t_redi_list *redi)
 
 	last = NULL;
 	tmp = redi;
-	while(tmp)
+	while (tmp)
 	{
 		tmp->tmp_fd = -1;
 		tmp->is_last = false;
@@ -27,11 +27,11 @@ static t_redi_list	*get_last_input(t_redi_list *redi)
 		tmp->content = NULL;
 		if (tmp->type == INPUT || tmp->type == HEREDOC)
 			last = tmp;
-		
 		tmp = tmp->next;
 	}
 	return (last);
 }
+
 static t_redi_list	*get_last_output(t_redi_list *redi)
 {
 	t_redi_list	*last;
@@ -43,7 +43,7 @@ static t_redi_list	*get_last_output(t_redi_list *redi)
 		redi->is_last = false;
 		redi->heredoc_fd = -1;
 		redi->content = NULL;
-		if(redi->type == OUTPUT || redi->type == APPEND)
+		if (redi->type == OUTPUT || redi->type == APPEND)
 			last = redi;
 		redi = redi->next;
 	}
@@ -62,7 +62,6 @@ static t_redi_list	*get_last_output(t_redi_list *redi)
  */
 void	init_redi_file(t_cmdarg *shell)
 {
-	// t_redi_list	*redi;
 	t_redi_list	*last_input;
 	t_redi_list	*last_output;
 	t_cmdarg	*tmp;
@@ -74,12 +73,11 @@ void	init_redi_file(t_cmdarg *shell)
 		return ;
 	while (tmp)
 	{
-		
 		last_input = get_last_input(tmp->redirections);
 		last_output = get_last_output(tmp->redirections);
-		if(last_input)
+		if (last_input)
 			last_input->is_last = true;
-		if(last_output)
+		if (last_output)
 			last_output->is_last = true;
 		tmp = tmp->next;
 	}

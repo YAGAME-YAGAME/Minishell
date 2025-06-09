@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 19:17:54 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/08 01:58:55 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/09 14:51:11 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,4 @@ void	ft_redi_error(char *file, char *msg, int err)
 	}
 	write(2, msg, ft_strlen(msg));
 	g_exit_status = err;
-	// exit (err);
 }

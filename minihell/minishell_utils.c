@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 01:05:18 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/09 14:54:13 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ bool	ft_redierrors(t_token *current)
  *
  * @param redi: Head of the redirection list
  */
-void ft_close_pipe(t_redi_list *redi)
+void	ft_close_pipe(t_redi_list *redi)
 {
 	while (redi)
 	{
-		if(redi->heredoc_fd != -1)
+		if (redi->heredoc_fd != -1)
 		{
 			close(redi->heredoc_fd);
 			redi->heredoc_fd = -1;
@@ -63,8 +63,8 @@ bool	ft_pipeerrors(t_token *current)
 /*
  * Performs cleanup by freeing memory allocated for token and command lists.
  * This utility function ensures proper memory deallocation when the shell
- * processing is complete or encounters an error that requires early termination.
- * Also closes any open heredoc file descriptors to prevent file descriptor leaks.
+ * processing is complete or encounters an error that requires early termination
+ * Also closes any open heredoc file descriptors to prevent file descriptor leaks
  *
  * @param token_list: Linked list of tokens to be freed
  * @param cmdarg_list: Linked list of command argument structures to be freed
@@ -74,7 +74,6 @@ void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 {
 	t_cmdarg	*tmp;
 
-	//Close any open heredoc file descriptors before freeing memory
 	tmp = cmdarg_list;
 	while (tmp)
 	{
@@ -86,14 +85,14 @@ void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list)
 	ft_free_cmdlist(cmdarg_list);
 }
 
-int ft_check_invalid_token(char *input)
+int	ft_check_invalid_token(char *input)
 {
-	if(ft_strchr(input, '(') || ft_strchr(input, ')') 
+	if (ft_strchr(input, '(') || ft_strchr(input, ')')
 		|| ft_strchr(input, '&') || ft_strchr(input, '*'))
 	{
 		printf(RED "Error: some tokens are not allowed\n" RESET);
 		g_exit_status = 999;
 		return (0);
-	}		
+	}
 	return (1);
 }

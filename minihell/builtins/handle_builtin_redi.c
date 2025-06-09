@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_redi.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:43:34 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/08 17:46:09 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:49:58 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,18 @@ int	open_input(t_redi_list *input)
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	// if (input->type == HEREDOC && input->content)
-	// 	free(input->content);
 	input = input->next;
 	return (1);
 }
 
-int open_redirections(t_redi_list *redirections)
+int	open_redirections(t_redi_list *redirections)
 {
-	t_redi_list *redi;
+	t_redi_list	*redi;
 
 	redi = redirections;
 	if (redi == NULL)
 		return (1);
-	while(redi)
+	while (redi)
 	{
 		if (redi->type == INPUT)
 		{
@@ -141,7 +139,6 @@ int	open_builtin_redi(t_cmdarg *cmdarg_list)
 	cmdarg_list->origin_stdout = dup(STDOUT_FILENO);
 	if (cmdarg_list->origin_stdout == -1)
 		return (perror("dup"), g_exit_status = 1, 1);
-	
 	if (open_redirections(cmdarg_list->redirections) == -1)
 		return (1);
 	return (0);
@@ -169,7 +166,6 @@ int	check_builtin(t_cmdarg *cmdarg_list, t_list **minienv)
 	check = is_builtin(cmdarg_list->cmd[0]);
 	if (size_list(cmdarg_list) == 1 && !check)
 	{
-
 		if (cmdarg_list->redirections)
 		{
 			if (open_builtin_redi(cmdarg_list) == 1)

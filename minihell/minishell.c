@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:14:53 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 03:16:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:05:26 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
+bool	dontexpand_heredoc_del(t_token *tmp)
+{
+	return ((tmp->type == WORD || tmp->type == DOUBLE_QUOTE)
+		&& tmp->prev && tmp->prev->type == HEREDOC);
+}
+
 /*
  * Parses a list of tokens into a structured command argument list.
  * Expands environment variables in tokens (except heredoc delimiters),
@@ -90,7 +96,7 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	tmp = token_list;
 	while (tmp)
 	{
-		if (!(tmp->type == WORD && tmp->prev && tmp->prev->type == HEREDOC))
+		if (!dontexpand_heredoc_del(tmp))
 			ft_expand_variables(&tmp, minienv);
 		tmp = tmp->next;
 	}
@@ -106,34 +112,6 @@ t_cmdarg	*ft_parser(t_token *token_list, t_list *minienv)
 	}
 	return (cmdarg_list);
 }
-void  	ft_print_redi(t_cmdarg *cmdarg_list)
-{
-	t_redi_list	*redi;
-
-	if (!cmdarg_list)
-		return ;
-	while (cmdarg_list)
-	{
-		redi = cmdarg_list->redirections;
-		while (redi)
-		{
-			if (redi->type == INPUT || redi->type == HEREDOC)
-			{
-				printf("Input type: %u\n", redi->type);
-				printf("Input file : %s\n", redi->file);
-				printf("Input is last: %d\n", redi->is_last);
-			}
-			else if (redi->type == OUTPUT || redi->type == APPEND)
-			{
-				printf("output type: %u\n", redi->type);
-				printf("output file : %s\n", redi->file);
-				printf("output is last: %d\n", redi->is_last);
-			}
-			redi = redi->next;
-		}
-		cmdarg_list = cmdarg_list->next;
-	}
-}
 
 void	minishell(char *input, t_list **minienv)
 {
@@ -143,8 +121,8 @@ void	minishell(char *input, t_list **minienv)
 	if (input[0] == '\0')
 		return ;
 	add_history(input);
-	if(input != NULL)
-		if(!ft_check_invalid_token(input))
+	if (input != NULL)
+		if (!ft_check_invalid_token(input))
 			return ;
 	if (!ft_check_quotes(input))
 		return ;
@@ -204,5 +182,33 @@ int	main(int ac, char **av, char **env)
 // 	system("leaks -q minishell");
 // }
 // atexit(ll);
-	// ft_print_tokenlist(token_list);
-	// ft_printcmd_list(cmdarg_list);
+// void	ft_print_redi(t_cmdarg *cmdarg_list)
+// {
+// 	t_redi_list	*redi;
+
+// 	if (!cmdarg_list)
+// 		return ;
+// 	while (cmdarg_list)
+// 	{
+// 		redi = cmdarg_list->redirections;
+// 		while (redi)
+// 		{
+// 			if (redi->type == INPUT || redi->type == HEREDOC)
+// 			{
+// 				printf("Input type: %u\n", redi->type);
+// 				printf("Input file : %s\n", redi->file);
+// 				printf("Input is last: %d\n", redi->is_last);
+// 			}
+// 			else if (redi->type == OUTPUT || redi->type == APPEND)
+// 			{
+// 				printf("output type: %u\n", redi->type);
+// 				printf("output file : %s\n", redi->file);
+// 				printf("output is last: %d\n", redi->is_last);
+// 			}
+// 			redi = redi->next;
+// 		}
+// 		cmdarg_list = cmdarg_list->next;
+// 	}
+// }
+// ft_print_tokenlist(token_list);
+// ft_printcmd_list(cmdarg_list);

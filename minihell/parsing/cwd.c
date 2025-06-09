@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 15:22:45 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 18:27:13 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:34:05 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_expand_var_in_char(char **value, t_list *minienv)
 	char	*expanded;
 	char	*temp;
 	char	*temp2;
+	char	*old_value;
 
 	dollar_pos = ft_dollar_pos(*value);
 	while (dollar_pos != -1)
@@ -70,8 +71,11 @@ void	ft_expand_var_in_char(char **value, t_list *minienv)
 		expanded = ft_expand_inchar(*value, minienv, dollar_pos);
 		temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
 		temp2 = ft_temp2_inchar(*value, dollar_pos);
+		old_value = *value;
 		*value = ft_strjoin_free(temp, temp2);
+		free(old_value);
 		free(temp2);
+		free(expanded);
 		dollar_pos = ft_dollar_pos(*value);
 	}
 }

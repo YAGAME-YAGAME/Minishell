@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otzarwal <otzarwal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 00:50:13 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/08 18:34:23 by otzarwal         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:36:02 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	open_here_doc(t_redi_list *heredoc, int *fd_pipe, t_list *env)
 	if (!delimiter)
 		ft_cmd_error(NULL, "malloc failure\n", 1);
 	ft_read_line(delimiter, fd_pipe, heredoc, env);
+	free(delimiter);
 	exit(0);
 }
 
@@ -56,13 +57,9 @@ void	parent(int *fd_pipe, int pid, int *status, t_redi_list *in)
 	waitpid(pid, status, 0);
 	g_exit_status = WEXITSTATUS(*status);
 	if (g_exit_status == 0 && in->is_last)
-	{
-		// printf(RED"heredoc_fd ----> [ %d ]\n"RESET, fd_pipe[0]);
 		in->heredoc_fd = fd_pipe[0];
-	}
 	else
 	{
-		// printf(RED"closed heredoc fd ----> [ %d ]\n"RESET, fd_pipe[0]);
 		close(fd_pipe[0]);
 		in->heredoc_fd = -1;
 	}
@@ -85,9 +82,9 @@ int	handel_heredoc(t_redi_list *redi, t_list *env)
 {
 	int	pid;
 	int	status;
-	int fd_pipe[2];
+	int	fd_pipe[2];
 
-	if(redi == NULL)
+	if (redi == NULL)
 		return (1);
 	status = 0;
 	setup_parent_heredoc_signals();
@@ -133,7 +130,6 @@ int	check_here_doc(t_cmdarg *shell, t_list *env)
 	while (tmp)
 	{
 		init_redi_file(tmp);
-		
 		redi = tmp->redirections;
 		tmp->origin_stdin = -1;
 		tmp->origin_stdout = -1;

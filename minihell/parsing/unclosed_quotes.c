@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 22:05:33 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/06 19:11:10 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:48:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_skip_chars(char *input, int i)
 
 bool	ft_check_quotes(char *input)
 {
-	int	 i;
-	char q;
+	int		i;
+	char	q;
 
 	i = 0;
 	while (input[i])

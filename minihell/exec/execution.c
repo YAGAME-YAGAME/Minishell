@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/08 01:47:17 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/09 14:41:32 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
- * Closes heredoc file descriptors for input redirections.
- * Iterates through input redirection list and closes any heredoc
- * file descriptors that are marked as the last (final) redirection
- * to clean up resources after command execution.
- *
- * @param input: Linked list of input redirections to process
- * Side effects: Closes file descriptors marked as last heredoc
- */
-
 
 /*
  * Creates a pipe for inter-process communication.

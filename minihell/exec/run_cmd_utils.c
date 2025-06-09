@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/09 02:16:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:41:10 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
  */
 void	handle_heredoc(t_redi_list *input)
 {
-	// printf("heredoc_fd ----> [ %d ]\n", input->heredoc_fd);
 	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
 		ft_cmd_error(NULL, "----------- dup2 failure\n", 1);
 	close(input->heredoc_fd);
@@ -74,7 +73,7 @@ int	handel_append(t_redi_list *output)
 void	handle_output(t_redi_list *output)
 {
 	int	out_fd;
-	
+
 	if (output->type == OUTPUT)
 	{
 		if (output->variable)
@@ -94,7 +93,6 @@ void	handle_output(t_redi_list *output)
 	if (output->type == APPEND)
 		handel_append(output);
 	output = output->next;
-	
 }
 
 /*
@@ -111,7 +109,6 @@ void	handle_input(t_redi_list *input)
 {
 	int	in_fd;
 
-	
 	if (input->type == INPUT)
 	{
 		if (input->variable)

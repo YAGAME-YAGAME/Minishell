@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 22:58:34 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/05 04:27:48 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:37:43 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,11 @@ char	**get_env(t_list *env)
 	ft_alloc(envp, &i, key_equals, env);
 	envp[i] = NULL;
 	return (envp);
+}
+
+void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd)
+{
+	free(*cmd_path);
+	free(*cmd_name);
+	ft_cmd_error(current_cmd->cmd[0], "is a directory\n", 126);
 }

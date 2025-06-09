@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_exp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 20:32:30 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/09 15:45:26 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	ft_expand_exit_status_inchar(char **value)
 	char	*expanded;
 	char	*temp;
 	char	*temp2;
+	char	*old_value;
 
 	dollar_pos = ft_dollar_pos(*value);
 	if ((*value)[dollar_pos + 1] == '?')
@@ -92,6 +93,9 @@ void	ft_expand_exit_status_inchar(char **value)
 		expanded = ft_strdup("");
 	temp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
 	temp2 = ft_substr(*value, dollar_pos + 2, ft_strlen(*value));
+	old_value = *value;
 	*value = ft_strjoin_free(temp, temp2);
+	free(old_value);
 	free(temp2);
+	free(expanded);
 }

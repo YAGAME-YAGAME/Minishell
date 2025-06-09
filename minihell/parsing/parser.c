@@ -6,7 +6,7 @@
 /*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 16:13:08 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/06 19:05:44 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:42:17 by abenajib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,14 @@ void	ft_parse_redi(t_cmdarg **node, t_token *token_list)
 		|| token_list->current->type == HEREDOC)
 	{
 		if (token_list->current->next->type == WORD)
-			ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current, true));
+			ft_rediradd(&(*node)->redirections,
+				ft_redinew(token_list->current, true));
 		else
-			ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current,
-					false));
+			ft_rediradd(&(*node)->redirections,
+				ft_redinew(token_list->current, false));
 	}
 	else
-		ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current, true));
+		ft_rediradd(&(*node)->redirections,
+			ft_redinew(token_list->current, true));
 	token_list->current = token_list->current->next;
 }
