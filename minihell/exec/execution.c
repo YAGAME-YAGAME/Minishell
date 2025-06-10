@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/09 14:41:32 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:33:36 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int	execution(t_cmdarg *shell, t_list *env)
 			ft_child(current_cmd, env, tmp_in, pip_fd);
 		else
 			ft_parent(&tmp_in, pip_fd, current_cmd);
+		finish_exec();
 		current_cmd = current_cmd->next;
 	}
-	finish_exec();
 	return (1);
 }

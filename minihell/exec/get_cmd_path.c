@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:52:31 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/09 21:44:57 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:54:20 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,6 @@ char	*check_exec(char *p, t_list *env, int *no_file)
 	char	**path_cmd;
 	char	*dir_path;
 
-	if (!p)
-		return (NULL);
 	full_path = check_full_path(p);
 	if (full_path)
 		return (full_path);

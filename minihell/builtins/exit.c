@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:33 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/09 21:44:26 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:05:41 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,15 @@ int	is_digit(char *str)
  * Side effects: Terminates program, frees environment memory,
  * prints error messages
  */
+
+static	void	print_and_exit(t_list **env)
+{
+	g_exit_status = 255;
+	write(2, EXIT_ERROR, 32);
+	ft_lstclear(env, free);
+	exit(g_exit_status);
+}
+
 int	ft_exit(char **cmd, t_list **env)
 {
 	int	status;
@@ -61,12 +70,7 @@ int	ft_exit(char **cmd, t_list **env)
 	else if (cmd[1])
 	{
 		if (is_digit(cmd[1]) == 0)
-		{
-			g_exit_status = 255;
-			write(2, EXIT_ERROR, 32);
-			ft_lstclear(env, free);
-			exit(g_exit_status);
-		}
+			print_and_exit(env);
 		status = ft_atoi(cmd[1]);
 		if (status < 0)
 			status = 256 + status;

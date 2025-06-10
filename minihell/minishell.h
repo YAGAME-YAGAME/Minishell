@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/09 21:46:29 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:03:48 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,5 +282,6 @@ int			open_redirections(t_redi_list *redirections);
 bool		dontexpand_heredoc_del(t_token *tmp);
 int			open_output(t_redi_list *output);
 int			open_input(t_redi_list *input);
+void		ft_print_exit(t_cmdarg *current_cmd, int no_file);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 18:51:11 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/09 21:45:27 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:53:24 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ void	handle_execution(t_cmdarg *current_cmd, t_list *env)
 	if (cmd_path == NULL || !cmd_name[0])
 	{
 		free(cmd_name);
-		if (no_file == 1)
-			ft_cmd_error(current_cmd->cmd[0], "No such file or directory\n", 127);
-		else
-			ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
+		ft_print_exit(current_cmd, no_file);
 	}
 	if (ft_isdirectory(cmd_path))
 		ft_free_isdir(&cmd_path, &cmd_name, current_cmd);

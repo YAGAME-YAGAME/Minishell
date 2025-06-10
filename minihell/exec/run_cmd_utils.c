@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:13:00 by codespace         #+#    #+#             */
-/*   Updated: 2025/06/09 18:34:59 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:55:19 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_print_exit(t_cmdarg *current_cmd, int no_file)
+{
+	if (no_file == 1)
+		ft_cmd_error(current_cmd->cmd[0], "No such file or directory\n", 127);
+	else
+		ft_cmd_error(current_cmd->cmd[0], "command not found\n", 127);
+}
 
 /*
  * Handles heredoc input redirection for command execution.
