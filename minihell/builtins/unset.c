@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:10:23 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 03:22:33 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/11 17:39:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	ft_unset(char **cmd, t_list **env)
 		tmp = *env_ptr;
 		while (tmp)
 		{
-			if ((*cmd[0] != '_') && ft_strcmp(tmp->key, *cmd) == 0)
+			if (ft_strcmp(*cmd, "_") && ft_strcmp(tmp->key, *cmd) == 0)
 			{
 				to_remove = tmp;
 				tmp = tmp->next;
