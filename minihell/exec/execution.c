@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:57:16 by otzarwal          #+#    #+#             */
-/*   Updated: 2025/06/10 00:33:36 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/11 18:05:44 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,32 @@ void	ft_parent(int *tmp_in, int *pip_fd, t_cmdarg *current_cmd)
  * @param status: Pointer to integer for storing wait status
  * Side effects: Modifies global exit status, waits for child processes
  */
-void	ft_wait_children(int *status)
+void	ft_wait_children(int *status, pid_t last_cmd_pid)
 {
-	int	last_status;
+	int		last_cmd_status;
+	pid_t	waited_pid;
 
-	last_status = 0;
-	while (wait(status) > 0)
+	last_cmd_status = 0;
+	waited_pid = 1;
+	while (waited_pid > 0)
 	{
-		if (WIFEXITED(*status))
-			last_status = WEXITSTATUS(*status);
-		else if (WIFSIGNALED(*status))
+		waited_pid = wait(status);
+		if (waited_pid == -1)
+			continue ;
+		if (waited_pid == last_cmd_pid)
 		{
-			if (WTERMSIG(*status) == SIGPIPE)
-				continue ;
-			last_status = 128 + WTERMSIG(*status);
+			if (WIFEXITED(*status))
+				last_cmd_status = WEXITSTATUS(*status);
+			else if (WIFSIGNALED(*status))
+			{
+				if (WTERMSIG(*status) == SIGPIPE)
+					last_cmd_status = 0;
+				else
+					last_cmd_status = 128 + WTERMSIG(*status);
+			}
 		}
 	}
-	g_exit_status = last_status;
+	g_exit_status = last_cmd_status;
 }
 
 /*
@@ -98,15 +107,14 @@ void	ft_wait_children(int *status)
  * Side effects: Creates child processes, sets up pipes,
  * modifies global exit status
  */
-int	execution(t_cmdarg *shell, t_list *env)
+int	execution(t_cmdarg *current_cmd, t_list *env)
 {
-	t_cmdarg	*current_cmd;
 	int			pip_fd[2];
 	pid_t		pid;
 	int			tmp_in;
+	pid_t		last_cmd_pid;
 
 	tmp_in = 0;
-	current_cmd = shell;
 	while (current_cmd)
 	{
 		if (current_cmd->next)
@@ -118,9 +126,11 @@ int	execution(t_cmdarg *shell, t_list *env)
 		if (pid == 0)
 			ft_child(current_cmd, env, tmp_in, pip_fd);
 		else
+		{
+			last_cmd_pid = pid;
 			ft_parent(&tmp_in, pip_fd, current_cmd);
-		finish_exec();
+		}
 		current_cmd = current_cmd->next;
 	}
-	return (1);
+	return (finish_exec(last_cmd_pid), 1);
 }

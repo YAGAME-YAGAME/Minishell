@@ -6,7 +6,7 @@
 /*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 12:17:15 by abenajib          #+#    #+#             */
-/*   Updated: 2025/06/10 01:03:48 by yagame           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:31:35 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,8 +262,8 @@ void		ft_handle_append(t_list *dup_key, char **key,
 				char **value);
 int			print_invalid_identifier(char *cmd);
 void		handle_signals(void);
-void		finish_exec(void);
-void		ft_wait_children(int *status);
+void		finish_exec(pid_t last_cmd_pid);
+void		ft_wait_children(int *status, pid_t last_cmd_pid);
 void		ft_printredi(t_redi_list *redi);
 void		ft_extend_cmd_array_if_needed(t_cmdarg **node,
 				int needed_capacity);

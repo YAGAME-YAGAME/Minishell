@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ambiguous.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abenajib <abenajib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yagame <yagame@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:34:26 by yagame            #+#    #+#             */
-/*   Updated: 2025/06/05 04:26:18 by abenajib         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:31:23 by yagame           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ bool	is_ambiguous(char *file)
  *
  * Side effects: Modifies signal handlers, waits for child processes
  */
-void	finish_exec(void)
+
+void	finish_exec(pid_t last_cmd_pid)
 {
 	int	status;
 
 	setup_parent_waiting_signals();
-	ft_wait_children(&status);
+	ft_wait_children(&status, last_cmd_pid);
 	restore_signals();
 }
